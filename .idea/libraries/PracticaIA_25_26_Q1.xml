@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="PracticaIA-25-26-Q1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AIMA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Gasolina.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
