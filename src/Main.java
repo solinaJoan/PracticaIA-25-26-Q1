@@ -5,6 +5,7 @@ import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
+import IA.PracticaSuccessorFunctionSA;
 
 import java.util.Iterator;
 import java.util.List;
@@ -484,7 +485,7 @@ public class Main {
         try {
             Problem problem = new Problem(
                     new PracticaBoard(gs, cd, estrategia),
-                    new PracticaSuccessorFunction(),
+                    new PracticaSuccessorFunctionSA(),
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction()
             );

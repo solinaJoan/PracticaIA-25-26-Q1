@@ -4,7 +4,7 @@ import aima.search.framework.Successor;
 import IA.PracticaBoard.*;
 import java.util.*;
 
-class PracticaSuccessorFunctionSA implements SuccessorFunction {
+public class PracticaSuccessorFunctionSA implements SuccessorFunction {
 
     private Random random = new Random();
 
