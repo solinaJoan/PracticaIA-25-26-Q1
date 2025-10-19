@@ -474,7 +474,7 @@ public class Main {
         try {
             Problem problem = new Problem(
                     new PracticaBoard(gs, cd, 2), // Greedy
-                    new PracticaSuccessorFunction(),
+                    new PracticaSuccessorFunction(true, true, true, false, true),
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
 
@@ -596,7 +596,7 @@ public class Main {
         try {
             Problem problem = new Problem(
                     new PracticaBoard(gs, cd, estrategia),
-                    new PracticaSuccessorFunction(),
+                    new PracticaSuccessorFunction(true, true, true, false, true),
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
 

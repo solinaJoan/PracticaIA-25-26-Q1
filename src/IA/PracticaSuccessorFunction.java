@@ -24,8 +24,9 @@ public class PracticaSuccessorFunction implements SuccessorFunction {
     /**
      * Constructor configurable: permet escollir quins operadors utilitzar
      */
-    public PracticaSuccessorFunction(boolean afegir, boolean treure, boolean moure,
-                                     boolean intercanviar, boolean crear) {
+    public PracticaSuccessorFunction(boolean afegir, boolean treure, 
+                                     boolean moure, boolean intercanviar, 
+                                     boolean crear) {
         this.usarAfegir = afegir;
         this.usarTreure = treure;
         this.usarMoure = moure;
