@@ -6,8 +6,6 @@ import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import IA.PracticaBoard;
@@ -133,8 +131,12 @@ public class Main {
 
         System.out.println("Provant " + conjunts.length + " conjunts d'operadors diferents...\n");
 
+        double[] mitjanesBenefici = new double[conjunts.length];
+        double[] tempsMig = new double[conjunts.length];
+
         // Per cada conjunt d'operadors
-        for (ConjuntOperadors conjunt : conjunts) {
+        for (int idx = 0; idx < conjunts.length; idx++) {
+            ConjuntOperadors conjunt = conjunts[idx];
             System.out.println("--- CONJUNT: " + conjunt.nom + " ---");
 
             double[] beneficis = new double[NUM_REPETICIONS];
@@ -145,7 +147,7 @@ public class Main {
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
                 long startTime = System.currentTimeMillis();
-                double benefici = executarHillClimbingAmbOperadors(gs, cd, 2, conjunt);
+                double benefici = executarHillClimbingAmbOperadors(gs, cd, conjunt);
                 long endTime = System.currentTimeMillis();
 
                 beneficis[i] = benefici;
@@ -154,10 +156,28 @@ public class Main {
 
             imprimirEstadistiques(conjunt.nom, beneficis, temps);
             System.out.println();
+
+            // Guardem mitjana i temps mig
+            mitjanesBenefici[idx] = calcularMitjana(beneficis);
+            tempsMig[idx] = calcularMitjana(temps);
+        }
+        System.out.println("\nCalculant eficiència (Benefici mig / Temps mig) per cada conjunt d'operadors...");
+
+        double millorEficiència = Double.NEGATIVE_INFINITY;
+        String millorConjunt = "";
+
+        for (int idx = 0; idx < conjunts.length; idx++) {
+            double eficiència = mitjanesBenefici[idx] / tempsMig[idx];
+            System.out.println("Operadors: " + conjunts[idx].nom + " → Eficiència: " + String.format("%.5f", eficiència));
+
+            if (eficiència > millorEficiència) {
+                millorEficiència = eficiència;
+                millorConjunt = conjunts[idx].nom;
+            }
         }
 
-        System.out.println("\n💡 ANÀLISI: Compara els resultats per determinar quin conjunt");
-        System.out.println("   d'operadors dona millor benefici amb menys temps d'execució.");
+        System.out.println("\nEl conjunt '" + millorConjunt + "' mostra un alt benefici en relació al temps d'execució,");
+        System.out.println("resultant en la millor eficiència entre els conjunts provats.");
     }
 
     // Classe auxiliar per definir conjunts d'operadors
@@ -166,7 +186,7 @@ public class Main {
         boolean afegir, treure, moure, intercanviar, crear;
 
         ConjuntOperadors(String nom, boolean afegir, boolean treure, boolean moure,
-                boolean intercanviar, boolean crear) {
+                         boolean intercanviar, boolean crear) {
             this.nom = nom;
             this.afegir = afegir;
             this.treure = treure;
@@ -178,10 +198,10 @@ public class Main {
 
     // Mètode auxiliar per executar HC amb un conjunt específic d'operadors
     private static double executarHillClimbingAmbOperadors(Gasolineras gs, CentrosDistribucion cd,
-            int estrategia, ConjuntOperadors conjunt) {
+                                                           ConjuntOperadors conjunt) {
         try {
             Problem problem = new Problem(
-                    new PracticaBoard(gs, cd, estrategia),
+                    new PracticaBoard(gs, cd, 2),
                     new PracticaSuccessorFunction(conjunt.afegir, conjunt.treure, conjunt.moure,
                             conjunt.intercanviar, conjunt.crear),
                     new PracticaGoalTest(),
@@ -276,13 +296,13 @@ public class Main {
                         Gasolineras gs = new Gasolineras(100, 1234 + rep);
                         CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + rep);
 
-                        double benefici = executarSimulatedAnnealing(gs, cd, 2, iter, steps, k, lambda);
+                        double benefici = executarSimulatedAnnealing(gs, cd, iter, steps, k, lambda);
                         beneficiMig += benefici;
                     }
                     beneficiMig /= 3;
 
-                    System.out.println(String.format("Iter=%d, k=%d, λ=%.4f → Benefici=%.2f €",
-                            iter, k, lambda, beneficiMig));
+                    System.out.printf("Iter=%d, k=%d, λ=%.4f → Benefici=%.2f €%n",
+                            iter, k, lambda, beneficiMig);
 
                     if (beneficiMig > millorBenefici) {
                         millorBenefici = beneficiMig;
@@ -330,10 +350,10 @@ public class Main {
                 temps[i] = System.currentTimeMillis() - start;
             }
 
-            System.out.println(String.format("%d\t%d\t\t%.0f\t\t%.2f",
+            System.out.printf("%d\t%d\t\t%.0f\t\t%.2f%n",
                     centres, gasolineres,
                     calcularMitjana(temps),
-                    calcularMitjana(beneficis)));
+                    calcularMitjana(beneficis));
         }
     }
 
@@ -353,7 +373,7 @@ public class Main {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
-            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
             beneficis1[i] = res.benefici;
             peticionsServides1[i] = res.peticionsServides;
         }
@@ -370,7 +390,7 @@ public class Main {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(5, 2, 1234 + i);
 
-            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
             beneficis2[i] = res.benefici;
             peticionsServides2[i] = res.peticionsServides;
         }
@@ -409,15 +429,15 @@ public class Main {
                 Gasolineras gs = new Gasolineras(100, 1234 + i);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
-                ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+                ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
                 beneficiMig += res.benefici;
                 peticionsServidesTotal += res.peticionsServides;
             }
             beneficiMig /= NUM_REPETICIONS;
             double peticionsServidesMedia = peticionsServidesTotal / (double) NUM_REPETICIONS;
 
-            System.out.println(String.format("%.0f\t\t%.2f\t\t%.1f",
-                    cost, beneficiMig, peticionsServidesMedia));
+            System.out.printf("%.0f\t\t%.2f\t\t%.1f%n",
+                    cost, beneficiMig, peticionsServidesMedia);
         }
 
         // Restaurem el valor per defecte
@@ -449,7 +469,7 @@ public class Main {
             }
             beneficiMig /= NUM_REPETICIONS;
 
-            System.out.println(String.format("%d\t%d\t%.2f", hores[i], kmsMax[i], beneficiMig));
+            System.out.printf("%d\t%d\t%.2f%n", hores[i], kmsMax[i], beneficiMig);
         }
 
         // Restaurem el valor per defecte
@@ -462,7 +482,7 @@ public class Main {
     private static void experiment8_Especial() {
         System.out.println("EXPERIMENT 8: ESPECIAL amb llavor 1234");
         System.out.println("Escenari: 10 centres, 1 camió/centre," +
-                           " 100 benzineres");
+                " 100 benzineres");
         System.out.println();
 
         Gasolineras gs = new Gasolineras(100, 1234);
@@ -488,15 +508,15 @@ public class Main {
             PracticaBoard estatFinal = (PracticaBoard) search.getGoalState();
             PracticaHeuristicFunction heuristica = new PracticaHeuristicFunction();
 
-            // L'heurística simple ens dona el benefici que volem 
+            // L'heurística simple ens dona el benefici que volem
             // (ingressos - costs_km)
             double benefici = -heuristica.getHeuristicValueSimple(estatFinal);
 
             System.out.println("\n" + "=".repeat(60));
             System.out.println("✅ RESULTATS EXPERIMENT ESPECIAL");
             System.out.println("=".repeat(60));
-            System.out.println("Benefici obtingut: " + 
-                               String.format("%.2f", benefici) + " €");
+            System.out.println("Benefici obtingut: " +
+                    String.format("%.2f", benefici) + " €");
             System.out.println("Temps d'execució: " + temps + " ms");
             System.out.println("=".repeat(60));
 
@@ -525,8 +545,8 @@ public class Main {
 
         // Comptar peticions
         int totalPeticions = 0;
-        for (int i = 0; i < gs.size(); i++) {
-            totalPeticions += gs.get(i).getPeticiones().size();
+        for (IA.Gasolina.Gasolinera g : gs) {
+            totalPeticions += g.getPeticiones().size();
         }
         System.out.println("Peticions totals: " + totalPeticions);
 
@@ -535,7 +555,7 @@ public class Main {
         System.out.println("Benefici: " + String.format("%.2f", benefici) + " €");
 
         System.out.println("\nExecutant Simulated Annealing...");
-        double beneficiSA = executarSimulatedAnnealing(gs, cd, 2, 1000, 100, 25, 0.001);
+        double beneficiSA = executarSimulatedAnnealing(gs, cd, 1000, 100, 25, 0.001);
         System.out.println("Benefici SA: " + String.format("%.2f", beneficiSA) + " €");
     }
 
@@ -556,11 +576,10 @@ public class Main {
         }
     }
 
-    private static ResultatExperiment executarHillClimbingAmbStats(Gasolineras gs, CentrosDistribucion cd,
-            int estrategia) {
+    private static ResultatExperiment executarHillClimbingAmbStats(Gasolineras gs, CentrosDistribucion cd) {
         try {
             Problem problem = new Problem(
-                    new PracticaBoard(gs, cd, estrategia),
+                    new PracticaBoard(gs, cd, 2),
                     new PracticaSuccessorFunction(),
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
@@ -615,11 +634,11 @@ public class Main {
     }
 
     private static double executarSimulatedAnnealing(Gasolineras gs, CentrosDistribucion cd,
-            int estrategia, int iter, int steps,
-            int k, double lambda) {
+                                                     int iter, int steps,
+                                                     int k, double lambda) {
         try {
             Problem problem = new Problem(
-                    new PracticaBoard(gs, cd, estrategia),
+                    new PracticaBoard(gs, cd, 2),
                     new PracticaSuccessorFunctionSA(), // ✅ Utilitzem la versió SA!
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
@@ -696,9 +715,8 @@ public class Main {
     }
 
     private static void printInstrumentation(Properties properties) {
-        Iterator keys = properties.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
+        for (Object o : properties.keySet()) {
+            String key = (String) o;
             String property = properties.getProperty(key);
             System.out.println(key + " : " + property);
         }
