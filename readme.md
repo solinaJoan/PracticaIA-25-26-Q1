@@ -1,4 +1,4 @@
-# INTEL·LIGÈNCIA ARTIFICIAL - PRÀCTICA 1: CERCA LOCAL - FIB - QT2025/26
+# PRÀCTICA 1: CERCA LOCAL - INTEL·LIGÈNCIA ARTIFICIAL - FIB - QT2025/26
 
 ### Execució
 
@@ -13,7 +13,7 @@ Seguidament, només cal seguir les instruccions del menú interactiu. Per execut
 
 ### Neteja del directori
 
-Per borrar el fitxer binaris creats només cal executar:
+Per borrar els fitxers binaris creats només cal executar:
 
 ```bash
 bash clean.sh
