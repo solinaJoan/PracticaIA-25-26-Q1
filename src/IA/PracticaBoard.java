@@ -31,17 +31,30 @@ public class PracticaBoard {
      * Representa una petició d'una gasolinera
      */
     public static class Peticio {
-        public final int idGasolinera;  // Índex de la gasolinera
-        public final int diesPendent;   // Dies que porta pendent
 
-        public Peticio(int idGasolinera, int diesPendent) {
+        /**
+         - idGasolinera ==  Índex de la gasolinera
+         - idPeticioGasolinera == Índex de la peticio en la benzinera.
+         Necessari quan una mateixa benzinera té més d'una petició amb els
+         mateixos dies pendents.
+         - diesPendent == dies que porta pendent
+         */
+
+        public final int idGasolinera;
+        public final int idPeticioGasolinera;
+        public final int diesPendent;
+
+        public Peticio(int idGasolinera, int idPeticioGasolinera,
+                       int diesPendent) {
             this.idGasolinera = idGasolinera;
+            this.idPeticioGasolinera = idPeticioGasolinera;
             this.diesPendent = diesPendent;
         }
 
         // Calcula el preu que cobrarem per aquesta petició
         public double calcularPreu() {
-            double percentatge = 100 - 2 * diesPendent;
+            double percentatge = 102.0;
+            if (diesPendent > 0) percentatge = 100 - Math.pow(2, diesPendent);
             if (percentatge < 0) percentatge = 0;
             return VALOR_DEPOSIT * percentatge / 100.0;
         }
@@ -51,12 +64,14 @@ public class PracticaBoard {
             if (this == o) return true;
             if (!(o instanceof Peticio)) return false;
             Peticio p = (Peticio) o;
-            return idGasolinera == p.idGasolinera && diesPendent == p.diesPendent;
+            return idGasolinera == p.idGasolinera &&
+                    idPeticioGasolinera == p.idPeticioGasolinera &&
+                    diesPendent == p.diesPendent;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(idGasolinera, diesPendent);
+            return Objects.hash(idGasolinera, idPeticioGasolinera, diesPendent);
         }
     }
 
@@ -148,7 +163,7 @@ public class PracticaBoard {
             ArrayList<Integer> peticions = g.getPeticiones();
             for (int j = 0; j < peticions.size(); j++) {
                 int diesPendent = peticions.get(j);
-                peticionsNoAssignades.add(new Peticio(i, diesPendent));
+                peticionsNoAssignades.add(new Peticio(i, j, diesPendent));
             }
         }
 
@@ -339,5 +354,10 @@ public class PracticaBoard {
      */
     public static int getMaxKmDia() {
         return MAX_KM_DIA;
+    }
+
+    public static int getMaxViatgesDia()
+    {
+        return MAX_VIATGES_DIA;
     }
 }

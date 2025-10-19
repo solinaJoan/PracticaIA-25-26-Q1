@@ -6,9 +6,6 @@ import java.util.*;
 
 public class PracticaHeuristicFunction implements HeuristicFunction {
 
-    private static final int VALOR_DEPOSIT = 1000;
-    private static final double COST_PER_KM = 2.0;
-
     /**
      * Calcula el valor heurístic de l'estat.
      *
@@ -37,7 +34,8 @@ public class PracticaHeuristicFunction implements HeuristicFunction {
         double costKm = 0;
         for (int i = 0; i < board.getNumCamions(); i++) {
             for (Viatge viatge : board.getViatgesPerCamio()[i]) {
-                costKm += viatge.calcularDistancia() * COST_PER_KM;
+                costKm += viatge.calcularDistancia() *
+                        PracticaBoard.getCostPerKm();
             }
         }
 
@@ -48,7 +46,8 @@ public class PracticaHeuristicFunction implements HeuristicFunction {
         for (Peticio p : board.getPeticionsNoAssignades()) {
             double preuAvui = p.calcularPreu();
             // Demà portarà un dia més pendent
-            Peticio pDema = new Peticio(p.idGasolinera, p.diesPendent + 1);
+            Peticio pDema = new Peticio(p.idGasolinera, p.idPeticioGasolinera,
+                    p.diesPendent + 1);
             double preuDema = pDema.calcularPreu();
             perdua += (preuAvui - preuDema);
         }
@@ -75,7 +74,8 @@ public class PracticaHeuristicFunction implements HeuristicFunction {
                 for (Peticio p : viatge.peticionsServides) {
                     ingressos += p.calcularPreu();
                 }
-                costKm += viatge.calcularDistancia() * COST_PER_KM;
+                costKm += viatge.calcularDistancia() *
+                        PracticaBoard.getCostPerKm();
             }
         }
 

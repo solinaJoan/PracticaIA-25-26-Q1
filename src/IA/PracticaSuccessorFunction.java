@@ -24,8 +24,9 @@ public class PracticaSuccessorFunction implements SuccessorFunction {
     /**
      * Constructor configurable: permet escollir quins operadors utilitzar
      */
-    public PracticaSuccessorFunction(boolean afegir, boolean treure, boolean moure,
-                                     boolean intercanviar, boolean crear) {
+    public PracticaSuccessorFunction(boolean afegir, boolean treure,
+                                     boolean moure, boolean intercanviar,
+                                     boolean crear) {
         this.usarAfegir = afegir;
         this.usarTreure = treure;
         this.usarMoure = moure;
@@ -246,7 +247,7 @@ public class PracticaSuccessorFunction implements SuccessorFunction {
         List<Successor> successors = new ArrayList<>();
 
         for (int idCamio = 0; idCamio < board.getNumCamions(); idCamio++) {
-            if (board.getViatgesPerCamio()[idCamio].size() < 5) {
+            if (board.getViatgesPerCamio()[idCamio].size() < PracticaBoard.getMaxViatgesDia()) {
 
                 for (Peticio p : board.getPeticionsNoAssignades()) {
                     PracticaBoard nouBoard = new PracticaBoard(board);

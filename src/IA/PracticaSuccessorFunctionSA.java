@@ -143,7 +143,7 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction {
         // Busquem camions que puguin fer més viatges
         List<Integer> camionsDisponibles = new ArrayList<>();
         for (int i = 0; i < board.getNumCamions(); i++) {
-            if (board.getViatgesPerCamio()[i].size() < 5) {
+            if (board.getViatgesPerCamio()[i].size() < PracticaBoard.getMaxViatgesDia()) {
                 camionsDisponibles.add(i);
             }
         }
