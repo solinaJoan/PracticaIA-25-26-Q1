@@ -8,7 +8,6 @@ import aima.search.informed.SimulatedAnnealingSearch;
 import IA.PracticaSuccessorFunctionSA;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import IA.PracticaBoard;
@@ -54,10 +53,7 @@ public class Main {
 
             int opcio = scanner.nextInt();
 
-            if (opcio == 0) {
-                System.out.println("\nAdéu!");
-                break;
-            }
+            if (opcio == 0) break;
 
             if (opcio >= 1 && opcio <= 9) {
                 executarExperiment(opcio);
@@ -380,7 +376,6 @@ public class Main {
     private static void experiment8_Especial() {
         System.out.println("EXPERIMENT 8: ESPECIAL amb semilla 1234");
         System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
-        System.out.println("⭐ Aquest experiment dóna 1 PUNT EXTRA! ⭐");
         System.out.println();
 
         Gasolineras gs = new Gasolineras(100, 1234);
@@ -414,8 +409,6 @@ public class Main {
             System.out.println("Benefici obtingut: " + String.format("%.2f", benefici) + " €");
             System.out.println("Temps d'execució: " + temps + " ms");
             System.out.println("=".repeat(60));
-
-            System.out.println("\n📧 Envia aquests resultats al professor abans del 19 d'octubre!");
 
             // Instrumentació
             System.out.println("\nInstrumentació:");

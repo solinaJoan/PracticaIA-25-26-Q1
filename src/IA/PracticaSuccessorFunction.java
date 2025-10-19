@@ -11,7 +11,7 @@ public class PracticaSuccessorFunction implements SuccessorFunction {
      * Genera tots els successors possibles aplicant els operadors
      */
     public List getSuccessors(Object state) {
-        ArrayList retval = new ArrayList();
+        List retval = new ArrayList();
         PracticaBoard board = (PracticaBoard) state;
 
         // OPERADOR 1: AFEGIR una petició no assignada a un viatge existent

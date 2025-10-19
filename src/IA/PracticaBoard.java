@@ -4,52 +4,39 @@ import IA.Gasolina.*;
 import java.util.*;
 
 public class PracticaBoard {
-
-    // ============ CONSTANTS DEL PROBLEMA ============
-    private static final int MAX_KM_DIA = 640;  // 8h * 80km/h
+    private static final int MAX_KM_DIA = 640;
     private static final int MAX_VIATGES_DIA = 5;
-    private static final double CAPACITAT_CAMI = 2.0;  // Pot omplir 2 depòsits
     private static final int VALOR_DEPOSIT = 1000;
     private static final double COST_PER_KM = 2.0;
 
-    // ============ DADES ESTÀTIQUES (compartides entre tots els estats) ============
     private static Gasolineras gasolineras;
     private static CentrosDistribucion centros;
-
-    // ============ REPRESENTACIÓ DE L'ESTAT ============
-
-    // Cada camió té una llista de viatges assignats
-    private List<Viatge>[] viatgesPerCamio;  // Array de llistes, un per cada camió
-
-    // Peticions que encara no s'han assignat a cap camió
-    private Set<Peticio> peticionsNoAssignades;
-
-
-    // ============ CLASSES INTERNES ============
 
     /**
      * Representa una petició d'una gasolinera
      */
     public static class Peticio {
-        public final int idGasolinera;  // Índex de la gasolinera
-        public final int diesPendent;   // Dies que porta pendent
+        public final int idGasolinera; // Índex de la gasolinera
+        public final int diesPendent; // Dies que porta pendent
 
         public Peticio(int idGasolinera, int diesPendent) {
             this.idGasolinera = idGasolinera;
             this.diesPendent = diesPendent;
         }
 
-        // Calcula el preu que cobrarem per aquesta petició
         public double calcularPreu() {
             double percentatge = 100 - 2 * diesPendent;
-            if (percentatge < 0) percentatge = 0;
+            if (percentatge < 0)
+                percentatge = 0;
             return VALOR_DEPOSIT * percentatge / 100.0;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Peticio)) return false;
+            if (this == o)
+                return true;
+            if (!(o instanceof Peticio))
+                return false;
             Peticio p = (Peticio) o;
             return idGasolinera == p.idGasolinera && diesPendent == p.diesPendent;
         }
@@ -65,7 +52,7 @@ public class PracticaBoard {
      */
     public static class Viatge {
         public final int idCamio;
-        public final List<Peticio> peticionsServides;  // 1 o 2 peticions
+        public final List<Peticio> peticionsServides; // 1 o 2 peticions
 
         public Viatge(int idCamio) {
             this.idCamio = idCamio;
@@ -89,7 +76,8 @@ public class PracticaBoard {
 
         // Calcula la distància total del viatge
         public double calcularDistancia() {
-            if (peticionsServides.isEmpty()) return 0;
+            if (peticionsServides.isEmpty())
+                return 0;
 
             // Coordenades del centre del camió
             Distribucion centro = centros.get(idCamio);
@@ -101,16 +89,21 @@ public class PracticaBoard {
             if (peticionsServides.size() == 1) {
                 // Centre -> Gasolinera -> Centre
                 Gasolinera g = gasolineras.get(peticionsServides.get(0).idGasolinera);
-                distanciaTotal = 2 * distanciaManhattan(centroX, centroY, g.getCoordX(), g.getCoordY());
+                distanciaTotal = 2 * distanciaManhattan(centroX, centroY,
+                        g.getCoordX(), g.getCoordY());
             } else {
-                // Centre -> G1 -> G2 -> Centre (o el contrari, escollim el millor)
+                // Centre -> G1 -> G2 -> Centre (o el contrari, escollim el
+                // millor)
                 Gasolinera g1 = gasolineras.get(peticionsServides.get(0).idGasolinera);
                 Gasolinera g2 = gasolineras.get(peticionsServides.get(1).idGasolinera);
 
                 // Opció 1: Centre -> G1 -> G2 -> Centre
-                double dist1 = distanciaManhattan(centroX, centroY, g1.getCoordX(), g1.getCoordY())
-                        + distanciaManhattan(g1.getCoordX(), g1.getCoordY(), g2.getCoordX(), g2.getCoordY())
-                        + distanciaManhattan(g2.getCoordX(), g2.getCoordY(), centroX, centroY);
+                double dist1 = distanciaManhattan(centroX, centroY,
+                        g1.getCoordX(), g1.getCoordY())
+                        + distanciaManhattan(g1.getCoordX(), g1.getCoordY(),
+                                g2.getCoordX(), g2.getCoordY())
+                        + distanciaManhattan(g2.getCoordX(), g2.getCoordY(),
+                                centroX, centroY);
 
                 // Opció 2: Centre -> G2 -> G1 -> Centre
                 double dist2 = distanciaManhattan(centroX, centroY, g2.getCoordX(), g2.getCoordY())
@@ -124,13 +117,21 @@ public class PracticaBoard {
         }
     }
 
+    // Representació de l'estat
 
-    // ============ CONSTRUCTORS ============
+    // Cada camió té una llista de viatges assignats
+    private List<Viatge>[] viatgesPerCamio;
+
+    // Peticions que encara no s'han assignat a cap camió
+    private Set<Peticio> peticionsNoAssignades;
+
+    // Constructors
 
     /**
      * Constructor per generar estat inicial
      */
-    public PracticaBoard(Gasolineras gs, CentrosDistribucion cd, int estrategiaInicial) {
+    public PracticaBoard(Gasolineras gs, CentrosDistribucion cd,
+            int estrategiaInicial) {
         // Guardem les dades estàtiques
         gasolineras = gs;
         centros = cd;
@@ -177,8 +178,7 @@ public class PracticaBoard {
         this.peticionsNoAssignades = new HashSet<>(altre.peticionsNoAssignades);
     }
 
-
-    // ============ ESTRATÈGIES DE SOLUCIÓ INICIAL ============
+    // Estratègies per generar la solució inicial.
 
     /**
      * ESTRATÈGIA 1: Solució buida (cap petició assignada)
@@ -188,7 +188,8 @@ public class PracticaBoard {
     }
 
     /**
-     * ESTRATÈGIA 2: Solució greedy (assigna peticions amb millor ràtio benefici/distància)
+     * ESTRATÈGIA 2: Solució greedy (assigna peticions amb millor ràtio
+     * benefici/distància)
      */
     private void generarSolucioInicial_Greedy() {
         // Per cada camió, intentem assignar viatges de manera greedy
@@ -216,13 +217,14 @@ public class PracticaBoard {
                 if (!viatge.peticionsServides.isEmpty()) {
                     viatgesPerCamio[idCamio].add(viatge);
                 } else {
-                    break;  // No hi ha més peticions a assignar
+                    break; // No hi ha més peticions a assignar
                 }
             }
         }
     }
 
-    private Peticio trobarMillorPeticio(Distribucion centro, Peticio peticioPrèvia) {
+    private Peticio trobarMillorPeticio(Distribucion centro,
+            Peticio peticioPrèvia) {
         Peticio millor = null;
         double millorRatio = Double.NEGATIVE_INFINITY;
 
@@ -243,7 +245,7 @@ public class PracticaBoard {
 
             // Ràtio benefici/distància (prioritzem peticions amb molts dies pendents)
             double benefici = p.calcularPreu();
-            double ratio = benefici / (distancia + 1);  // +1 per evitar divisió per 0
+            double ratio = benefici / (distancia + 1); // +1 per evitar divisió per 0
 
             if (ratio > millorRatio) {
                 millorRatio = ratio;
@@ -253,7 +255,6 @@ public class PracticaBoard {
 
         return millor;
     }
-
 
     // ============ UTILITATS ============
 
