@@ -82,7 +82,7 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction {
         List<int[]> peticions = new ArrayList<>(); // [idCamio, idxViatge, idxPeticio]
         for (int i = 0; i < board.getNumCamions(); i++) {
             for (int j = 0; j < board.getViatgesPerCamio()[i].size(); j++) {
-                for (int k = 0; k < board.getViatgesPerCamio()[i].get(j).peticionsServides.size(); k++) {
+                for (int k = 0; k < board.getViatgesPerCamio()[i].get(j).getPeticionsServides().size(); k++) {
                     peticions.add(new int[]{i, j, k});
                 }
             }
@@ -94,10 +94,10 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction {
 
         PracticaBoard nouBoard = new PracticaBoard(board);
         Peticio p = nouBoard.getViatgesPerCamio()[pos[0]].get(pos[1])
-                .peticionsServides.remove(pos[2]);
+                .getPeticionsServides().remove(pos[2]);
         nouBoard.getPeticionsNoAssignades().add(p);
 
-        if (nouBoard.getViatgesPerCamio()[pos[0]].get(pos[1]).peticionsServides.isEmpty()) {
+        if (nouBoard.getViatgesPerCamio()[pos[0]].get(pos[1]).getPeticionsServides().isEmpty()) {
             nouBoard.getViatgesPerCamio()[pos[0]].remove(pos[1]);
         }
 
@@ -116,7 +116,7 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction {
         List<int[]> peticions = new ArrayList<>();
         for (int i = 0; i < board.getNumCamions(); i++) {
             for (int j = 0; j < board.getViatgesPerCamio()[i].size(); j++) {
-                for (int k = 0; k < board.getViatgesPerCamio()[i].get(j).peticionsServides.size(); k++) {
+                for (int k = 0; k < board.getViatgesPerCamio()[i].get(j).getPeticionsServides().size(); k++) {
                     peticions.add(new int[]{i, j, k});
                 }
             }
@@ -128,11 +128,11 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction {
         int[] pos2 = peticions.get(random.nextInt(peticions.size()));
 
         PracticaBoard nouBoard = new PracticaBoard(board);
-        Peticio p1 = nouBoard.getViatgesPerCamio()[pos1[0]].get(pos1[1]).peticionsServides.get(pos1[2]);
-        Peticio p2 = nouBoard.getViatgesPerCamio()[pos2[0]].get(pos2[1]).peticionsServides.get(pos2[2]);
+        Peticio p1 = nouBoard.getViatgesPerCamio()[pos1[0]].get(pos1[1]).getPeticionsServides().get(pos1[2]);
+        Peticio p2 = nouBoard.getViatgesPerCamio()[pos2[0]].get(pos2[1]).getPeticionsServides().get(pos2[2]);
 
-        nouBoard.getViatgesPerCamio()[pos1[0]].get(pos1[1]).peticionsServides.set(pos1[2], p2);
-        nouBoard.getViatgesPerCamio()[pos2[0]].get(pos2[1]).peticionsServides.set(pos2[2], p1);
+        nouBoard.getViatgesPerCamio()[pos1[0]].get(pos1[1]).getPeticionsServides().set(pos1[2], p2);
+        nouBoard.getViatgesPerCamio()[pos2[0]].get(pos2[1]).getPeticionsServides().set(pos2[2], p1);
 
         return nouBoard;
     }

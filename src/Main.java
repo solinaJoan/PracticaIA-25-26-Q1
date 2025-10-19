@@ -13,6 +13,9 @@ import IA.PracticaGoalTest;
 import IA.PracticaHeuristicFunction;
 import IA.PracticaSuccessorFunction;
 import IA.PracticaSuccessorFunctionSA;
+import IA.Viatge;
+import IA.Peticio;
+import IA.Utils;
 
 public class Main {
 
@@ -597,8 +600,8 @@ public class Main {
             double kmRecorreguts = 0;
 
             for (int i = 0; i < estatFinal.getNumCamions(); i++) {
-                for (PracticaBoard.Viatge v : estatFinal.getViatgesPerCamio()[i]) {
-                    peticionsServides += v.peticionsServides.size();
+                for (Viatge v : estatFinal.getViatgesPerCamio()[i]) {
+                    peticionsServides += v.getPeticionsServides().size();
                     kmRecorreguts += v.calcularDistancia();
                 }
             }
