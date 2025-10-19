@@ -5,15 +5,16 @@ import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
-import IA.PracticaSuccessorFunctionSA;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import IA.PracticaBoard;
 import IA.PracticaGoalTest;
 import IA.PracticaHeuristicFunction;
 import IA.PracticaSuccessorFunction;
+import IA.PracticaSuccessorFunctionSA;
 
 public class Main {
 
@@ -46,7 +47,7 @@ public class Main {
             System.out.println("  5. Reducció de centres a la meitat");
             System.out.println("  6. Efecte del cost per kilòmetre");
             System.out.println("  7. Variació de l'horari de feina");
-            System.out.println("  8. Experiment ESPECIAL (punt extra)");
+            System.out.println("  8. Experiment ESPECIAL ");
             System.out.println("  9. Prova ràpida (debug)");
             System.out.println("  0. Sortir");
             System.out.print("\nOpció: ");
@@ -112,30 +113,92 @@ public class Main {
         System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
         System.out.println();
 
-        // TODO: Implementar diferents conjunts d'operadors
-        // Per ara executem amb tots els operadors
+        // Definim diferents conjunts d'operadors a provar
+        ConjuntOperadors[] conjunts = {
+                // Conjunt 1: Operadors bàsics (Afegir + Crear)
+                new ConjuntOperadors("Bàsics (Afegir+Crear)", true, false, false, false, true),
 
-        double[] beneficis = new double[NUM_REPETICIONS];
-        long[] temps = new long[NUM_REPETICIONS];
+                // Conjunt 2: Operadors de modificació (Afegir + Treure + Moure)
+                new ConjuntOperadors("Modificació (Afegir+Treure+Moure)", true, true, true, false, false),
 
-        for (int i = 0; i < NUM_REPETICIONS; i++) {
-            System.out.println("Repetició " + (i + 1) + "/" + NUM_REPETICIONS);
+                // Conjunt 3: Tots els operadors
+                new ConjuntOperadors("Tots", true, true, true, true, true),
 
-            Gasolineras gs = new Gasolineras(100, 1234 + i);
-            CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
+                // Conjunt 4: Sense intercanvi (Afegir + Treure + Moure + Crear)
+                new ConjuntOperadors("Sense Intercanvi", true, true, true, false, true),
 
-            long startTime = System.currentTimeMillis();
-            double benefici = executarHillClimbing(gs, cd, 2);  // Estratègia greedy
-            long endTime = System.currentTimeMillis();
+                // Conjunt 5: Només moviments (Moure + Intercanviar)
+                new ConjuntOperadors("Només Moviments", false, false, true, true, false)
+        };
 
-            beneficis[i] = benefici;
-            temps[i] = endTime - startTime;
+        System.out.println("Provant " + conjunts.length + " conjunts d'operadors diferents...\n");
 
-            System.out.println("  Benefici: " + String.format("%.2f", benefici) +
-                    " €, Temps: " + temps[i] + " ms\n");
+        // Per cada conjunt d'operadors
+        for (ConjuntOperadors conjunt : conjunts) {
+            System.out.println("--- CONJUNT: " + conjunt.nom + " ---");
+
+            double[] beneficis = new double[NUM_REPETICIONS];
+            long[] temps = new long[NUM_REPETICIONS];
+
+            for (int i = 0; i < NUM_REPETICIONS; i++) {
+                Gasolineras gs = new Gasolineras(100, 1234 + i);
+                CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
+
+                long startTime = System.currentTimeMillis();
+                double benefici = executarHillClimbingAmbOperadors(gs, cd, 2, conjunt);
+                long endTime = System.currentTimeMillis();
+
+                beneficis[i] = benefici;
+                temps[i] = endTime - startTime;
+            }
+
+            imprimirEstadistiques(conjunt.nom, beneficis, temps);
+            System.out.println();
         }
 
-        imprimirEstadistiques("Operadors (tots)", beneficis, temps);
+        System.out.println("\n💡 ANÀLISI: Compara els resultats per determinar quin conjunt");
+        System.out.println("   d'operadors dona millor benefici amb menys temps d'execució.");
+    }
+
+    // Classe auxiliar per definir conjunts d'operadors
+    static class ConjuntOperadors {
+        String nom;
+        boolean afegir, treure, moure, intercanviar, crear;
+
+        ConjuntOperadors(String nom, boolean afegir, boolean treure, boolean moure,
+                         boolean intercanviar, boolean crear) {
+            this.nom = nom;
+            this.afegir = afegir;
+            this.treure = treure;
+            this.moure = moure;
+            this.intercanviar = intercanviar;
+            this.crear = crear;
+        }
+    }
+
+    // Mètode auxiliar per executar HC amb un conjunt específic d'operadors
+    private static double executarHillClimbingAmbOperadors(Gasolineras gs, CentrosDistribucion cd,
+                                                           int estrategia, ConjuntOperadors conjunt) {
+        try {
+            Problem problem = new Problem(
+                    new PracticaBoard(gs, cd, estrategia),
+                    new PracticaSuccessorFunction(conjunt.afegir, conjunt.treure, conjunt.moure,
+                            conjunt.intercanviar, conjunt.crear),
+                    new PracticaGoalTest(),
+                    new PracticaHeuristicFunction()
+            );
+
+            Search search = new HillClimbingSearch();
+            SearchAgent agent = new SearchAgent(problem, search);
+
+            PracticaBoard estatFinal = (PracticaBoard) search.getGoalState();
+            PracticaHeuristicFunction heuristica = new PracticaHeuristicFunction();
+            return -heuristica.getHeuristicValue(estatFinal);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return 0;
+        }
     }
 
     // ============================================================================
@@ -179,7 +242,7 @@ public class Main {
         // Comparació
         System.out.println("\n--- COMPARACIÓ ---");
         double milloraBenefici = ((calcularMitjana(beneficis2) - calcularMitjana(beneficis1)) /
-                calcularMitjana(beneficis1)) * 100;
+                Math.abs(calcularMitjana(beneficis1))) * 100;
         System.out.println("Millora Greedy vs Buida: " + String.format("%.2f", milloraBenefici) + "%");
     }
 
@@ -193,7 +256,6 @@ public class Main {
 
         // Provar diferents combinacions de paràmetres
         int[] iteracions = {1000, 5000, 10000};
-        int[] stepsPerTemp = {10, 50, 100};
         int[] ks = {5, 25, 125};
         double[] lambdas = {0.01, 0.001, 0.0001};
 
@@ -291,26 +353,38 @@ public class Main {
         for (int i = 0; i < NUM_REPETICIONS; i++) {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
-            beneficis1[i] = executarHillClimbing(gs, cd, 2);
-            // TODO: Comptar peticions servides
+
+            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+            beneficis1[i] = res.benefici;
+            peticionsServides1[i] = res.peticionsServides;
         }
-        imprimirEstadistiques("10 centres, 1 camió", beneficis1, null);
+
+        System.out.println("Benefici mig: " + String.format("%.2f", calcularMitjana(beneficis1)) + " €");
+        System.out.println("Peticions servides mig: " + String.format("%.1f", calcularMitjana(peticionsServides1)));
 
         // Escenari reduït: 5 centres, 2 camions/centre
         System.out.println("\n--- ESCENARI REDUÏT: 5 centres, 2 camions/centre ---");
         double[] beneficis2 = new double[NUM_REPETICIONS];
+        int[] peticionsServides2 = new int[NUM_REPETICIONS];
 
         for (int i = 0; i < NUM_REPETICIONS; i++) {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(5, 2, 1234 + i);
-            beneficis2[i] = executarHillClimbing(gs, cd, 2);
+
+            ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+            beneficis2[i] = res.benefici;
+            peticionsServides2[i] = res.peticionsServides;
         }
-        imprimirEstadistiques("5 centres, 2 camions", beneficis2, null);
+
+        System.out.println("Benefici mig: " + String.format("%.2f", calcularMitjana(beneficis2)) + " €");
+        System.out.println("Peticions servides mig: " + String.format("%.1f", calcularMitjana(peticionsServides2)));
 
         // Comparació
         System.out.println("\n--- COMPARACIÓ ---");
         double diferencia = calcularMitjana(beneficis2) - calcularMitjana(beneficis1);
+        double difPeticions = calcularMitjana(peticionsServides2) - calcularMitjana(peticionsServides1);
         System.out.println("Diferència de benefici: " + String.format("%.2f", diferencia) + " €");
+        System.out.println("Diferència de peticions: " + String.format("%.1f", difPeticions));
     }
 
     // ============================================================================
@@ -326,21 +400,29 @@ public class Main {
         System.out.println("-".repeat(60));
 
         for (double cost : costs) {
-            // TODO: Modificar la constant COST_PER_KM a PracticaBoard
-            // De moment això no funciona perquè és una constant
+            // Modifiquem temporalment la constant
+            PracticaBoard.setCostPerKm(cost);
 
             double beneficiMig = 0;
+            int peticionsServidesTotal = 0;
+
             for (int i = 0; i < NUM_REPETICIONS; i++) {
                 Gasolineras gs = new Gasolineras(100, 1234 + i);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
-                beneficiMig += executarHillClimbing(gs, cd, 2);
+
+                ResultatExperiment res = executarHillClimbingAmbStats(gs, cd, 2);
+                beneficiMig += res.benefici;
+                peticionsServidesTotal += res.peticionsServides;
             }
             beneficiMig /= NUM_REPETICIONS;
+            double peticionsServidesMedia = peticionsServidesTotal / (double) NUM_REPETICIONS;
 
-            System.out.println(String.format("%.0f\t\t%.2f\t\t-", cost, beneficiMig));
+            System.out.println(String.format("%.0f\t\t%.2f\t\t%.1f",
+                    cost, beneficiMig, peticionsServidesMedia));
         }
 
-        System.out.println("\n⚠️ NOTA: Cal modificar PracticaBoard per canviar el cost/km");
+        // Restaurem el valor per defecte
+        PracticaBoard.setCostPerKm(2.0);
     }
 
     // ============================================================================
@@ -357,7 +439,8 @@ public class Main {
         System.out.println("-".repeat(40));
 
         for (int i = 0; i < hores.length; i++) {
-            // TODO: Modificar MAX_KM_DIA a PracticaBoard
+            // Modifiquem temporalment la constant
+            PracticaBoard.setMaxKmDia(kmsMax[i]);
 
             double beneficiMig = 0;
             for (int rep = 0; rep < NUM_REPETICIONS; rep++) {
@@ -370,7 +453,8 @@ public class Main {
             System.out.println(String.format("%d\t%d\t%.2f", hores[i], kmsMax[i], beneficiMig));
         }
 
-        System.out.println("\n⚠️ NOTA: Cal modificar PracticaBoard per canviar els km màxims");
+        // Restaurem el valor per defecte
+        PracticaBoard.setMaxKmDia(640);
     }
 
     // ============================================================================
@@ -379,7 +463,6 @@ public class Main {
     private static void experiment8_Especial() {
         System.out.println("EXPERIMENT 8: ESPECIAL amb semilla 1234");
         System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
-        System.out.println("⭐ Aquest experiment dóna 1 PUNT EXTRA! ⭐");
         System.out.println();
 
         Gasolineras gs = new Gasolineras(100, 1234);
@@ -414,7 +497,7 @@ public class Main {
             System.out.println("Temps d'execució: " + temps + " ms");
             System.out.println("=".repeat(60));
 
-            System.out.println("\n📧 Envia aquests resultats al professor abans del 19 d'octubre!");
+
 
             // Instrumentació
             System.out.println("\nInstrumentació:");
@@ -449,11 +532,64 @@ public class Main {
         System.out.println("\nExecutant Hill Climbing...");
         double benefici = executarHillClimbing(gs, cd, 2);
         System.out.println("Benefici: " + String.format("%.2f", benefici) + " €");
+
+        System.out.println("\nExecutant Simulated Annealing...");
+        double beneficiSA = executarSimulatedAnnealing(gs, cd, 2, 1000, 100, 25, 0.001);
+        System.out.println("Benefici SA: " + String.format("%.2f", beneficiSA) + " €");
     }
 
     // ============================================================================
     // FUNCIONS AUXILIARS
     // ============================================================================
+
+    // Classe per retornar múltiples valors
+    static class ResultatExperiment {
+        double benefici;
+        int peticionsServides;
+        double kmRecorreguts;
+
+        ResultatExperiment(double benefici, int peticionsServides, double kmRecorreguts) {
+            this.benefici = benefici;
+            this.peticionsServides = peticionsServides;
+            this.kmRecorreguts = kmRecorreguts;
+        }
+    }
+
+    private static ResultatExperiment executarHillClimbingAmbStats(Gasolineras gs, CentrosDistribucion cd, int estrategia) {
+        try {
+            Problem problem = new Problem(
+                    new PracticaBoard(gs, cd, estrategia),
+                    new PracticaSuccessorFunction(),
+                    new PracticaGoalTest(),
+                    new PracticaHeuristicFunction()
+            );
+
+            Search search = new HillClimbingSearch();
+            SearchAgent agent = new SearchAgent(problem, search);
+
+            // Obtenir estat final i calcular estadístiques
+            PracticaBoard estatFinal = (PracticaBoard) search.getGoalState();
+            PracticaHeuristicFunction heuristica = new PracticaHeuristicFunction();
+            double benefici = -heuristica.getHeuristicValue(estatFinal);
+
+            // Comptar peticions servides i km recorreguts
+            int peticionsServides = 0;
+            double kmRecorreguts = 0;
+
+            for (int i = 0; i < estatFinal.getNumCamions(); i++) {
+                for (PracticaBoard.Viatge v : estatFinal.getViatgesPerCamio()[i]) {
+                    peticionsServides += v.peticionsServides.size();
+                    kmRecorreguts += v.calcularDistancia();
+                }
+            }
+
+            return new ResultatExperiment(benefici, peticionsServides, kmRecorreguts);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return new ResultatExperiment(0, 0, 0);
+        }
+    }
 
     private static double executarHillClimbing(Gasolineras gs, CentrosDistribucion cd, int estrategia) {
         try {
@@ -484,7 +620,7 @@ public class Main {
         try {
             Problem problem = new Problem(
                     new PracticaBoard(gs, cd, estrategia),
-                    new PracticaSuccessorFunctionSA(),
+                    new PracticaSuccessorFunctionSA(),  // ✅ Utilitzem la versió SA!
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction()
             );
@@ -517,6 +653,12 @@ public class Main {
     private static double calcularMitjana(double[] dades) {
         double suma = 0;
         for (double d : dades) suma += d;
+        return suma / dades.length;
+    }
+
+    private static double calcularMitjana(int[] dades) {
+        double suma = 0;
+        for (int d : dades) suma += d;
         return suma / dades.length;
     }
 

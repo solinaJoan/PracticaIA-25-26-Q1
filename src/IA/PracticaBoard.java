@@ -5,12 +5,12 @@ import java.util.*;
 
 public class PracticaBoard {
 
-    // ============ CONSTANTS DEL PROBLEMA ============
-    private static final int MAX_KM_DIA = 640;  // 8h * 80km/h
+    // ============ CONSTANTS DEL PROBLEMA (ara modificables) ============
+    private static int MAX_KM_DIA = 640;  // 8h * 80km/h
     private static final int MAX_VIATGES_DIA = 5;
     private static final double CAPACITAT_CAMI = 2.0;  // Pot omplir 2 depòsits
     private static final int VALOR_DEPOSIT = 1000;
-    private static final double COST_PER_KM = 2.0;
+    private static double COST_PER_KM = 2.0;
 
     // ============ DADES ESTÀTIQUES (compartides entre tots els estats) ============
     private static Gasolineras gasolineras;
@@ -145,8 +145,10 @@ public class PracticaBoard {
         peticionsNoAssignades = new HashSet<>();
         for (int i = 0; i < gs.size(); i++) {
             Gasolinera g = gs.get(i);
-            for (int j = 0; j < g.getPeticiones().size(); j++) {
-                peticionsNoAssignades.add(new Peticio(i, g.getPeticiones().get(j)));
+            ArrayList<Integer> peticions = g.getPeticiones();
+            for (int j = 0; j < peticions.size(); j++) {
+                int diesPendent = peticions.get(j);
+                peticionsNoAssignades.add(new Peticio(i, diesPendent));
             }
         }
 
@@ -307,5 +309,35 @@ public class PracticaBoard {
             }
         }
         return true;
+    }
+
+    // ============ SETTERS PER EXPERIMENTS 6 i 7 ============
+
+    /**
+     * Permet modificar el cost per kilòmetre (Experiment 6)
+     */
+    public static void setCostPerKm(double cost) {
+        COST_PER_KM = cost;
+    }
+
+    /**
+     * Permet modificar els kilòmetres màxims per dia (Experiment 7)
+     */
+    public static void setMaxKmDia(int km) {
+        MAX_KM_DIA = km;
+    }
+
+    /**
+     * Obté el cost per kilòmetre actual
+     */
+    public static double getCostPerKm() {
+        return COST_PER_KM;
+    }
+
+    /**
+     * Obté els kilòmetres màxims per dia actuals
+     */
+    public static int getMaxKmDia() {
+        return MAX_KM_DIA;
     }
 }
