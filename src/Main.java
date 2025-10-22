@@ -14,8 +14,6 @@ import IA.PracticaHeuristicFunction;
 import IA.PracticaSuccessorFunction;
 import IA.PracticaSuccessorFunctionSA;
 import IA.Viatge;
-import IA.Peticio;
-import IA.Utils;
 
 public class Main {
 

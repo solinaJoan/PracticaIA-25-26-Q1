@@ -119,7 +119,8 @@ public class PracticaSuccessorFunction implements SuccessorFunction
                                 .afegirPeticio(p);
                         nouBoard.getPeticionsNoAssignades().remove(p);
 
-                        if (nouBoard.compleixRestriccions(idCamio)) {
+                        if (nouBoard.compleixRestriccions(idCamio)) 
+                        {
                             String action = String.format(
                                 "AfegirPeticio: Camió %d, Viatge %d, " +
                                 "Gasolinera %d", idCamio, idxViatge, 

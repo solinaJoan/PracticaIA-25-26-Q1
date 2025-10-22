@@ -203,7 +203,8 @@ public class PracticaBoard
                     viatge.afegirPeticio(millor1);
                     peticionsNoAssignades.remove(millor1);
 
-                    // Busquem una segona petició que estigui a prop de la primera
+                    // Busquem una segona petició que estigui a prop de la 
+                    // primera
                     Peticio millor2 = trobarMillorPeticio(centro, millor1);
                     if (millor2 != null) {
                         viatge.afegirPeticio(millor2);
@@ -251,9 +252,11 @@ public class PracticaBoard
                                                      g.getCoordY());
             }
 
-            // Ràtio benefici/distància (prioritzem peticions amb molts dies pendents)
+            // Ràtio benefici/distància (prioritzem peticions amb molts dies 
+            // pendents)
             double benefici = p.calcularPreu();
-            double ratio = benefici / (distancia + 1);  // +1 per evitar divisió per 0
+            double ratio = benefici / (distancia + 1);  // +1 per evitar 
+                                                        // divisió per 0
 
             if (ratio > millorRatio) {
                 millorRatio = ratio;
