@@ -7,6 +7,11 @@ import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
 import java.util.Properties;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import IA.PracticaBoard;
 import IA.PracticaGoalTest;
@@ -189,6 +194,12 @@ public class Main
             long[] temps = new long[NUM_REPETICIONS];
             int[] nodes_expandits = new int[NUM_REPETICIONS];
 
+            BufferedWriter writer = inicialitzarFitxerExperiment(
+                                        "experiment-1-comp-operadors-" + 
+                                        conjunt.nom,
+                                        1
+                                    );
+
             for (int i = 0; i < NUM_REPETICIONS; i++) {
                 Gasolineras gs = new Gasolineras(100, 1234 + i);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
@@ -201,6 +212,13 @@ public class Main
                 beneficis[i] = res.benefici;
                 temps[i] = endTime - startTime;
                 nodes_expandits[i] = res.nodes_expandits;
+
+                guardarResultat(writer, i + 1, res, temps[i]);
+            }
+
+            if (writer != null) {
+                try { writer.close(); } 
+                catch (IOException e) { e.printStackTrace(); }
             }
 
             imprimirEstadistiques(conjunt.nom, beneficis, temps, nodes_expandits);
@@ -741,6 +759,56 @@ public class Main
             String key = (String) o;
             String property = properties.getProperty(key);
             System.out.println(key + " : " + property);
+        }
+    }
+
+    private static BufferedWriter inicialitzarFitxerExperiment(String nomExperiment, int num_exp) {
+        String nomFitxer = nomExperiment.replaceAll("\\s+", "-")
+                                        .toLowerCase() + ".txt";
+
+        String directori = "./resultats/experiment-" + 
+                           Integer.toString(num_exp);
+        java.nio.file.Path pathDir = java.nio.file.Paths.get(directori);
+
+        try {
+
+            if (!java.nio.file.Files.exists(pathDir)) {
+                java.nio.file.Files.createDirectories(pathDir);
+            }
+
+            // Ruta completa del fitxer
+            java.nio.file.Path pathFitxer = pathDir.resolve(nomFitxer);
+
+            // Si ja existeix, l’esborrem
+            java.nio.file.Files.deleteIfExists(pathFitxer);
+
+            // Obrim el fitxer per escriure (en mode append = true)
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathFitxer.toFile(), true));
+
+            // Escriure capçalera
+            writer.write("Execucio || Benefici (€) || Temps (ms)|| " + 
+                         "PeticionsServides || KmRecorreguts || " +
+                         "NodesExpandits\n");
+            writer.flush();
+
+            return writer;
+        } catch (IOException e) {
+            System.out.println("❌ Error creant el fitxer: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private static void guardarResultat(BufferedWriter writer, int execucio,    ResultatExperiment res, long temps) {
+        try {
+            writer.write(execucio + " || " + 
+                         String.format("%.2f", res.benefici) + " || " +
+                         temps + " || " +
+                         res.peticionsServides + " || " +
+                         String.format("%.2f", res.kmRecorreguts) + " || " +
+                         res.nodes_expandits + "\n");
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("❌ Error escrivint resultat: " + e.getMessage());
         }
     }
 }
