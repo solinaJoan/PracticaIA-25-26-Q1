@@ -1,0 +1,309 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+\subsection{Resum del treball realitzat}
+
+En aquesta pràctica hem abordat amb èxit un problema real de planificació de rutes d'abastiment de combustible utilitzant tècniques de búsqueda local. El desenvolupament ha cobert tots els aspectes fonamentals de la resolució de problemes mitjançant Intel·ligència Artificial:
+
+\begin{enumerate}
+    \item \textbf{Modelatge del problema}: Hem definit una representació eficient de l'espai d'estats que permet explorar solucions de manera tractable
+    
+    \item \textbf{Disseny d'operadors}: Hem desenvolupat un conjunt complet d'operadors que garanteixen la connectivitat de l'espai de búsqueda
+    
+    \item \textbf{Estratègies d'inicialització}: Hem comparat diferents aproximacions i validat la superioritat de l'estratègia avariciosa
+    
+    \item \textbf{Funció heurística}: Hem dissenyat una heurística que equilibra múltiples objectius del problema
+    
+    \item \textbf{Experimentació rigorosa}: Hem realitzat 8 experiments sistemàtics que validen les nostres decisions de disseny
+    
+    \item \textbf{Comparació d'algoritmes}: Hem demostrat les diferències entre Hill Climbing i Simulated Annealing
+\end{enumerate}
+
+\subsection{Objectius assolits}
+
+Tots els objectius plantejats a la Secció \ref{sec:introduction} han estat assolits satisfactòriament:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Objectiu} & \textbf{Assolit} & \textbf{Evidència} \\
+\midrule
+Modelar com problema de búsqueda local & ✓ & Secció \ref{sec:problem} \\
+Representació eficient & ✓ & Secció \ref{sec:state} \\
+Operadors adequats & ✓ & Secció \ref{sec:operators}, Exp. 1 \\
+Funcions heurístiques & ✓ & Secció \ref{sec:heuristic} \\
+Experimentar amb HC i SA & ✓ & Secció \ref{sec:experiments} \\
+Analitzar i comparar resultats & ✓ & Tots els experiments \\
+\bottomrule
+\end{tabular}
+\caption{Assoliment dels objectius}
+\label{tab:objectius-assolits}
+\end{table}
+
+\subsection{Principals conclusions}
+
+\subsubsection{Sobre la representació i operadors}
+
+\begin{itemize}
+    \item La representació basada en viatges per camió és eficient tant espacialment ($O(n+p)$) com temporalment
+    
+    \item El conjunt complet d'operadors (Add, Remove, Move, Swap) és necessari per obtenir bons resultats:
+    \begin{itemize}
+        \item Swap millora un 8.3\% respecte al conjunt mínim
+        \item El factor de ramificació resultant ($O(n \times p + p^2)$) és manejable
+    \end{itemize}
+    
+    \item La solució inicial té un impacte crític en el temps de convergència:
+    \begin{itemize}
+        \item Estratègia avariciosa: 8x més ràpida que solució buida
+        \item Comença amb el 86\% del benefici òptim
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Sobre la funció heurística}
+
+\begin{itemize}
+    \item La heurística H2 (benefici amb penalització) és robusta i adequada:
+    \begin{equation*}
+    h = -(B_{\text{servides}} - 0.5 \cdot P_{\text{no servides}} - C_{\text{km}})
+    \end{equation*}
+    
+    \item Els tres components són necessaris:
+    \begin{itemize}
+        \item Sense benefici: no optimitza ingressos
+        \item Sense penalització: deixa peticions rendibles sense servir
+        \item Sense cost km: ignora l'eficiència de les rutes
+    \end{itemize}
+    
+    \item La ponderació $\beta=0.5$ per a peticions no servides és adequada:
+    \begin{itemize}
+        \item Incentiva servir peticions
+        \item No força solucions inviables
+    \end{itemize}
+    
+    \item L'heurística respon correctament als canvis de paràmetres del problema
+\end{itemize}
+
+\subsubsection{Sobre els algoritmes}
+
+\begin{itemize}
+    \item \textbf{Hill Climbing}:
+    \begin{itemize}
+        \item Ràpid i efectiu per a solucions de qualitat acceptable
+        \item Temps mitjà: 3.1 ms per a l'escenari base
+        \item Benefici mitjà: 48.923 unitats
+        \item Adequat quan el temps és crític
+    \end{itemize}
+    
+    \item \textbf{Simulated Annealing}:
+    \begin{itemize}
+        \item Millor qualitat: +2.52\% respecte HC (p < 0.01)
+        \item Més estable: menor desviació estàndard
+        \item Cost temporal: 2.4x més lent que HC
+        \item Troba òptims locals de millor qualitat
+        \item Recomanat quan es prioritza la qualitat sobre el temps
+    \end{itemize}
+    
+    \item Els paràmetres òptims per SA són:
+    \begin{itemize}
+        \item k = 1.000 (temperatura inicial alta)
+        \item λ = 0.001 (refredament moderat)
+        \item Iteracions = 15.000 (suficients per convergir)
+        \item Iteracions per temperatura = 100
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Sobre el problema}
+
+\begin{itemize}
+    \item \textbf{Escalabilitat}: El problema escala aproximadament com $O(n^{2.1})$
+    \begin{itemize}
+        \item Manejable fins a 1000 gasolineres
+        \item Els paràmetres de SA segueixen sent adequats
+    \end{itemize}
+    
+    \item \textbf{Restricció limitant}: El nombre de viatges, no els quilòmetres
+    \begin{itemize}
+        \item 90\% dels camions arriben al límit de 5 viatges
+        \item Només 23\% arriben al límit de km
+        \item Augmentar hores té rendiments decreixents
+    \end{itemize}
+    
+    \item \textbf{Distribució geogràfica}: Crucial per l'eficiència
+    \begin{itemize}
+        \item Reduir centres a la meitat: -5.5\% benefici
+        \item Augment de km: +30\%
+        \item Cal equilibrar cobertura vs concentració
+    \end{itemize}
+    
+    \item \textbf{Sensibilitat al cost/km}: Impacte molt significatiu
+    \begin{itemize}
+        \item Doblar el cost redueix 10\% les peticions servides
+        \item Canvia les prioritats cap a peticions urgents
+        \item L'heurística s'adapta correctament
+    \end{itemize}
+\end{itemize}
+
+\subsection{Valoració personal}
+
+\subsubsection{Dificultats trobades}
+
+\begin{enumerate}
+    \item \textbf{Disseny de la representació}: Trobar l'equilibri entre simplicitat i eficiència va requerir diverses iteracions
+    
+    \item \textbf{Ajust de paràmetres SA}: L'exploració de l'espai de paràmetres va ser laboriosa però necessària
+    
+    \item \textbf{Interpretació dels resultats}: Comprendre per què SA millora HC va requerir anàlisi detallada
+    
+    \item \textbf{Gestió del temps}: Planificar adequadament els experiments per complir els terminis
+\end{enumerate}
+
+\subsubsection{Aprenentatges principals}
+
+\begin{enumerate}
+    \item \textbf{Importància de la representació}: Una bona representació facilita tant la implementació com l'eficiència
+    
+    \item \textbf{Experimentació sistemàtica}: Els experiments ben dissenyats són essencials per validar decisions
+    
+    \item \textbf{Anàlisi estadística}: Les mitjanes sense desviació estàndard poden ser enganyoses
+    
+    \item \textbf{Trade-offs}: No hi ha solucions universalment millors; cal considerar el context
+    
+    \item \textbf{Documentació contínua}: Documentar mentre es treballa estalvia molt temps al final
+\end{enumerate}
+
+\subsubsection{Valoració del treball en equip}
+
+El treball en equip ha estat fonamental per a l'èxit d'aquesta pràctica:
+
+\begin{itemize}
+    \item \textbf{Divisió de tasques}: Cada membre va assumir responsabilitats clares
+    \begin{itemize}
+        \item Membre 1: Representació de l'estat i operadors
+        \item Membre 2: Heurística i experimentació
+        \item Membre 3: Documentació i anàlisi de resultats
+    \end{itemize}
+    
+    \item \textbf{Comunicació}: Reunions setmanals per sincronitzar el treball
+    
+    \item \textbf{Resolució de conflictes}: Discussions constructives sobre decisions de disseny
+    
+    \item \textbf{Suport mutu}: Ajuda entre membres quan algú tenia dificultats
+\end{itemize}
+
+Seguir la planificació proposada a la pràctica (Capítol 5 de l'enunciat) va ser clau per mantenir un progrés constant i evitar col·lapsos finals.
+
+\subsection{Possibles millores i treball futur}
+
+\subsubsection{Millores de la implementació actual}
+
+\begin{enumerate}
+    \item \textbf{Operadors més sofisticats}:
+    \begin{itemize}
+        \item Operador de reorganització completa d'un camió
+        \item Operador d'intercanvi de múltiples peticions
+        \item Operadors sensibles al context (segons estat actual)
+    \end{itemize}
+    
+    \item \textbf{Heurística adaptativa}:
+    \begin{itemize}
+        \item Ajustar dinàmicament les ponderacions
+        \item Considerar la fase de la búsqueda (inici vs final)
+        \item Incorporar informació histórica de la búsqueda
+    \end{itemize}
+    
+    \item \textbf{Hibridació d'algoritmes}:
+    \begin{itemize}
+        \item Començar amb SA per exploració global
+        \item Finalitzar amb HC per refinament local
+        \item Millor qualitat amb temps raonable
+    \end{itemize}
+    
+    \item \textbf{Paral·lelització}:
+    \begin{itemize}
+        \item Executar múltiples búsquedes en paral·lel
+        \item Compartir millors solucions trobades
+        \item Explotar processadors multi-core
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Extensions del problema}
+
+\begin{enumerate}
+    \item \textbf{Dinàmica temporal}:
+    \begin{itemize}
+        \item Noves peticions que arriben durant el dia
+        \item Re-planificació en temps real
+        \item Gestió d'imprevistos (avaries, trànsit)
+    \end{itemize}
+    
+    \item \textbf{Multi-objectiu explícit}:
+    \begin{itemize}
+        \item Frontera de Pareto entre benefici i km
+        \item Permetre a l'usuari escollir el trade-off
+        \item Visualització de les alternatives
+    \end{itemize}
+    
+    \item \textbf{Incertesa}:
+    \begin{itemize}
+        \item Predicció probabilística de noves peticions
+        \item Planificació robusta davant incertesa
+        \item Reserves de capacitat preventives
+    \end{itemize}
+    
+    \item \textbf{Restriccions addicionals}:
+    \begin{itemize}
+        \item Finestres temporals per gasolineres
+        \item Diferents tipus de combustible
+        \item Capacitats variables dels camions
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Altres algoritmes a explorar}
+
+\begin{enumerate}
+    \item \textbf{Algoritmes evolutius}:
+    \begin{itemize}
+        \item Algoritmes genètics
+        \item Estratègies evolutives
+        \item Poden trobar millors solucions amb més temps
+    \end{itemize}
+    
+    \item \textbf{Búsqueda tabú}:
+    \begin{itemize}
+        \item Memòria de moviments recents
+        \item Evita cicles en la búsqueda
+        \item Pot escapar millor d'òptims locals
+    \end{itemize}
+    
+    \item \textbf{Optimització per colònia de formigues}:
+    \begin{itemize}
+        \item Inspirat en comportament d'insectes
+        \item Bó per problemes de rutes
+        \item Combina construcció i millora
+    \end{itemize}
+    
+    \item \textbf{Variable Neighborhood Search}:
+    \begin{itemize}
+        \item Canvia sistemàticament el veïnatge
+        \item Equilibra diversificació i intensificació
+        \item Molt efectiu en problemes combinatoris
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Conclusions finals}
+
+Aquesta pràctica ha demostrat l'efectivitat de les tècniques de búsqueda local per resoldre problemes reals de planificació. Les principals lliçons són:
+
+\begin{enumerate}
+    \item Un bon modelatge del problema és la base de l'èxit
+    \item L'experimentació sistemàtica és essencial per prendre decisions informades
+    \item Els algoritmes més sofisticats (SA) ofereixen millors resultats però amb un cost
+    \item Cal considerar sempre el context i els objectius específics del problema
+    \item El treball en equip i la planificació adequada són fonamentals
+\end{enumerate}
+
+Els resultats obtinguts demostren que és possible trobar solucions de molt bona qualitat (benefici de 50.157, 84.8\% de peticions servides) en temps molt raonables (7.5 ms). Això fa viable l'ús d'aquests algoritmes en un entorn de producció real.
+
+Finalment, aquesta pràctica ha proporcionat una visió pràctica i profunda dels conceptes d'Intel·ligència Artificial vistos a classe de teoria, consolidant els coneixements adquirits i desenvolupant competències valuoses per a la carrera professional.

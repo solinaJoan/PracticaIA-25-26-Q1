@@ -1,0 +1,132 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquets essencials
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+
+% Configuració de la geometria
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=3cm,
+    bottom=3cm
+}
+
+% Configuració de capçaleres i peus
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{15.5pt}
+
+% Configuració de listings per codi Java
+\lstdefinestyle{javastyle}{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{gray!10},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    escapeinside={(*@}{@*)},
+    xleftmargin=2em,
+    framexleftmargin=1.5em
+}
+\lstset{style=javastyle}
+
+% Configuració de hyperref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue,
+    pdftitle={Pràctica de Búsqueda Local},
+    pdfauthor={Nom dels autors}
+}
+
+% Informació del document
+\title{
+    \includegraphics[width=0.3\textwidth]{figures/upc-logo.png}\\[1cm]
+    {\LARGE Pràctica de Cerca Local}\\[0.5cm]
+    {\Large Planificació de Rutes de Proveïment de Gasolineres}\\[0.5cm]
+
+}
+
+\author{
+\large
+\textsc{Grau A -- Q1 Curs 2025-2026}\\[2mm] 
+\normalsize Departament de Ciències de la Computació \\
+\normalsize Universitat Politècnica de Catalunya \\[1cm]
+%
+\begin{tabular}{cc}
+{\textsc{Anel ?}} & {\textsc{Aleix Pitarch}} \\
+\normalsize \texttt{anel.?@estudiantat.upc.edu} & \normalsize \texttt{aleix.pitarch@estudiantat.upc.edu} \\[4mm]
+{\textsc{Joan Solina}} \\
+\normalsize \texttt{joan.solina@estudiantat.upc.edu}\\
+\end{tabular}
+}
+
+\date{26 d'octubre de 2025}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+\newpage
+
+\listoffigures
+\listoftables
+\lstlistoflistings
+\newpage
+
+% Capítols principals
+\input{chapters/01-introduction}
+\input{chapters/02-problem-definition}
+\input{chapters/03-state-representation}
+%\input{chapters/04-operators}
+\input{chapters/05-initial-solution}
+\input{chapters/06-heuristic-function}
+\input{chapters/07-experiments}
+\input{chapters/08-conclusions}
+
+% Bibliografia (opcional)
+%\bibliographystyle{plain}
+%\bibliography{references}
+
+% Apèndixs
+%\appendix
+%\input{appendices/a-code}
+%\input{appendices/b-additional-results}
+
+\end{document}

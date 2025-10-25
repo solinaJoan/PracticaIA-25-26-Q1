@@ -1,0 +1,71 @@
+
+\section{Definició del problema}
+\label{sec:problem}
+
+\subsection{Introducció al problema}
+
+El problema que ens ocupa neix d'una necessitat real en el sector de la distribució de combustibles. Imaginem una companyia que opera amb diversos centres de distribució des d'on surten camions cisterna per proveir a les gasolineres. Cada dia, la companyia rep peticions de proveïment de diferents gasolineres i ha de decidir com organitzar els seus recursos per atendre-les de la manera més eficient possible.
+
+Aquest problema presenta diversos factors que cal optimitzar simultàniament. Per una banda, la companyia vol maximitzar els seus ingressos servint el màxim nombre de peticions possibles, especialment aquelles que porten més temps pendents. Per altra banda, cal minimitzar els costos operatius, principalment els derivats dels quilòmetres recorreguts pels camions. Tot això s'ha de fer respectant les restriccions sobre la capacitat dels camions i les hores de treball dels conductors.
+
+\subsection{Elements del problema}
+
+Per comprendre completament el problema, cal primer identificar tots els elements que hi intervenen i com es relacionen entre ells. Aquestes relacions determinaran posteriorment com modelarem l'espai de cerca.
+
+\subsubsection{Centres de distribució i camions cisterna}
+
+La companyia disposa de diversos centres de distribució els quals estan situats en unes coordenades específiques dins d'una quadrícula de $100 \times 100$ km$^2$. Cada centre de distribució té assignat un camió cisterna el qual la seva capacitat és exactament el doble de la capacitat d'un dipòsit estàndard de gasolinera. Això significa que en cada viatge, un camió pot omplir com a màxim dos dipòsits, ja sigui de la mateixa gasolinera o de gasolineres diferents.
+
+Cada dia, un camió pot recórrer un màxim de 640 quilòmetres, que corresponen a 8 hores de treball a una velocitat constant de 80 km/h. A més, cada camió pot fer un màxim de 5 viatges diaris, entenent per viatge el recorregut des del centre de distribució fins a les gasolineres assignades i tornada al centre.
+
+\subsubsection{Gasolineres i peticions d'abastiment}
+
+ Cada gasolinera disposa de diversos dipòsits per emmagatzemar combustible, i el seu mode d'operació és seqüencial: utilitzen un dipòsit fins que s'acaba, i aleshores passen al següent. Aquesta simplificació ens permet tractar cada dipòsit com una entitat independent.
+
+Quan un dipòsit d'una gasolinera s'acaba, la gasolinera genera una petició de proveïment a la companyia de distribució. Aquestes peticions van acumulant-se dia rere dia fins que són ateses. És important destacar que una mateixa gasolinera pot tenir múltiples peticions pendents simultàniament si se li han acabat diversos dipòsits, fins a un màxim de 3.
+
+Cada petició porta associat un comptador que indica quants dies porta pendent. Aquest comptador és crucial perquè determina el preu que la companyia cobra per atendre la petició. Una petició nova (0 dies d'espera) es cobra al 102\% del preu base, incentivant així un servei ràpid. A mesura que passen els dies sense ser atesa, el preu va disminuint exponencialment segons la fórmula que descriurem més endavant.
+
+\subsubsection{Estructura d'un viatge}
+
+Un viatge és la unitat bàsica d'operació en aquest problema. Cada viatge segueix sempre la mateixa estructura: el camió surt del centre de distribució amb el dipòsit ple, visita una o dues gasolineres on descarrega combustible, i torna al centre. Aquest cicle es repeteix tantes vegades com sigui necessari dins dels límits permesos.
+
+La flexibilitat en el nombre de gasolineres per viatge (una o dues) dóna lloc a diferents estratègies. Un camió podria optar per fer viatges curts visitant una sola gasolinera propera per minimitzar distàncies, o podria intentar maximitzar l'ús de la seva capacitat visitant dues gasolineres en cada viatge. Aquesta decisió depèn de múltiples factors: la ubicació de les gasolineres, les peticions pendents, i els quilòmetres disponibles.
+
+\subsection{Model de càlcul de distàncies}
+
+Per calcular la distància entre qualsevol parell de punts (ja siguin centres de distribució o gasolineres), utilitzem la distància de Manhattan:
+
+\begin{equation}
+d(A, B) = |A_x - B_x| + |A_y - B_y|
+\label{eq:distance}
+\end{equation}
+
+on $(A_x, A_y)$ i $(B_x, B_y)$ són les coordenades dels punts A i B respectivament, i $|\cdot|$ denota el valor absolut.
+
+Per calcular la distància total d'un viatge que visita dues gasolineres $G_1$ i $G_2$ partint d'un centre de distribució $D$, calculem:
+
+\begin{equation}
+d_{\text{viatge}} = d(D, G_1) + d(G_1, G_2) + d(G_2, D)
+\label{eq:distance-viatge}
+\end{equation}
+
+Si el viatge només visita una gasolinera, la distància es simplifica a:
+\begin{equation}
+d_{\text{viatge}} = 2 \times d(D, G_1)
+\label{eq:distance-viatge-simple}
+\end{equation}
+
+\subsection{Justificació com a problema de cerca local}
+
+És important entendre per què aquest problema és adequat per ser resolt amb tècniques de búsqueda local i no amb altres aproximacions.
+
+En primer lloc, l'espai de solucions és exponencialment gran. Amb $n$ camions, $p$ peticions, i la possibilitat de fer fins a 5 viatges per camió, el nombre de possibles assignacions és de l'ordre de $(n \times 5)^p$. Per l'escenari base amb 10 camions i aproximadament 100 peticions, això suposa més de $10^{100}$ possibles solucions, fent inviable una exploració exhaustiva.
+
+En segon lloc, no tenim un objectiu clarament definit com "arribar a un estat específic", sinó que volem optimitzar una funció de qualitat. Això és característic dels problemes d'optimització i els fa especialment adequats per búsqueda local.
+
+En tercer lloc, existeix una noció natural de "veïnatge" entre solucions. Petits canvis en l'assignació de peticions a camions generen solucions similars amb valors de benefici també similars, cosa que permet una exploració gradual de l'espai.
+
+Finalment, el problema exhibeix una estructura de "paisatge" amb múltiples òptims locals però on moure's en la direcció correcta generalment millora la solució. Aquesta propietat fa que algoritmes com Hill Climbing siguin efectius, tot i que poden quedar atrapats en òptims locals, motivant l'ús d'algoritmes més sofisticats com Simulated Annealing.
+
+Totes aquestes característiques fan que el nostre problema sigui un candidat ideal per aplicar les tècniques de búsqueda local que hem estudiat a classe, i ens permeten explorar experimentalment les seves fortaleses i limitacions.

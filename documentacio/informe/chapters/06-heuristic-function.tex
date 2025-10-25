@@ -1,0 +1,117 @@
+\section{Funció heurística}
+\label{sec:heuristic}
+
+\subsection{Objectiu de la funció heurística}
+
+En el context del nostre problema de gestió de peticions amb limitacions de recursos, l'objectiu principal de la heurística és ajudar-nos a decidir quines peticions atendre i en quin ordre, de manera que s’aconsegueixi un equilibri entre diversos factors. Concretament, la funció heurística ha de perseguir tres objectius principals:
+
+\begin{enumerate}
+\item \textbf{Maximitzar el benefici:} Prioritzar les peticions que generin més guany net, és a dir, aquelles que aporten un major benefici econòmic un cop considerats els costos associats.
+\item \textbf{Minimitzar els costos:} Reduir la distància total recorreguda pels camions, ja que cada quilòmetre recorregut representa un cost directe.
+\item \textbf{Prioritzar l'urgència:} Donar preferència a les peticions que porten més dies esperant, ja que la seva demora pot afectar negativament el benefici total o la satisfacció del servei.
+\end{enumerate}
+
+En resum, la funció heurística ha de ser capaç de mesurar de manera equilibrada el compromís entre obtenir ingressos, controlar costos i respectar la urgència de les peticions.
+
+\subsection{Factors que intervenen}
+
+Per poder construir una heurística eficaç, cal tenir en compte diversos factors que influeixen directament en el benefici net de qualsevol solució:
+
+\subsubsection{Benefici de les peticions servides}
+
+Cada petició té associat un benefici que depèn dels dies que porta pendent. Si una petició s’atén immediatament, el benefici és màxim, i si es demora, aquest benefici disminueix segons una funció decreixent:
+
+\begin{equation}
+B_{\text{petició}}(d) = 
+\begin{cases}
+1000 \times 1.02 & \text{si } d = 0 \\
+1000 \times \left(1 - \frac{2^d}{100}\right) & \text{si } d > 0
+\end{cases}
+\label{eq:benefici-peticio}
+\end{equation}
+
+Així, el benefici total d’una solució és simplement la suma dels beneficis de totes les peticions servides:
+
+\begin{equation}
+B_{\text{servides}} = \sum_{p \in P_{\text{servides}}} B_{\text{petició}}(d_p)
+\end{equation}
+
+\subsubsection{Penalització de les peticions no servides}
+
+Quan una petició no s’atén en un dia determinat, això suposa una pèrdua potencial, ja que el benefici que s’hauria obtingut disminueix l’endemà. La penalització per no servir una petició es calcula com la diferència entre el benefici si s’atén avui i el benefici si s’atén l’endemà:
+
+\begin{equation}
+P_{\text{no servides}} = \sum_{p \in P_{\text{no servides}}} \left(B_{\text{petició}}(d_p) - B_{\text{petició}}(d_p + 1)\right)
+\end{equation}
+
+Aquesta penalització permet a la heurística tenir en compte el cost d’oportunitat de deixar peticions pendents.
+
+\subsubsection{Cost dels quilòmetres}
+
+El cost derivat del recorregut dels camions és un factor directe que cal minimitzar. Cada quilòmetre té un cost fix de 2 unitats, i per tant el cost total és la suma del cost de tots els quilòmetres recorreguts pels camions:
+
+\begin{equation}
+C_{\text{km}} = 2 \times \sum_{c=1}^{n} \text{km}_c
+\end{equation}
+
+\subsection{Funcions heurístiques proposades}
+
+A partir d’aquests factors, s’han considerat diverses heurístiques, amb diferents graus de complexitat i precisió:
+
+\subsubsection{Heurística H1: Només benefici}
+
+La primera proposta és una heurística senzilla que només té en compte el benefici net (beneficis menys costos):
+
+\begin{equation}
+h_1(\text{estat}) = -(B_{\text{servides}} - C_{\text{km}})
+\end{equation}
+
+El signe negatiu es fa servir per convertir un problema de maximització en un de minimització, compatible amb els requisits d’algoritmes de cerca com els de la biblioteca AIMA. Aquesta heurística és molt fàcil de calcular i reflecteix directament l’objectiu principal, però té la limitació que no penalitza explícitament les peticions que es deixen sense servir, cosa que podria fer que s’ignorin peticions amb molts dies d’espera si el seu cost és elevat.
+
+\subsubsection{Heurística H2: Benefici amb penalització}
+
+Una evolució de l’anterior consisteix a afegir la penalització per peticions no servides:
+
+\begin{equation}
+h_2(\text{estat}) = -(B_{\text{servides}} - P_{\text{no servides}} - C_{\text{km}})
+\end{equation}
+
+Aquesta variant incentiva explícitament a servir totes les peticions rendibles, ja que la penalització dóna un cost addicional a deixar-les pendents. Així, H2 és més completa que H1 i evita situacions en què es deixin peticions importants sense atendre, tot i que pot conduir a servir peticions amb rendibilitat baixa i té un càlcul lleugerament més complex.
+
+\subsubsection{Heurística H3: Benefici amb ponderacions}
+
+Per a una major flexibilitat, H3 permet assignar pesos diferents a cada factor:
+
+\begin{equation}
+h_3(\text{estat}) = -(\alpha \cdot B_{\text{servides}} - \beta \cdot P_{\text{no servides}} - \gamma \cdot C_{\text{km}})
+\end{equation}
+
+Els paràmetres $\alpha$, $\beta$ i $\gamma$ permeten ajustar la importància relativa del benefici, la penalització i el cost per quilòmetre. Això és útil quan es vol experimentar amb diferents prioritats, però requereix trobar els valors òptims experimentalment, cosa que pot ser laboriosa.
+
+\subsection{Anàlisi de les ponderacions}
+
+Per seleccionar ponderacions raonables, s’ha analitzat l’escala de cada factor. El benefici i la penalització són de magnitud similar, mentre que el cost de quilòmetres és aproximadament un ordre de magnitud inferior. Això justifica que les ponderacions per defecte (1.0 per al benefici, 0.5 per a la penalització i 1.0 per al cost) ofereixin un equilibri raonable.
+
+\subsection{Heurística escollida}
+
+Després d’analitzar els pros i contres, s’ha escollit H2 per als experiments principals:
+
+\begin{equation}
+h(\text{estat}) = -(B_{\text{servides}} - 0.5 \cdot P_{\text{no servides}} - C_{\text{km}})
+\end{equation}
+
+Aquesta decisió es basa en el fet que H2 equilibra els tres objectius sense requerir ajust manual de paràmetres i és més completa que H1 però més senzilla que H3.
+\subsection{Admissibilitat de la heurística}
+
+Una heurística s’anomena \textit{admissible} quan mai sobreestima el cost real fins a l’objectiu, és a dir, sempre proporciona una estimació optimista. En el nostre cas, com que la funció heurística H2 calcula un benefici net negatiu (per adaptar-se a la minimització), la pregunta és si aquesta estimació mai subestima el valor real del benefici net que s’obtindria en arribar a una solució completa.
+
+En aquest problema concret, la heurística H2 no és estrictament admissible. Això es deu als següents motius:
+
+\begin{itemize}
+\item La penalització de les peticions no servides assumeix que aquestes es serviran l’endemà, però en realitat pot passar que algunes no es serveixin mai dins del horari disponible. Per tant, H2 pot subestimar la pèrdua real si una petició resta sense servir indefinidament.
+\item La heurística considera només la combinació de beneficis ja servits, penalitzacions immediates i cost de quilòmetres recorreguts fins a l’estat actual. No té informació del benefici net final que es podria obtenir amb futures assignacions més òptimes, de manera que no sempre garanteix una estimació conservadora del cost mínim.
+\end{itemize}
+
+Tot i això, H2 és \textit{informativa} i útil en pràctica, ja que reflecteix correctament les tendències generals del problema: premia solucions amb alt benefici i baix cost i penalitza deixar peticions rendibles sense servir. Això la fa adequada per a algorismes de cerca heurística com A* o Hill Climbing, encara que no garanteixi trobar la solució òptima estricta en termes teòrics.
+
+En resum, H2 no és admissible en sentit estricte, però és una heurística efectiva i equilibrada per guiar la recerca cap a bones solucions de manera consistent.
