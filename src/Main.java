@@ -7,40 +7,91 @@ import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
 import java.util.Properties;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import IA.PracticaBoard;
 import IA.PracticaGoalTest;
 import IA.PracticaHeuristicFunction;
 import IA.PracticaSuccessorFunction;
 import IA.PracticaSuccessorFunctionSA;
+<<<<<<< HEAD
+=======
+import IA.Viatge;
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
-public class Main {
-
-    // Constants per experiments
+public class Main 
+{
     private static final int NUM_REPETICIONS = 10;
 
-    public static void main(String[] args) {
-        if (args.length > 0) {
+    static private class ConjuntOperadors {
+        private String nom;
+        private boolean afegir, treure, moure, intercanviar, crear;
+
+        public ConjuntOperadors(String nom, boolean afegir, boolean treure, 
+                                boolean moure, boolean intercanviar, 
+                                boolean crear) 
+        {
+            this.nom = nom;
+            this.afegir = afegir;
+            this.treure = treure;
+            this.moure = moure;
+            this.intercanviar = intercanviar;
+            this.crear = crear;
+        }
+    }
+
+    static private class ResultatExperiment {
+        private double benefici;
+        private int peticionsServides;
+        private double kmRecorreguts;
+        private int nodes_expandits;
+
+        public ResultatExperiment(double benefici, int peticionsServides, 
+                                  double kmRecorreguts, int nodes_expandits) 
+        {
+            this.benefici = benefici;
+            this.peticionsServides = peticionsServides;
+            this.kmRecorreguts = kmRecorreguts;
+            this.nodes_expandits = nodes_expandits;
+        }
+    }
+
+    public static void main(String[] args) 
+    {
+        if (args.length > 0) 
+        {
             // Executar experiment específic des de línia de comandes
             int experiment = Integer.parseInt(args[0]);
             executarExperiment(experiment);
-        } else {
+        } 
+        else 
+        {
             // Menú interactiu
             menuInteractiu();
         }
     }
 
-    private static void menuInteractiu() {
+
+    private static void menuInteractiu() 
+    {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
 
-        while (true) {
+        boolean end = false;
+        while (!end) 
+        {
             System.out.println("\n" + "=".repeat(60));
             System.out.println("     PRÀCTICA DE CERCA LOCAL - IA");
             System.out.println("=".repeat(60));
             System.out.println("\nSelecciona l'experiment a executar:");
             System.out.println("  1. Comparació d'operadors (Hill Climbing)");
-            System.out.println("  2. Comparació d'estratègies d'inicialització");
-            System.out.println("  3. Optimització paràmetres Simulated Annealing");
+            System.out.println("  2. Comparació d'estratègies" +
+                               " d'inicialització");
+            System.out.println("  3. Optimització paràmetres Simulated " + 
+                               "Annealing");
             System.out.println("  4. Escalabilitat (temps vs tamany)");
             System.out.println("  5. Reducció de centres a la meitat");
             System.out.println("  6. Efecte del cost per kilòmetre");
@@ -52,24 +103,20 @@ public class Main {
 
             int opcio = scanner.nextInt();
 
-            if (opcio == 0) {
-                System.out.println("\nAdéu!");
-                break;
-            }
-
-            if (opcio >= 1 && opcio <= 9) {
-                executarExperiment(opcio);
-            } else {
-                System.out.println("\n❌ Opció no vàlida!");
-            }
+            if (opcio == 0) end = true;
+            else if (opcio >= 1 && opcio <= 9) executarExperiment(opcio);
+            else System.out.println("\nOpció no vàlida!");
         }
 
         scanner.close();
     }
 
-    private static void executarExperiment(int num) {
+
+    private static void executarExperiment(int num) 
+    {
         System.out.println("\n" + "=".repeat(60));
-        switch (num) {
+        switch (num) 
+        {
             case 1:
                 experiment1_ComparacioOperadors();
                 break;
@@ -103,15 +150,17 @@ public class Main {
         System.out.println("=".repeat(60));
     }
 
-    // ============================================================================
-    // EXPERIMENT 1: Comparació d'Operadors
-    // ============================================================================
-    private static void experiment1_ComparacioOperadors() {
-        System.out.println("EXPERIMENT 1: Comparació d'Operadors amb Hill Climbing");
-        System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
+
+    private static void experiment1_ComparacioOperadors() 
+    {
+        System.out.println("EXPERIMENT 1: Comparació d'Operadors amb Hill " +
+                           "Climbing");
+        System.out.println("Escenari: 10 centres, 1 camió/centre, 100 " +
+                           "benzineres");
         System.out.println();
 
         // Definim diferents conjunts d'operadors a provar
+<<<<<<< HEAD
         ConjuntOperadors[] conjunts = {
                 // Conjunt 1: Operadors bàsics (Afegir + Crear)
                 new ConjuntOperadors("Bàsics (Afegir+Crear)", true, false, false, false, true),
@@ -130,6 +179,32 @@ public class Main {
         };
 
         System.out.println("Provant " + conjunts.length + " conjunts d'operadors diferents...\n");
+=======
+        ConjuntOperadors[] conjunts = 
+        {
+            // Conjunt 1: Operadors bàsics (Afegir + Crear)
+            new ConjuntOperadors("Bàsics (Afegir+Crear)", 
+                                 true, false, false, false, true),
+
+            // Conjunt 2: Operadors de modificació (Afegir + Treure + Moure)
+            new ConjuntOperadors("Modificació (Afegir+Treure+Moure)", 
+                                 true, true, true, false, false),
+
+            // Conjunt 3: Tots els operadors
+            new ConjuntOperadors("Tots", true, true, true, true, true),
+
+            // Conjunt 4: Sense intercanvi (Afegir + Treure + Moure + Crear)
+            new ConjuntOperadors("Sense Intercanvi", 
+                                 true, true, true, false, true),
+
+            // Conjunt 5: Només moviments (Moure + Intercanviar)
+            new ConjuntOperadors("Només Moviments", 
+                                 false, false, true, true, false)
+        };
+
+        System.out.println("Provant " + conjunts.length + 
+                           " conjunts d'operadors diferents...\n");
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
         double[] mitjanesBenefici = new double[conjunts.length];
         double[] tempsMig = new double[conjunts.length];
@@ -141,12 +216,23 @@ public class Main {
 
             double[] beneficis = new double[NUM_REPETICIONS];
             long[] temps = new long[NUM_REPETICIONS];
+<<<<<<< HEAD
+=======
+            int[] nodes_expandits = new int[NUM_REPETICIONS];
+
+            BufferedWriter writer = inicialitzarFitxerExperiment(
+                                        "experiment-1-comp-operadors-" + 
+                                        conjunt.nom,
+                                        1
+                                    );
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
             for (int i = 0; i < NUM_REPETICIONS; i++) {
                 Gasolineras gs = new Gasolineras(100, 1234 + i);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
                 long startTime = System.currentTimeMillis();
+<<<<<<< HEAD
                 double benefici = executarHillClimbingAmbOperadors(gs, cd, conjunt);
                 long endTime = System.currentTimeMillis();
 
@@ -155,6 +241,25 @@ public class Main {
             }
 
             imprimirEstadistiques(conjunt.nom, beneficis, temps);
+=======
+                ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 
+                                                              2);
+                long endTime = System.currentTimeMillis();
+
+                beneficis[i] = res.benefici;
+                temps[i] = endTime - startTime;
+                nodes_expandits[i] = res.nodes_expandits;
+
+                guardarResultat(writer, i + 1, res, temps[i]);
+            }
+
+            if (writer != null) {
+                try { writer.close(); } 
+                catch (IOException e) { e.printStackTrace(); }
+            }
+
+            imprimirEstadistiques(conjunt.nom, beneficis, temps, nodes_expandits);
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
             System.out.println();
 
             // Guardem mitjana i temps mig
@@ -178,6 +283,7 @@ public class Main {
 
         System.out.println("\nEl conjunt '" + millorConjunt + "' mostra un alt benefici en relació al temps d'execució,");
         System.out.println("resultant en la millor eficiència entre els conjunts provats.");
+<<<<<<< HEAD
     }
 
     // Classe auxiliar per definir conjunts d'operadors
@@ -218,45 +324,54 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
             return 0;
         }
+=======
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
     }
 
-    // ============================================================================
-    // EXPERIMENT 2: Comparació d'Estratègies d'Inicialització
-    // ============================================================================
+    
     private static void experiment2_ComparacioInicialitzacio() {
         System.out.println("EXPERIMENT 2: Comparació d'Estratègies d'Inicialització");
         System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
         System.out.println();
 
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
+
         // Estratègia 1: Solució buida
         System.out.println("--- ESTRATÈGIA 1: Solució Buida ---");
         double[] beneficis1 = new double[NUM_REPETICIONS];
         long[] temps1 = new long[NUM_REPETICIONS];
+        int[] nodes_expandits1 = new int[NUM_REPETICIONS];
 
         for (int i = 0; i < NUM_REPETICIONS; i++) {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
             long start = System.currentTimeMillis();
-            beneficis1[i] = executarHillClimbing(gs, cd, 1);
+            ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 1);
+            beneficis1[i] = res.benefici;
             temps1[i] = System.currentTimeMillis() - start;
+            nodes_expandits1[i] = res.nodes_expandits;
         }
-        imprimirEstadistiques("Buida", beneficis1, temps1);
+        imprimirEstadistiques("Buida", beneficis1, temps1, nodes_expandits1);
 
         // Estratègia 2: Solució greedy
         System.out.println("\n--- ESTRATÈGIA 2: Solució Greedy ---");
         double[] beneficis2 = new double[NUM_REPETICIONS];
         long[] temps2 = new long[NUM_REPETICIONS];
+        int[] nodes_expandits2 = new int[NUM_REPETICIONS];
 
         for (int i = 0; i < NUM_REPETICIONS; i++) {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
             long start = System.currentTimeMillis();
-            beneficis2[i] = executarHillClimbing(gs, cd, 2);
+            ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 1);
+            beneficis2[i] = res.benefici;
             temps2[i] = System.currentTimeMillis() - start;
+            nodes_expandits2[i] = res.nodes_expandits;
         }
-        imprimirEstadistiques("Greedy", beneficis2, temps2);
+        imprimirEstadistiques("Greedy", beneficis2, temps2, nodes_expandits2);
 
         // Comparació
         System.out.println("\n--- COMPARACIÓ ---");
@@ -265,9 +380,7 @@ public class Main {
         System.out.println("Millora Greedy vs Buida: " + String.format("%.2f", milloraBenefici) + "%");
     }
 
-    // ============================================================================
-    // EXPERIMENT 3: Optimització Paràmetres Simulated Annealing
-    // ============================================================================
+   
     private static void experiment3_ParametresSA() {
         System.out.println("EXPERIMENT 3: Optimització Paràmetres Simulated Annealing");
         System.out.println("Escenari: 10 centres, 1 camió/centre, 100 gasolineres");
@@ -323,13 +436,17 @@ public class Main {
         System.out.println("Benefici: " + String.format("%.2f", millorBenefici) + " €");
     }
 
-    // ============================================================================
-    // EXPERIMENT 4: Escalabilitat
-    // ============================================================================
+   
     private static void experiment4_Escalabilitat() {
         System.out.println("EXPERIMENT 4: Escalabilitat (proporció 10:100)");
         System.out.println();
 
+<<<<<<< HEAD
+=======
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
+
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
         int[] tamanys = { 10, 20, 30, 40, 50 }; // Centres
 
         System.out.println("Centres\tGasolineres\tTemps Mig (ms)\tBenefici Mig (€)");
@@ -346,7 +463,8 @@ public class Main {
                 CentrosDistribucion cd = new CentrosDistribucion(centres, 1, 1234 + i);
 
                 long start = System.currentTimeMillis();
-                beneficis[i] = executarHillClimbing(gs, cd, 2);
+                beneficis[i] = executarHillClimbing(gs, cd, conjunt, 2)
+                               .benefici;
                 temps[i] = System.currentTimeMillis() - start;
             }
 
@@ -357,12 +475,13 @@ public class Main {
         }
     }
 
-    // ============================================================================
-    // EXPERIMENT 5: Reducció de Centres
-    // ============================================================================
+    
     private static void experiment5_ReduccioCentres() {
         System.out.println("EXPERIMENT 5: Reducció de Centres");
         System.out.println();
+
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
 
         // Escenari original: 10 centres, 1 camió/centre
         System.out.println("--- ESCENARI ORIGINAL: 10 centres, 1 camió/centre ---");
@@ -373,7 +492,11 @@ public class Main {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
+<<<<<<< HEAD
             ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
+=======
+            ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 2);
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
             beneficis1[i] = res.benefici;
             peticionsServides1[i] = res.peticionsServides;
         }
@@ -390,7 +513,11 @@ public class Main {
             Gasolineras gs = new Gasolineras(100, 1234 + i);
             CentrosDistribucion cd = new CentrosDistribucion(5, 2, 1234 + i);
 
+<<<<<<< HEAD
             ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
+=======
+            ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 2);
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
             beneficis2[i] = res.benefici;
             peticionsServides2[i] = res.peticionsServides;
         }
@@ -406,12 +533,12 @@ public class Main {
         System.out.println("Diferència de peticions: " + String.format("%.1f", difPeticions));
     }
 
-    // ============================================================================
-    // EXPERIMENT 6: Efecte del Cost per Kilòmetre
-    // ============================================================================
+   
     private static void experiment6_CostKilometre() {
         System.out.println("EXPERIMENT 6: Efecte del Cost per Kilòmetre");
         System.out.println();
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
 
         double[] costs = { 2, 4, 8, 16, 32 };
 
@@ -429,7 +556,12 @@ public class Main {
                 Gasolineras gs = new Gasolineras(100, 1234 + i);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + i);
 
+<<<<<<< HEAD
                 ResultatExperiment res = executarHillClimbingAmbStats(gs, cd);
+=======
+                ResultatExperiment res = executarHillClimbing(gs, cd, conjunt, 
+                                                              2);
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
                 beneficiMig += res.benefici;
                 peticionsServidesTotal += res.peticionsServides;
             }
@@ -444,13 +576,17 @@ public class Main {
         PracticaBoard.setCostPerKm(2.0);
     }
 
-    // ============================================================================
-    // EXPERIMENT 7: Variació de l'Horari de Feina
-    // ============================================================================
+    
     private static void experiment7_VariacioHorari() {
         System.out.println("EXPERIMENT 7: Variació de l'Horari de Feina");
         System.out.println();
 
+<<<<<<< HEAD
+=======
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
+
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
         int[] hores = { 7, 8, 9 }; // -1h, normal, +1h
         int[] kmsMax = { 560, 640, 720 }; // 7h, 8h, 9h a 80km/h
 
@@ -465,7 +601,8 @@ public class Main {
             for (int rep = 0; rep < NUM_REPETICIONS; rep++) {
                 Gasolineras gs = new Gasolineras(100, 1234 + rep);
                 CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234 + rep);
-                beneficiMig += executarHillClimbing(gs, cd, 2);
+                beneficiMig += executarHillClimbing(gs, cd, conjunt, 2)
+                               .benefici;
             }
             beneficiMig /= NUM_REPETICIONS;
 
@@ -476,9 +613,13 @@ public class Main {
         PracticaBoard.setMaxKmDia(640);
     }
 
+<<<<<<< HEAD
     // =========================================================================
     // EXPERIMENT 8: ESPECIAL (punt extra!)
     // =========================================================================
+=======
+    
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
     private static void experiment8_Especial() {
         System.out.println("EXPERIMENT 8: ESPECIAL amb llavor 1234");
         System.out.println("Escenari: 10 centres, 1 camió/centre," +
@@ -530,12 +671,17 @@ public class Main {
         }
     }
 
+<<<<<<< HEAD
     // =========================================================================
     // PROVA RÀPIDA (per debug)
     // =========================================================================
+=======
+
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
     private static void provaRapida() {
         System.out.println("PROVA RÀPIDA - Debug");
         System.out.println();
+        
 
         Gasolineras gs = new Gasolineras(10, 1234);
         CentrosDistribucion cd = new CentrosDistribucion(3, 1, 1234);
@@ -551,7 +697,9 @@ public class Main {
         System.out.println("Peticions totals: " + totalPeticions);
 
         System.out.println("\nExecutant Hill Climbing...");
-        double benefici = executarHillClimbing(gs, cd, 2);
+        ConjuntOperadors conjunt = new ConjuntOperadors("Tots", true, true, 
+                                                        true, true, true);
+        double benefici = executarHillClimbing(gs, cd, conjunt, 2).benefici;
         System.out.println("Benefici: " + String.format("%.2f", benefici) + " €");
 
         System.out.println("\nExecutant Simulated Annealing...");
@@ -559,6 +707,7 @@ public class Main {
         System.out.println("Benefici SA: " + String.format("%.2f", beneficiSA) + " €");
     }
 
+<<<<<<< HEAD
     // =========================================================================
     // FUNCIONS AUXILIARS
     // =========================================================================
@@ -610,12 +759,27 @@ public class Main {
             return new ResultatExperiment(0, 0, 0);
         }
     }
+=======
+    
+    // Funcions auxiliars
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
-    private static double executarHillClimbing(Gasolineras gs, CentrosDistribucion cd, int estrategia) {
+    private static ResultatExperiment executarHillClimbing(
+        Gasolineras gs, CentrosDistribucion cd, 
+        ConjuntOperadors conjunt, int estrategia
+    ) {
         try {
             Problem problem = new Problem(
                     new PracticaBoard(gs, cd, estrategia),
+<<<<<<< HEAD
                     new PracticaSuccessorFunction(true, true, true, false, true),
+=======
+                    new PracticaSuccessorFunction(conjunt.afegir, 
+                                                  conjunt.treure, 
+                                                  conjunt.moure, 
+                                                  conjunt.intercanviar, 
+                                                  conjunt.crear),
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
 
@@ -624,15 +788,41 @@ public class Main {
 
             // Obtenir estat final i calcular benefici
             PracticaBoard estatFinal = (PracticaBoard) search.getGoalState();
+<<<<<<< HEAD
             PracticaHeuristicFunction heuristica = new PracticaHeuristicFunction();
             return -heuristica.getHeuristicValue(estatFinal); // Negem perquè està en negatiu
+=======
+            PracticaHeuristicFunction heur = new PracticaHeuristicFunction();
+            double benefici = -heur.getHeuristicValueSimple(estatFinal);
+            
+            // Comptar peticions servides i km recorreguts
+            int peticionsServides = 0;
+            double kmRecorreguts = 0;
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
-        } catch (Exception e) {
+            for (int i = 0; i < estatFinal.getNumCamions(); i++) {
+                for (Viatge v : estatFinal.getViatgesPerCamio()[i]) {
+                    peticionsServides += v.getPeticionsServides().size();
+                    kmRecorreguts += v.calcularDistancia();
+                }
+            }
+
+            int nodes_expandits = Integer.parseInt(
+                                    agent.getInstrumentation()
+                                         .getProperty("nodesExpanded")
+                                  );
+
+            return new ResultatExperiment(benefici, peticionsServides, 
+                                          kmRecorreguts, nodes_expandits);
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Error: " + e.getMessage());
-            return 0;
+            return new ResultatExperiment(0, 0, 0, 0);
         }
     }
 
+<<<<<<< HEAD
     private static double executarSimulatedAnnealing(Gasolineras gs, CentrosDistribucion cd,
                                                      int iter, int steps,
                                                      int k, double lambda) {
@@ -642,13 +832,27 @@ public class Main {
                     new PracticaSuccessorFunctionSA(), // ✅ Utilitzem la versió SA!
                     new PracticaGoalTest(),
                     new PracticaHeuristicFunction());
+=======
+    private static double executarSimulatedAnnealing(
+        Gasolineras gs, CentrosDistribucion cd,
+        int iter, int steps, int k, double lambda
+    ) {
+        try {
+            Problem problem = new Problem(
+                new PracticaBoard(gs, cd, 2),
+                new PracticaSuccessorFunctionSA(),
+                new PracticaGoalTest(),
+                new PracticaHeuristicFunction()
+            );
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
 
-            Search search = new SimulatedAnnealingSearch(iter, steps, k, lambda);
+            Search search = new SimulatedAnnealingSearch(iter, steps, k, 
+                                                         lambda);
             SearchAgent agent = new SearchAgent(problem, search);
 
             PracticaBoard estatFinal = (PracticaBoard) search.getGoalState();
-            PracticaHeuristicFunction heuristica = new PracticaHeuristicFunction();
-            return -heuristica.getHeuristicValue(estatFinal);
+            PracticaHeuristicFunction heur = new PracticaHeuristicFunction();
+            return -heur.getHeuristicValue(estatFinal);
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -656,22 +860,37 @@ public class Main {
         }
     }
 
-    private static void imprimirEstadistiques(String nom, double[] beneficis, long[] temps) {
+    private static void imprimirEstadistiques(String nom, double[] beneficis, 
+                                              long[] temps, 
+                                              int[] nodes_expandits) 
+    {
         System.out.println("\n--- Estadístiques: " + nom + " ---");
-        System.out.println("Benefici mig: " + String.format("%.2f", calcularMitjana(beneficis)) + " €");
-        System.out.println("Desviació est: " + String.format("%.2f", calcularDesviacio(beneficis)) + " €");
-        System.out.println("Mínim: " + String.format("%.2f", calcularMin(beneficis)) + " €");
-        System.out.println("Màxim: " + String.format("%.2f", calcularMax(beneficis)) + " €");
+        System.out.println("Benefici mig: " + String.format("%.2f", 
+                           calcularMitjana(beneficis)) + " €");
+        System.out.println("Desviació est: " + String.format("%.2f", 
+                           calcularDesviacio(beneficis)) + " €");
+        System.out.println("Mínim: " + 
+                           String.format("%.2f", calcularMin(beneficis)) + 
+                           " €");
+        System.out.println("Màxim: " + 
+                           String.format("%.2f", calcularMax(beneficis)) + 
+                           " €");
+        System.out.println("Nodes expandits promig: " + String.format("%.0f", 
+                           calcularMitjana(nodes_expandits)));
 
         if (temps != null) {
-            System.out.println("Temps mig: " + String.format("%.0f", calcularMitjana(temps)) + " ms");
+            System.out.println("Temps mig: " + 
+                               String.format("%.0f", calcularMitjana(temps)) + 
+                               " ms");
         }
     }
 
-    private static double calcularMitjana(double[] dades) {
+    private static double calcularMitjana(double[] dades) 
+    {
         double suma = 0;
         for (double d : dades)
             suma += d;
+<<<<<<< HEAD
         return suma / dades.length;
     }
 
@@ -679,26 +898,44 @@ public class Main {
         double suma = 0;
         for (int d : dades)
             suma += d;
+=======
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
         return suma / dades.length;
     }
 
-    private static double calcularMitjana(long[] dades) {
+    private static double calcularMitjana(int[] dades) 
+    {
+        double suma = 0;
+<<<<<<< HEAD
+        for (long d : dades)
+=======
+        for (int d : dades)
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
+            suma += d;
+        return suma / dades.length;
+    }
+
+    private static double calcularMitjana(long[] dades) 
+    {
         double suma = 0;
         for (long d : dades)
             suma += d;
         return suma / dades.length;
     }
 
-    private static double calcularDesviacio(double[] dades) {
+    private static double calcularDesviacio(double[] dades) 
+    {
         double mitjana = calcularMitjana(dades);
         double sumQuadrats = 0;
-        for (double d : dades) {
+        for (double d : dades) 
+        {
             sumQuadrats += Math.pow(d - mitjana, 2);
         }
         return Math.sqrt(sumQuadrats / dades.length);
     }
 
-    private static double calcularMin(double[] dades) {
+    private static double calcularMin(double[] dades) 
+    {
         double min = dades[0];
         for (double d : dades)
             if (d < min)
@@ -706,7 +943,8 @@ public class Main {
         return min;
     }
 
-    private static double calcularMax(double[] dades) {
+    private static double calcularMax(double[] dades) 
+    {
         double max = dades[0];
         for (double d : dades)
             if (d > max)
@@ -714,11 +952,68 @@ public class Main {
         return max;
     }
 
+<<<<<<< HEAD
     private static void printInstrumentation(Properties properties) {
         for (Object o : properties.keySet()) {
+=======
+    private static void printInstrumentation(Properties properties) 
+    {
+        for (Object o : properties.keySet()) 
+        {
+>>>>>>> ea54be6591a350c59b721bc86bbb347cd0f78251
             String key = (String) o;
             String property = properties.getProperty(key);
             System.out.println(key + " : " + property);
+        }
+    }
+
+    private static BufferedWriter inicialitzarFitxerExperiment(String nomExperiment, int num_exp) {
+        String nomFitxer = nomExperiment.replaceAll("\\s+", "-")
+                                        .toLowerCase() + ".txt";
+
+        String directori = "./resultats/experiment-" + 
+                           Integer.toString(num_exp);
+        java.nio.file.Path pathDir = java.nio.file.Paths.get(directori);
+
+        try {
+
+            if (!java.nio.file.Files.exists(pathDir)) {
+                java.nio.file.Files.createDirectories(pathDir);
+            }
+
+            // Ruta completa del fitxer
+            java.nio.file.Path pathFitxer = pathDir.resolve(nomFitxer);
+
+            // Si ja existeix, l’esborrem
+            java.nio.file.Files.deleteIfExists(pathFitxer);
+
+            // Obrim el fitxer per escriure (en mode append = true)
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathFitxer.toFile(), true));
+
+            // Escriure capçalera
+            writer.write("Execucio || Benefici (€) || Temps (ms)|| " + 
+                         "PeticionsServides || KmRecorreguts || " +
+                         "NodesExpandits\n");
+            writer.flush();
+
+            return writer;
+        } catch (IOException e) {
+            System.out.println("❌ Error creant el fitxer: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private static void guardarResultat(BufferedWriter writer, int execucio,    ResultatExperiment res, long temps) {
+        try {
+            writer.write(execucio + " || " + 
+                         String.format("%.2f", res.benefici) + " || " +
+                         temps + " || " +
+                         res.peticionsServides + " || " +
+                         String.format("%.2f", res.kmRecorreguts) + " || " +
+                         res.nodes_expandits + "\n");
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("❌ Error escrivint resultat: " + e.getMessage());
         }
     }
 }

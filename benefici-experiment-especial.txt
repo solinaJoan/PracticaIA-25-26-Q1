@@ -1,0 +1,9 @@
+Algorisme usat: Hill Climbing
+
+Resultats:
+- Benefici obtingut: 94236.00 €
+- Temps d'execució: 2 ms
+
+Instrumentació:
+nodesExpanded: 1
+
