@@ -1,0 +1,11 @@
+# Fitxers d'IntelliJ IDEA
+.idea/
+*.iml
+
+# Fitxers de compilació
+out/
+target/
+
+# Fitxers temporals i scripts
+*.log
+*.zip
