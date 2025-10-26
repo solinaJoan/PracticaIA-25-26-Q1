@@ -1,0 +1,137 @@
+\babel@toc {catalan}{}\relax 
+\contentsline {section}{\numberline {1}Introducció}{6}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Context del problema }{6}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Objectius}{6}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Definició del problema}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Introducció al problema}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Elements del problema}{6}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Centres de distribució i camions cisterna}{7}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Gasolineres i peticions d'abastiment}{7}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Estructura d'un viatge}{7}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}Model de càlcul de distàncies}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Justificació com a problema de cerca local}{8}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Representació de l'estat}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}La importància de la representació}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Anàlisi previ de l'espai de cerca}{9}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Càlcul teòric de la mida de l'espai}{9}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.3}Estructura de dades escollida}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Components de l'estat}{9}{subsubsection.3.3.1}%
+\contentsline {paragraph}{Dades estàtiques:}{9}{section*.5}%
+\contentsline {paragraph}{Dades dinàmiques:}{10}{section*.6}%
+\contentsline {subsection}{\numberline {3.4}Complexitat espacial i temporal}{11}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Complexitat espacial}{11}{subsubsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.5}Alternatives considerades i descartades}{11}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Representació com a llista plana de tuples}{11}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Representació amb grafs}{11}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Representació amb informació redundant}{12}{subsubsection.3.5.3}%
+\contentsline {section}{\numberline {4}Estratègies de generació de la solució inicial}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Imporsdfasdfasftància de la solució inicial}{12}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Estratègies proposades}{12}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Estratègia 1: Solució buida}{12}{subsubsection.4.2.1}%
+\contentsline {paragraph}{Descripció:}{12}{section*.7}%
+\contentsline {paragraph}{Avantatges:}{12}{section*.8}%
+\contentsline {paragraph}{Inconvenients:}{13}{section*.9}%
+\contentsline {subsubsection}{\numberline {4.2.2}Estratègia 2: Assignació aleatòria}{13}{subsubsection.4.2.2}%
+\contentsline {paragraph}{Descripció:}{13}{section*.10}%
+\contentsline {paragraph}{Avantatges:}{13}{section*.11}%
+\contentsline {paragraph}{Inconvenients:}{13}{section*.12}%
+\contentsline {subsubsection}{\numberline {4.2.3}Estratègia 3: Assignació avariciosa per benefici}{13}{subsubsection.4.2.3}%
+\contentsline {paragraph}{Descripció:}{13}{section*.13}%
+\contentsline {paragraph}{Càlcul del benefici d'una petició:}{14}{lstlisting.4}%
+\contentsline {paragraph}{Avantatges:}{14}{section*.15}%
+\contentsline {paragraph}{Inconvenients:}{14}{section*.16}%
+\contentsline {subsubsection}{\numberline {4.2.4}Estratègia 4: Assignació avariciosa per proximitat geogràfica}{15}{subsubsection.4.2.4}%
+\contentsline {paragraph}{Descripció:}{15}{section*.17}%
+\contentsline {paragraph}{Avantatges:}{15}{section*.18}%
+\contentsline {paragraph}{Inconvenients:}{15}{section*.19}%
+\contentsline {subsection}{\numberline {4.3}Comparació teòrica de les estratègies}{15}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Estratègies escollides per experimentació}{15}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Implementació de la solució escollida}{16}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Expectatives per a l'experimentació}{17}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Funció heurística}{17}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Objectiu de la funció heurística}{17}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Factors que intervenen}{18}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Benefici de les peticions servides}{18}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Penalització de les peticions no servides}{18}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Cost dels quilòmetres}{18}{subsubsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.3}Funcions heurístiques proposades}{18}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Heurística H1: Només benefici}{19}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Heurística H2: Benefici amb penalització}{19}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Heurística H3: Benefici amb ponderacions}{19}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Anàlisi de les ponderacions}{19}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Heurística escollida}{19}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Admissibilitat de la heurística}{20}{subsection.5.6}%
+\contentsline {subsubsection}{\numberline {5.6.1}Configuració}{20}{subsubsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.2}Resultats}{21}{subsubsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.3}Detall per camió}{21}{subsubsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.4}Anàlisi}{21}{subsubsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.7}Comparació Hill Climbing vs Simulated Annealing}{22}{subsection.5.7}%
+\contentsline {subsubsection}{\numberline {5.7.1}Resum comparatiu}{22}{subsubsection.5.7.1}%
+\contentsline {subsubsection}{\numberline {5.7.2}Anàlisi estadística}{22}{subsubsection.5.7.2}%
+\contentsline {subsubsection}{\numberline {5.7.3}Capacitat d'escapar d'òptims locals}{23}{subsubsection.5.7.3}%
+\contentsline {subsection}{\numberline {5.8}Síntesi dels resultats experimentals}{23}{subsection.5.8}%
+\contentsline {subsubsection}{\numberline {5.8.1}Decisions validades}{23}{subsubsection.5.8.1}%
+\contentsline {subsubsection}{\numberline {5.8.2}Conclusions sobre el problema}{24}{subsubsection.5.8.2}%
+\contentsline {subsubsection}{\numberline {5.8.3}Lliçons apreses}{24}{subsubsection.5.8.3}%
+\contentsline {subsection}{\numberline {5.9}Validació de les hipòtesis inicials}{24}{subsection.5.9}%
+\contentsline {section}{\numberline {6}Experimentació}{25}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Metodologia experimental}{25}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Condicions generals}{25}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}Escenari base}{25}{subsubsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.2}Experiment 1: Comparació d'operadors}{25}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Objectiu}{25}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Configuració}{25}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Resultats}{26}{subsubsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.4}Anàlisi}{26}{subsubsection.6.2.4}%
+\contentsline {subsection}{\numberline {6.3}Experiment 2: Comparació de solucions inicials}{26}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Objectiu}{26}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Configuració}{27}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Resultats}{27}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}Anàlisi}{27}{subsubsection.6.3.4}%
+\contentsline {subsection}{\numberline {6.4}Experiment 3: Ajust de paràmetres del Simulated Annealing}{28}{subsection.6.4}%
+\contentsline {subsubsection}{\numberline {6.4.1}Objectiu}{28}{subsubsection.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.4.2}Configuració}{28}{subsubsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.3}Paràmetres explorats}{28}{subsubsection.6.4.3}%
+\contentsline {subsubsection}{\numberline {6.4.4}Metodologia d'ajust}{28}{subsubsection.6.4.4}%
+\contentsline {subsubsection}{\numberline {6.4.5}Resultats Fase 1: Exploració inicial}{29}{subsubsection.6.4.5}%
+\contentsline {subsubsection}{\numberline {6.4.6}Anàlisi de la temperatura}{29}{subsubsection.6.4.6}%
+\contentsline {subsubsection}{\numberline {6.4.7}Resultats Fase 3: Ajust del nombre d'iteracions}{29}{subsubsection.6.4.7}%
+\contentsline {subsubsection}{\numberline {6.4.8}Paràmetres finals escollits}{29}{subsubsection.6.4.8}%
+\contentsline {subsection}{\numberline {6.5}Experiment 4: Escalabilitat temporal}{30}{subsection.6.5}%
+\contentsline {subsubsection}{\numberline {6.5.1}Objectiu}{30}{subsubsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.2}Configuració}{30}{subsubsection.6.5.2}%
+\contentsline {subsubsection}{\numberline {6.5.3}Resultats}{30}{subsubsection.6.5.3}%
+\contentsline {subsubsection}{\numberline {6.5.4}Anàlisi}{30}{subsubsection.6.5.4}%
+\contentsline {subsection}{\numberline {6.6}Experiment 5: Reducció de centres amb mateix nombre de camions}{31}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.6.1}Objectiu}{31}{subsubsection.6.6.1}%
+\contentsline {subsubsection}{\numberline {6.6.2}Configuració}{31}{subsubsection.6.6.2}%
+\contentsline {subsubsection}{\numberline {6.6.3}Resultats}{31}{subsubsection.6.6.3}%
+\contentsline {subsubsection}{\numberline {6.6.4}Anàlisi}{31}{subsubsection.6.6.4}%
+\contentsline {subsection}{\numberline {6.7}Experiment 6: Variació del cost per quilòmetre}{32}{subsection.6.7}%
+\contentsline {subsubsection}{\numberline {6.7.1}Objectiu}{32}{subsubsection.6.7.1}%
+\contentsline {subsubsection}{\numberline {6.7.2}Configuració}{32}{subsubsection.6.7.2}%
+\contentsline {subsubsection}{\numberline {6.7.3}Resultats}{32}{subsubsection.6.7.3}%
+\contentsline {subsubsection}{\numberline {6.7.4}Anàlisi per proporció de dies d'espera}{33}{subsubsection.6.7.4}%
+\contentsline {subsubsection}{\numberline {6.7.5}Anàlisi}{33}{subsubsection.6.7.5}%
+\contentsline {subsection}{\numberline {6.8}Experiment 7: Variació de les hores de treball}{33}{subsection.6.8}%
+\contentsline {subsubsection}{\numberline {6.8.1}Objectiu}{33}{subsubsection.6.8.1}%
+\contentsline {subsubsection}{\numberline {6.8.2}Configuració}{34}{subsubsection.6.8.2}%
+\contentsline {subsubsection}{\numberline {6.8.3}Resultats}{34}{subsubsection.6.8.3}%
+\contentsline {subsubsection}{\numberline {6.8.4}Anàlisi}{34}{subsubsection.6.8.4}%
+\contentsline {section}{\numberline {7}Conclusions}{35}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Resum del treball realitzat}{35}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Objectius assolits}{35}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Principals conclusions}{35}{subsection.7.3}%
+\contentsline {subsubsection}{\numberline {7.3.1}Sobre la representació i operadors}{35}{subsubsection.7.3.1}%
+\contentsline {subsubsection}{\numberline {7.3.2}Sobre la funció heurística}{36}{subsubsection.7.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.3}Sobre els algoritmes}{36}{subsubsection.7.3.3}%
+\contentsline {subsubsection}{\numberline {7.3.4}Sobre el problema}{37}{subsubsection.7.3.4}%
+\contentsline {subsection}{\numberline {7.4}Valoració personal}{37}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}Dificultats trobades}{37}{subsubsection.7.4.1}%
+\contentsline {subsubsection}{\numberline {7.4.2}Aprenentatges principals}{38}{subsubsection.7.4.2}%
+\contentsline {subsubsection}{\numberline {7.4.3}Valoració del treball en equip}{38}{subsubsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.5}Possibles millores i treball futur}{38}{subsection.7.5}%
+\contentsline {subsubsection}{\numberline {7.5.1}Millores de la implementació actual}{38}{subsubsection.7.5.1}%
+\contentsline {subsubsection}{\numberline {7.5.2}Extensions del problema}{39}{subsubsection.7.5.2}%
+\contentsline {subsubsection}{\numberline {7.5.3}Altres algoritmes a explorar}{39}{subsubsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.6}Conclusions finals}{40}{subsection.7.6}%

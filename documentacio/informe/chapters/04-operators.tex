@@ -1,0 +1,275 @@
+\section{Operadors de búsqueda}
+\label{sec:operators}
+
+\subsection{Descripció detallada dels operadors}
+
+Els operadors són les accions que ens permeten moure'ns per l'espai de solucions. Cada operador agafa un estat i genera un nou estat modificant lleugerament l'assignació de peticions. La clau és dissenyar operadors que permetin arribar a qualsevol solució però que tinguin un factor de ramificació raonable.
+
+\subsubsection{Operador AddPeticio}
+
+Aquest operador agafa una petició que no està servida i l'assigna a un camió.
+
+\textbf{Condicions d'aplicabilitat:}
+\begin{itemize}
+    \item Hi ha peticions no servides
+    \item El camió no supera els 640 km després d'afegir la petició
+    \item El camió no supera els 5 viatges
+\end{itemize}
+
+\textbf{Funcionament:}
+\begin{algorithm}[H]
+\caption{Operador AddPeticio}
+\begin{algorithmic}[1]
+\For{cada camió $c$}
+    \For{cada petició no servida $p$}
+        \State $nou \gets$ clonar(estat\_actual)
+        \State afegir petició $p$ al camió $c$ en $nou$
+        \If{$nou$ és vàlid}
+            \State afegir $nou$ a la llista de successors
+        \EndIf
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Factor de ramificació:} $O(n \times p_{ns})$ on $p_{ns}$ són les peticions no servides.
+
+Per l'escenari base: $10 \section{Operadors de búsqueda}
+\label{sec:operators}
+
+\subsection{Anàlisi dels operadors necessaris}
+
+Per explorar adequadament l'espai de solucions, necessitem operadors que permetin:
+
+\begin{enumerate}
+    \item Afegir peticions no servides
+    \item Eliminar peticions assignades
+    \item Moure peticions entre camions
+    \item Reorganitzar l'ordre dins d'un camió
+    \item Modificar l'agrupació en viatges
+\end{enumerate}
+
+\subsection{Conjunts d'operadors proposats}
+
+\subsubsection{Conjunt A: Operadors bàsics}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
+\midrule
+AddPeticio & Afegeix petició no servida & $O(n \times p)$ \\
+RemovePeticio & Elimina petició servida & $O(p)$ \\
+MovePeticio & Mou petició entre camions & $O(n \times p)$ \\
+\bottomrule
+\end{tabular}
+\caption{Conjunt A d'operadors}
+\label{tab:operators-a}
+\end{table}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Simplicitat d'implementació
+    \item Factor de ramificació controlat
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Pot requerir molts passos per reorganitzacions complexes
+    \item Exploració lenta de l'espai
+\end{itemize}
+
+\subsubsection{Conjunt B: Operadors avançats}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
+\midrule
+AddPeticio & Afegeix petició & $O(n \times p)$ \\
+RemovePeticio & Elimina petició & $O(p)$ \\
+SwapPeticions & Intercanvia 2 peticions & $O(p^2)$ \\
+ReassignViatge & Reassigna viatge complet & $O(n \times v)$ \\
+\bottomrule
+\end{tabular}
+\caption{Conjunt B d'operadors}
+\label{tab:operators-b}
+\end{table}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Permet canvis més grans en un sol pas
+    \item Major exploració de l'espai
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Factor de ramificació més alt
+    \item Temps per explorar tots els successors més elevat
+\end{itemize}
+
+\subsection{Operadors escollits (Conjunt final)}
+
+Després d'analitzar els avantatges i inconvenients, hem escollit el \textbf{Conjunt C}, que combina:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
+\midrule
+AddPeticio & Afegeix petició a un camió & $O(n \times p_{ns})$ \\
+RemovePeticio & Elimina petició servida & $O(p_s)$ \\
+MovePeticio & Mou petició entre camions & $O(n \times p_s)$ \\
+SwapPeticions & Intercanvia peticions & $O(p_s^2)$ \\
+\bottomrule
+\end{tabular}
+\caption{Conjunt final d'operadors (on $p_s$ = peticions servides, $p_{ns}$ = no servides)}
+\label{tab:operators-final}
+\end{table}
+
+\subsection{Descripció detallada dels operadors}
+
+\subsubsection{AddPeticio}
+
+\begin{algorithm}[H]
+\caption{Operador AddPeticio}
+\begin{algorithmic}[1]
+\For{cada camió $c$}
+    \For{cada petició no servida $p$}
+        \State $nou\_estat \gets estat.clone()$
+        \State Afegir $p$ al camió $c$ en $nou\_estat$
+        \If{$nou\_estat.esValid()$}
+            \State Afegir $nou\_estat$ a successors
+        \EndIf
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Condicions d'aplicabilitat:}
+\begin{itemize}
+    \item Hi ha peticions no servides
+    \item El camió no excedeix 640 km
+    \item El camió no excedeix 5 viatges
+\end{itemize}
+
+\subsubsection{RemovePeticio}
+
+\begin{algorithm}[H]
+\caption{Operador RemovePeticio}
+\begin{algorithmic}[1]
+\For{cada petició servida $p$}
+    \State $nou\_estat \gets estat.clone()$
+    \State Eliminar $p$ de l'assignació en $nou\_estat$
+    \State Afegir $nou\_estat$ a successors
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Utilitat:}
+Permet desfer assignacions no òptimes per fer espai a millors opcions.
+
+\subsubsection{MovePeticio}
+
+\begin{algorithm}[H]
+\caption{Operador MovePeticio}
+\begin{algorithmic}[1]
+\For{cada petició servida $p$}
+    \For{cada camió destí $c$}
+        \If{$c \neq camio\_actual(p)$}
+            \State $nou\_estat \gets estat.clone()$
+            \State Moure $p$ de camió actual a $c$
+            \If{$nou\_estat.esValid()$}
+                \State Afegir $nou\_estat$ a successors
+            \EndIf
+        \EndIf
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Condicions d'aplicabilitat:}
+\begin{itemize}
+    \item El camió destí no excedeix límits després del moviment
+\end{itemize}
+
+\subsubsection{SwapPeticions}
+
+\begin{algorithm}[H]
+\caption{Operador SwapPeticions}
+\begin{algorithmic}[1]
+\For{cada parella de peticions servides $(p_1, p_2)$}
+    \State $nou\_estat \gets estat.clone()$
+    \State Intercanviar assignacions de $p_1$ i $p_2$
+    \If{$nou\_estat.esValid()$}
+        \State Afegir $nou\_estat$ a successors
+    \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Utilitat:}
+Permet optimitzar assignacions sense canviar el nombre de peticions servides.
+
+\subsection{Factor de ramificació total}
+
+El factor de ramificació total és:
+
+\begin{equation}
+B = O(n \times p_{ns} + p_s + n \times p_s + p_s^2) = O(n \times p + p^2)
+\end{equation}
+
+Per un escenari amb 10 camions i 50 peticions servides de mitjana:
+\begin{equation}
+B \approx 10 \times 50 + 50 + 10 \times 50 + 50^2 = 500 + 50 + 500 + 2500 = 3550
+\end{equation}
+
+\subsection{Connectivitat de l'espai de búsqueda}
+
+\textbf{Teorema}: Amb aquest conjunt d'operadors, qualsevol solució vàlida és accessible des de qualsevol altra solució vàlida.
+
+\textbf{Demostració (esbós)}:
+\begin{enumerate}
+    \item Amb RemovePeticio podem arribar a l'estat buit
+    \item Amb AddPeticio podem construir qualsevol assignació
+    \item MovePeticio i SwapPeticions permeten reorganitzar sense passar per l'estat buit
+\end{enumerate}
+
+\subsection{Implementació per Hill Climbing vs Simulated Annealing}
+
+\subsubsection{Hill Climbing}
+Genera \textbf{tots} els successors aplicant exhaustivament els operadors.
+
+\begin{lstlisting}[caption={Generació de successors per HC}, label={lst:hc-gen}]
+public List<Board> getSuccessors(Board board) {
+    List<Board> successors = new ArrayList<>();
+    
+    // Aplicar tots els operadors
+    successors.addAll(applyAddPeticio(board));
+    successors.addAll(applyRemovePeticio(board));
+    successors.addAll(applyMovePeticio(board));
+    successors.addAll(applySwapPeticions(board));
+    
+    return successors;
+}
+\end{lstlisting}
+
+\subsubsection{Simulated Annealing}
+Genera \textbf{un sol} successor aleatori.
+
+\begin{lstlisting}[caption={Generació de successors per SA}, label={lst:sa-gen}]
+public Board getRandomSuccessor(Board board) {
+    Random rand = new Random();
+    int op = rand.nextInt(4);  // 4 operadors
+    
+    switch(op) {
+        case 0: return randomAddPeticio(board);
+        case 1: return randomRemovePeticio(board);
+        case 2: return randomMovePeticio(board);
+        case 3: return randomSwapPeticions(board);
+    }
+}
+\end{lstlisting}

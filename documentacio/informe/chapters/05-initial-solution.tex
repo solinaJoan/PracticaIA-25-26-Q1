@@ -1,0 +1,267 @@
+\section{Estratègies de generació de la solució inicial}
+\label{sec:initial}
+
+\subsection{Imporsdfasdfasftància de la solució inicial}
+
+La solució inicial té un impacte significatiu en la búsqueda local:
+
+\begin{itemize}
+    \item \textbf{Temps de convergència}: Una bona solució inicial redueix el nombre de passos necessaris
+    \item \textbf{Qualitat de la solució final}: Pot influir en quin òptim local s'arriba
+    \item \textbf{Cost de generació}: Cal balancejar qualitat vs temps de càlcul
+\end{itemize}
+
+\subsection{Estratègies proposades}
+
+\subsubsection{Estratègia 1: Solució buida}
+
+\paragraph{Descripció:}
+No s'assigna cap petició inicialment. Tots els camions comencen sense viatges.
+
+\begin{lstlisting}[caption={Implementació de solució buida}, label={lst:empty-init}]
+public PracticaBoard() {
+    assignacions = new ArrayList<>();
+    for (int i = 0; i < NUM_CAMIONS; i++) {
+        assignacions.add(new ArrayList<>());
+    }
+    peticionsServides = new HashSet<>();
+    beneficiTotal = calcularBenefici();
+}
+\end{lstlisting}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Temps de generació: $O(1)$ - instantani
+    \item Implementació trivial
+    \item Sempre compleix les restriccions
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Benefici inicial: 0 (pèssim)
+    \item Requereix molts passos per arribar a una bona solució
+    \item Pot quedar atrapada en òptims locals primerencs
+\end{itemize}
+
+\subsubsection{Estratègia 2: Assignació aleatòria}
+
+\paragraph{Descripció:}
+S'assignen peticions aleatòriament als camions fins que no es poden afegir més sense violar restriccions.
+
+\begin{algorithm}[H]
+\caption{Generació aleatòria de solució inicial}
+\begin{algorithmic}[1]
+\State $peticions \gets$ barrejar\_aleatoriament(totes\_peticions)
+\For{cada $p$ in $peticions$}
+    \State $camio \gets$ aleatori(0, NUM\_CAMIONS-1)
+    \State $nou\_estat \gets$ afegir\_peticio($p$, $camio$)
+    \If{$nou\_estat.esValid()$}
+        \State estat $\gets$ $nou\_estat$
+    \EndIf
+\EndFor
+\State \Return estat
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Temps de generació: $O(p)$ - ràpid
+    \item Genera solucions diferents en cada execució
+    \item Sol complir restriccions (amb validació)
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Qualitat variable segons l'aleatorietat
+    \item No garanteix aprofitar bé la capacitat dels camions
+    \item Pot deixar moltes peticions sense servir
+\end{itemize}
+
+\subsubsection{Estratègia 3: Assignació avariciosa per benefici}
+
+\paragraph{Descripció:}
+S'assignen les peticions en ordre de benefici decreixent, assignant cada petició al camió més proper que pugui servir-la.
+
+\begin{algorithm}[H]
+\caption{Generació avariciosa per benefici}
+\begin{algorithmic}[1]
+\State $peticions \gets$ ordenar\_per\_benefici\_decreixent()
+\For{cada $p$ in $peticions$}
+    \State $millor\_camio \gets$ NULL
+    \State $min\_dist \gets \infty$
+    \For{cada $camio$ in $camions$}
+        \State $dist \gets$ distancia($camio$, gasolinera\_de($p$))
+        \If{$dist < min\_dist$ AND pot\_afegir($camio$, $p$)}
+            \State $millor\_camio \gets camio$
+            \State $min\_dist \gets dist$
+        \EndIf
+    \EndFor
+    \If{$millor\_camio \neq$ NULL}
+        \State afegir\_peticio($p$, $millor\_camio$)
+    \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Càlcul del benefici d'una petició:}
+\begin{lstlisting}[caption={Càlcul del benefici}, label={lst:benefici-peticio}]
+private double calcularBeneficiPeticio(Peticio p) {
+    int dies = p.getDies();
+    double preu;
+    
+    if (dies == 0) {
+        preu = 1000 * 1.02;
+    } else {
+        preu = 1000 * (1 - Math.pow(2, dies) / 100.0);
+    }
+    return preu;
+}
+\end{lstlisting}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Prioritza les peticions més rendibles
+    \item Minimitza distàncies (menys cost)
+    \item Sol generar solucions acceptables
+    \item Temps de generació: $O(p \times n \times \log p)$ - raonable
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Pot deixar camions infrautilitzats
+    \item No considera l'agrupació òptima en viatges
+    \item Sempre genera la mateixa solució (determinista)
+\end{itemize}
+
+\subsubsection{Estratègia 4: Assignació avariciosa per proximitat geogràfica}
+
+\paragraph{Descripció:}
+Agrupa les peticions per zones geogràfiques i assigna cada zona al camió més proper.
+
+\begin{algorithm}[H]
+\caption{Generació avariciosa per proximitat}
+\begin{algorithmic}[1]
+\State $clusters \gets$ clustering\_geografic(gasolineres, NUM\_CAMIONS)
+\For{cada $cluster$ in $clusters$}
+    \State $camio \gets$ camio\_mes\_proper($cluster$)
+    \State $peticions \gets$ peticions\_del\_cluster($cluster$)
+    \State ordenar\_per\_ruta\_optima($peticions$)
+    \For{cada $p$ in $peticions$}
+        \If{pot\_afegir($camio$, $p$)}
+            \State afegir\_peticio($p$, $camio$)
+        \EndIf
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Avantatges:}
+\begin{itemize}
+    \item Minimitza distàncies totals
+    \item Aprofita millor l'agrupació geogràfica
+    \item Genera viatges més eficients
+\end{itemize}
+
+\paragraph{Inconvenients:}
+\begin{itemize}
+    \item Complexitat de càlcul més alta: $O(p^2)$
+    \item Requereix algoritme de clustering
+    \item No considera el benefici de les peticions
+\end{itemize}
+
+\subsection{Comparació teòrica de les estratègies}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Estratègia} & \textbf{Complexitat} & \textbf{Benefici} & \textbf{Distància} & \textbf{Peticions} \\
+ & \textbf{temporal} & \textbf{inicial} & \textbf{inicial} & \textbf{servides} \\
+\midrule
+Buida & $O(1)$ & Mínim & Mínima & 0 \\
+Aleatòria & $O(p)$ & Variable & Variable & Variable \\
+Per benefici & $O(p \times n \times \log p)$ & Alt & Baixa & Alta \\
+Per proximitat & $O(p^2)$ & Mitjà & Mínima & Mitjana-Alta \\
+\bottomrule
+\end{tabular}
+\caption{Comparació teòrica de les estratègies}
+\label{tab:estrategies-comp}
+\end{table}
+
+\subsection{Estratègies escollides per experimentació}
+
+Hem escollit experimentar amb les següents estratègies:
+
+\begin{enumerate}
+    \item \textbf{Estratègia buida} (E1): Com a línia base
+    \item \textbf{Estratègia avariciosa per benefici} (E3): Com a solució elaborada
+\end{enumerate}
+
+\textbf{Justificació:}
+\begin{itemize}
+    \item E1 representa el pitjor cas i és útil per veure la capacitat de millora de l'algoritme
+    \item E3 equilibra qualitat i temps de generació
+    \item Ambdues són deterministes, facilitant la comparació
+    \item L'aleatòria (E2) no és reproducible
+    \item La geogràfica (E4) és massa costosa per la millora marginal esperada
+\end{itemize}
+
+\subsection{Implementació de la solució escollida}
+
+\begin{lstlisting}[caption={Implementació de la solució avariciosa per benefici}, label={lst:greedy-impl}]
+public static PracticaBoard generarSolucioGreedy() {
+    PracticaBoard board = new PracticaBoard();
+    
+    // Ordenar peticions per benefici decreixent
+    List<Map.Entry<Integer, Peticio>> peticionsOrdenades = 
+        new ArrayList<>(peticions.entrySet());
+    peticionsOrdenades.sort((a, b) -> 
+        Double.compare(
+            calcularBeneficiPeticio(b.getValue()),
+            calcularBeneficiPeticio(a.getValue())
+        )
+    );
+    
+    // Assignar cada petició al millor camió
+    for (Map.Entry<Integer, Peticio> entry : peticionsOrdenades) {
+        int idPeticio = entry.getKey();
+        Peticio peticio = entry.getValue();
+        
+        int millorCamio = trobarMillorCamio(board, peticio);
+        
+        if (millorCamio != -1) {
+            board.afegirPeticio(idPeticio, millorCamio);
+        }
+    }
+    
+    return board;
+}
+
+private static int trobarMillorCamio(PracticaBoard board, 
+                                      Peticio peticio) {
+    int millorCamio = -1;
+    double minDistancia = Double.MAX_VALUE;
+    
+    for (int i = 0; i < NUM_CAMIONS; i++) {
+        double dist = calcularDistanciaAfegir(board, i, peticio);
+        
+        if (dist < minDistancia && 
+            board.potAfegirPeticio(i, peticio)) {
+            millorCamio = i;
+            minDistancia = dist;
+        }
+    }
+    
+    return millorCamio;
+}
+\end{lstlisting}
+
+\subsection{Expectatives per a l'experimentació}
+
+\textbf{Hipòtesi 1:} La solució avariciosa per benefici (E3) permetrà convergir més ràpidament que la solució buida (E1).
+
+\textbf{Hipòtesi 2:} La qualitat de la solució final serà similar independentment de la solució inicial, però el nombre de passos diferirà significativament.
+
+\textbf{Hipòtesi 3:} Per a Simulated Annealing, la influència de la solució inicial serà menor que per a Hill Climbing, ja que pot escapar d'òptims locals.
+
+Aquestes hipòtesis es validaran en la secció d'experimentació (Secció \ref{sec:experiments}).
