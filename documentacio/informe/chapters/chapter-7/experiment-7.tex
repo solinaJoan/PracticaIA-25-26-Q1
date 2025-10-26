@@ -1,10 +1,55 @@
 \subsection{Experiment 7: Variació de les hores de treball}
 
 \subsubsection{Objectiu}
-Analitzar l'impacte d'augmentar/reduir les hores de treball dels camions.
 
-\subsubsection{Resultats}
+L'objectiu d'aquest experiment és analitzar l'impacte que té la variació de les hores de treball dels camions cisterna sobre el benefici econòmic obtingut. Concretament, es manté constant el límit de 5 viatges diaris per camió i es modifica el nombre de quilòmetres màxims que es poden recórrer en un dia, simulant així l'efecte d'augmentar o reduir la jornada laboral en una hora.
+
+\subsubsection{Configuració experimental}
+
+Per aquest experiment s'han considerat tres escenaris diferents:
+
+\begin{itemize}
+    \item \textbf{Jornada reduïda (7 hores):} 560 km/dia
+    \item \textbf{Jornada estàndard (8 hores):} 640 km/dia
+    \item \textbf{Jornada ampliada (9 hores):} 720 km/dia
+\end{itemize}
+
+S'ha utilitzat l'algorisme Hill Climbing per optimitzar les solucions en cada escenari, executant 10 repeticions per cada configuració per garantir la validesa estadística dels resultats.
+
+\subsubsection{Anàlisi dels resultats}
+
+\paragraph{Benefici econòmic}
 
 \input{chapters/chapter-7/figures/exp-7/benefici-economic.tex}
+
+La figura anterior mostra la distribució del benefici econòmic obtingut per als tres escenaris considerats. Com es pot observar, les distribucions són pràcticament idèntiques, amb una mediana situada als 94.880€ en tots els casos. Els quartils i els bigotis del boxplot també coincideixen, indicant que la variació del límit quilomètric diari no té cap efecte apreciable sobre el benefici econòmic generat.
+
+Aquest resultat sorprèn inicialment, ja que seria raonable esperar que una major disponibilitat de quilòmetres permetés realitzar rutes més llargues o servir peticions més llunyanes que potencialment poguessin generar més benefici. No obstant això, la invariància observada suggereix que altres factors del sistema són més restrictius que el límit de quilometratge.
+
+\paragraph{Distància recorreguda}
+
 \input{chapters/chapter-7/figures/exp-7/km-recorreguts.tex}
+
+Analitzant la distància total recorreguda pels camions, s'observa novament una distribució idèntica per als tres escenaris, amb una mediana al voltant dels 2.610 km. Aquest resultat és consistent amb el comportament del benefici econòmic i proporciona una explicació del fenomen observat: els camions no utilitzen tot el límit de quilometratge disponible, ni tan sols en l'escenari més restrictiu de 560 km/dia.
+
+La distància mitjana recorreguda per camió i dia es situa molt per sota dels límits establerts en qualsevol dels tres escenaris. Això indica que la configuració de rutes òptimes trobada per l'algorisme Hill Climbing no requereix apropar-se al límit quilomètric, suggerint que les peticions es troben relativament a prop dels centres de distribució o que les rutes es poden organitzar de manera eficient sense necessitat de recórrer distàncies extenses.
+
+\paragraph{Peticions servides}
+
 \input{chapters/chapter-7/figures/exp-7/peticions-servides.tex}
+
+Finalment, el nombre de peticions servides és constant i igual a 100 en tots els escenaris analitzats. Això confirma que la flota de camions disponible té capacitat suficient per atendre totes les peticions existents, independentment del límit de quilometratge establert.
+
+Aquest resultat és clau per entendre el comportament global del sistema: cap dels límits quilomètrics imposats impedeix servir la totalitat de les peticions. Per tant, altres restriccions del problema, com ara el límit de 5 viatges diaris per camió o la capacitat dels vehicles, són les que realment determinen el rendiment del sistema.
+
+\subsubsection{Conclusions}
+
+Els resultats d'aquest experiment revelen que, en el context d'aquest problema específic, la restricció de quilometratge diari no és el factor limitant del sistema. Les possibles explicacions d'aquest comportament són:
+
+\begin{enumerate}
+    \item La distribució geogràfica de les peticions i els centres de distribució permet organitzar rutes eficients que no requereixen recórrer distàncies properes al límit establert.
+    \item El límit de 5 viatges diaris per camió es converteix en la restricció dominant, impedint que els camions realitzin més viatges independentment dels quilòmetres disponibles.
+    \item La capacitat dels vehicles i el nombre de camions disponibles són suficients per cobrir totes les peticions amb rutes relativament curtes.
+\end{enumerate}
+
+En conseqüència, augmentar o reduir la jornada laboral en una hora no genera cap millora ni deteriorament del benefici econòmic. Per millorar l'eficiència operativa del sistema, caldria revisar altres paràmetres com ara el nombre de camions disponibles, el límit de viatges diaris, o considerar conjunts de peticions més grans o geogràficament més disperses on la restricció quilomètrica pogués esdevenir realment rellevant.
