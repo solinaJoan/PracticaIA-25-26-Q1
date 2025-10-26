@@ -1,274 +1,72 @@
-\section{Operadors de búsqueda}
-\label{sec:operators}
+\section{Descripció dels Operadors}
 
-\subsection{Descripció detallada dels operadors}
+Els operadors són les accions que ens permeten moure'ns per l'espai de solucions. Cada operador agafa un estat i genera un nou estat modificant lleugerament l'assignació de peticions. La clau és dissenyar operadors que permetin arribar a qualsevol solució però que tinguin un factor de ramificació raonable. N'hem considerat 5:
 
-Els operadors són les accions que ens permeten moure'ns per l'espai de solucions. Cada operador agafa un estat i genera un nou estat modificant lleugerament l'assignació de peticions. La clau és dissenyar operadors que permetin arribar a qualsevol solució però que tinguin un factor de ramificació raonable.
+\subsection{Operador: Afegir Petició}
 
-\subsubsection{Operador AddPeticio}
+Aquest operador afegeix una petició no assignada a un viatge existent que encara no ha arribat a la seva capacitat màxima. Per poder aplicar-lo, cal que existeixi almenys una petició no assignada i almenys un viatge que no estigui ple. A més, el viatge destí ha de complir totes les restriccions després d'afegir la petició, és a dir, no pot superar la capacitat del camió, la distància total del viatge ha de romandre dins dels límits permesos, i no es pot excedir el nombre màxim de gasolineres per viatge.
 
-Aquest operador agafa una petició que no està servida i l'assigna a un camió.
+L'efecte principal és que la petició passa de la llista de no assignades a formar part del viatge seleccionat, i es recalculen automàticament tots els paràmetres del viatge com la distància i la càrrega. La implementació recorre tots els camions i tots els seus viatges, provant d'afegir cada petició no assignada a cada viatge que tingui espai disponible.
 
-\textbf{Condicions d'aplicabilitat:}
+\subsection{Operador: Treure Petició}
+
+Aquest operador fa exactament l'operació inversa a l'anterior: elimina una petició d'un viatge existent i la torna a la llista de peticions no assignades. L'única condició necessària és que existeixi almenys un viatge amb peticions assignades. No hi ha cap restricció adicional, ja que treure una petició sempre allibera espai i redueix la càrrega del viatge.
+
+Quan s'elimina una petició, aquesta es retorna a la llista de no assignades i es recalculen els paràmetres del viatge origen. Si després de treure la petició el viatge queda completament buit, aquest s'elimina automàticament. L'operador recorre tots els viatges de tots els camions i genera un successor per cada petició que pot ser eliminada. 
+
+\subsection{Operador: Moure Petició}
+
+Aquest operador transfereix una petició d'un viatge origen a un viatge destí diferent, que pot pertànyer al mateix camió o a un altre. Per aplicar-lo, el viatge origen ha de tenir almenys una petició assignada, el viatge destí no pot estar ple, i obviament origen i destí no poden ser el mateix viatge. A més, tant el viatge origen com el destí han de complir totes les restriccions després del moviment.
+
+Els efectes són una combinació dels dos operadors anteriors: la petició s'elimina del viatge origen i s'afegeix al viatge destí. Si el viatge origen queda buit després del moviment, s'elimina automàticament. L'operador considera totes les possibles combinacions de viatges origen i destí entre tots els camions, i per a cada combinació vàlida prova de moure cada petició disponible.
+
+\subsection{Operador: Intercanviar Peticions}
+
+Aquest operador intercanvia dues peticions entre dos viatges diferents, que poden pertànyer al mateix camió o a camions diferents. Cal que existeixin almenys dos viatges amb peticions assignades, que els dos viatges no siguin el mateix, i que ambdós compleixin les restriccions després de l'intercanvi.
+
+L'efecte és un simple intercanvi: cada petició passa a ocupar la posició de l'altra en el seu respectiu viatge. L'operador considera totes les parelles possibles de viatges i, per a cada parella, prova d'intercanviar cada parell de peticions possible. Només genera successors quan l'intercanvi manté les restriccions en ambdós viatges.
+
+\subsection{Operador: Crear Viatge}
+
+Aquest operador crea un nou viatge per a un camió i li assigna una petició no assignada. Les condicions són que existeixi almenys una petició no assignada, que el camió seleccionat no hagi arribat al nombre màxim de viatges permesos per dia, i que el nou viatge compleixi les restriccions.
+
+L'efecte és la creació d'un nou viatge amb una sola petició, que s'afegeix a la llista de viatges del camió. La petició passa de no assignada a assignada, i s'incrementa el comptador de viatges del camió. L'operador recorre tots els camions que encara poden acceptar més viatges i, per a cada petició no assignada, intenta crear un nou viatge si es compleixen les restriccions.
+
+\section{Anàlisi del Factor de Ramificació}
+
+El factor de ramificació determina quants successors es poden generar des d'un estat donat. Per analitzar-lo, utilitzarem la notació següent: $C$ per al nombre de camions, $V$ per al nombre total de viatges en l'estat actual, $P$ per al nombre total de peticions assignades, $P_{max}$ per al nombre màxim de peticions per viatge, i $N$ per al nombre de peticions no assignades.
+
+\subsection{Anàlisi per Operador}
+
+L'\textbf{operador afegir} itera sobre tots els viatges no plens i prova d'afegir-hi cada petició no assignada. En el pitjor cas, si tots els viatges tenen espai, genera aproximadament $V \times N$ successors. Aquesta xifra es redueix considerablement quan els viatges s'omplen, arribant a zero quan tots els viatges estan plens o no queden peticions per assignar.
+
+\vspace{0.5em}  
+L'\textbf{operador treure} genera un successor per cada petició assignada en qualsevol viatge. Això dóna un factor de ramificació de $P$ successors, que és relativament estable durant l'execució, tot i que disminueix lleugerament a mesura que s'assignen més peticions.\\[0.5em] 
+
+L'\textbf{operador moure} és més costós. Ha de considerar cada parella possible de viatges (origen i destí) i, per a cada una, provar de moure cada petició del viatge origen al destí. Això resulta en aproximadament $V^2 \times \frac{P}{V}$ successors en el cas mitjà, que es pot simplificar a $V \times P$. En el pitjor cas, quan hi ha molts viatges amb poques peticions cadascun, aquest nombre pot créixer fins a $V^2 \times P_{max}$.
+
+\vspace{0.5em}
+L'\textbf{operador intercanviar} té el factor de ramificació més elevat. Per a cada parella de viatges diferents, prova d'intercanviar cada parell de peticions entre ells. Això genera $\binom{V}{2} \times \frac{P}{V} \times \frac{P}{V}$ successors, que en el cas general és de l'ordre de $V^2 \times P^2 / V^2 = P^2$. Quan hi ha molts viatges amb poques peticions, aquest valor pot arribar a ser molt elevat.
+
+\vspace{0.5em}
+L'\textbf{operador crear} genera $C \times N$ successors en el pitjor cas, quan tots els camions poden acceptar més viatges. Aquest nombre es redueix linealment amb el nombre de peticions no assignades i amb el nombre de camions que ja han arribat al màxim de viatges permesos.
+\section{Elecció dels Operadors}
+
+Els cinc operadors han estat seleccionats per proporcionar una cobertura completa de l'espai de solucions i permetre tant la construcció incremental com l'optimització de solucions existents.
+
+\subsection{Construcció de Solucions}
 \begin{itemize}
-    \item Hi ha peticions no servides
-    \item El camió no supera els 640 km després d'afegir la petició
-    \item El camió no supera els 5 viatges
+    \item \textbf{Afegir Petició:} Operador fonamental per construir solucions des d'un estat inicial buit o parcial. Permet la construcció incremental de viatges.
+    \item \textbf{Crear Viatge:} Complementa l'operador anterior permetent iniciar nous viatges quan els existents no són adequats.
 \end{itemize}
 
-\textbf{Funcionament:}
-\begin{algorithm}[H]
-\caption{Operador AddPeticio}
-\begin{algorithmic}[1]
-\For{cada camió $c$}
-    \For{cada petició no servida $p$}
-        \State $nou \gets$ clonar(estat\_actual)
-        \State afegir petició $p$ al camió $c$ en $nou$
-        \If{$nou$ és vàlid}
-            \State afegir $nou$ a la llista de successors
-        \EndIf
-    \EndFor
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-\textbf{Factor de ramificació:} $O(n \times p_{ns})$ on $p_{ns}$ són les peticions no servides.
-
-Per l'escenari base: $10$ 
-
-\subsection{Anàlisi dels operadors necessaris}
-
-Per explorar adequadament l'espai de solucions, necessitem operadors que permetin:
-
-\begin{enumerate}
-    \item Afegir peticions no servides
-    \item Eliminar peticions assignades
-    \item Moure peticions entre camions
-    \item Reorganitzar l'ordre dins d'un camió
-    \item Modificar l'agrupació en viatges
-\end{enumerate}
-
-\subsection{Conjunts d'operadors proposats}
-
-\subsubsection{Conjunt A: Operadors bàsics}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}llr@{}}
-\toprule
-\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
-\midrule
-AddPeticio & Afegeix petició no servida & $O(n \times p)$ \\
-RemovePeticio & Elimina petició servida & $O(p)$ \\
-MovePeticio & Mou petició entre camions & $O(n \times p)$ \\
-\bottomrule
-\end{tabular}
-\caption{Conjunt A d'operadors}
-\label{tab:operators-a}
-\end{table}
-
-\paragraph{Avantatges:}
+\subsection{Millora de Solucions}
 \begin{itemize}
-    \item Simplicitat d'implementació
-    \item Factor de ramificació controlat
+    \item \textbf{Moure Petició:} Permet reequilibrar la càrrega entre viatges i camions, essencial per optimitzar distàncies i utilitzar millor la capacitat.
+    \item \textbf{Intercanviar Peticions:} Facilita l'optimització local sense canviar el nombre de peticions assignades, útil per millorar rutes sense desestabilitzar la solució.
 \end{itemize}
 
-\paragraph{Inconvenients:}
+\subsection{Exploració i Backtracking}
 \begin{itemize}
-    \item Pot requerir molts passos per reorganitzacions complexes
-    \item Exploració lenta de l'espai
+    \item \textbf{Treure Petició:} Essencial per a algoritmes de cerca local (Hill Climbing, Simulated Annealing) que necessiten poder desfer assignacions per explorar alternatives.
 \end{itemize}
-
-\subsubsection{Conjunt B: Operadors avançats}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}llr@{}}
-\toprule
-\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
-\midrule
-AddPeticio & Afegeix petició & $O(n \times p)$ \\
-RemovePeticio & Elimina petició & $O(p)$ \\
-SwapPeticions & Intercanvia 2 peticions & $O(p^2)$ \\
-ReassignViatge & Reassigna viatge complet & $O(n \times v)$ \\
-\bottomrule
-\end{tabular}
-\caption{Conjunt B d'operadors}
-\label{tab:operators-b}
-\end{table}
-
-\paragraph{Avantatges:}
-\begin{itemize}
-    \item Permet canvis més grans en un sol pas
-    \item Major exploració de l'espai
-\end{itemize}
-
-\paragraph{Inconvenients:}
-\begin{itemize}
-    \item Factor de ramificació més alt
-    \item Temps per explorar tots els successors més elevat
-\end{itemize}
-
-\subsection{Operadors escollits (Conjunt final)}
-
-Després d'analitzar els avantatges i inconvenients, hem escollit el \textbf{Conjunt C}, que combina:
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}llr@{}}
-\toprule
-\textbf{Operador} & \textbf{Descripció} & \textbf{Factor ramif.} \\
-\midrule
-AddPeticio & Afegeix petició a un camió & $O(n \times p_{ns})$ \\
-RemovePeticio & Elimina petició servida & $O(p_s)$ \\
-MovePeticio & Mou petició entre camions & $O(n \times p_s)$ \\
-SwapPeticions & Intercanvia peticions & $O(p_s^2)$ \\
-\bottomrule
-\end{tabular}
-\caption{Conjunt final d'operadors (on $p_s$ = peticions servides, $p_{ns}$ = no servides)}
-\label{tab:operators-final}
-\end{table}
-
-\subsection{Descripció detallada dels operadors}
-
-\subsubsection{AddPeticio}
-
-\begin{algorithm}[H]
-\caption{Operador AddPeticio}
-\begin{algorithmic}[1]
-\For{cada camió $c$}
-    \For{cada petició no servida $p$}
-        \State $nou\_estat \gets estat.clone()$
-        \State Afegir $p$ al camió $c$ en $nou\_estat$
-        \If{$nou\_estat.esValid()$}
-            \State Afegir $nou\_estat$ a successors
-        \EndIf
-    \EndFor
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-\textbf{Condicions d'aplicabilitat:}
-\begin{itemize}
-    \item Hi ha peticions no servides
-    \item El camió no excedeix 640 km
-    \item El camió no excedeix 5 viatges
-\end{itemize}
-
-\subsubsection{RemovePeticio}
-
-\begin{algorithm}[H]
-\caption{Operador RemovePeticio}
-\begin{algorithmic}[1]
-\For{cada petició servida $p$}
-    \State $nou\_estat \gets estat.clone()$
-    \State Eliminar $p$ de l'assignació en $nou\_estat$
-    \State Afegir $nou\_estat$ a successors
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-\textbf{Utilitat:}
-Permet desfer assignacions no òptimes per fer espai a millors opcions.
-
-\subsubsection{MovePeticio}
-
-\begin{algorithm}[H]
-\caption{Operador MovePeticio}
-\begin{algorithmic}[1]
-\For{cada petició servida $p$}
-    \For{cada camió destí $c$}
-        \If{$c \neq camio\_actual(p)$}
-            \State $nou\_estat \gets estat.clone()$
-            \State Moure $p$ de camió actual a $c$
-            \If{$nou\_estat.esValid()$}
-                \State Afegir $nou\_estat$ a successors
-            \EndIf
-        \EndIf
-    \EndFor
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-\textbf{Condicions d'aplicabilitat:}
-\begin{itemize}
-    \item El camió destí no excedeix límits després del moviment
-\end{itemize}
-
-\subsubsection{SwapPeticions}
-
-\begin{algorithm}[H]
-\caption{Operador SwapPeticions}
-\begin{algorithmic}[1]
-\For{cada parella de peticions servides $(p_1, p_2)$}
-    \State $nou\_estat \gets estat.clone()$
-    \State Intercanviar assignacions de $p_1$ i $p_2$
-    \If{$nou\_estat.esValid()$}
-        \State Afegir $nou\_estat$ a successors
-    \EndIf
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-\textbf{Utilitat:}
-Permet optimitzar assignacions sense canviar el nombre de peticions servides.
-
-\subsection{Factor de ramificació total}
-
-El factor de ramificació total és:
-
-\begin{equation}
-B = O(n \times p_{ns} + p_s + n \times p_s + p_s^2) = O(n \times p + p^2)
-\end{equation}
-
-Per un escenari amb 10 camions i 50 peticions servides de mitjana:
-\begin{equation}
-B \approx 10 \times 50 + 50 + 10 \times 50 + 50^2 = 500 + 50 + 500 + 2500 = 3550
-\end{equation}
-
-\subsection{Connectivitat de l'espai de búsqueda}
-
-\textbf{Teorema}: Amb aquest conjunt d'operadors, qualsevol solució vàlida és accessible des de qualsevol altra solució vàlida.
-
-\textbf{Demostració (esbós)}:
-\begin{enumerate}
-    \item Amb RemovePeticio podem arribar a l'estat buit
-    \item Amb AddPeticio podem construir qualsevol assignació
-    \item MovePeticio i SwapPeticions permeten reorganitzar sense passar per l'estat buit
-\end{enumerate}
-
-\subsection{Implementació per Hill Climbing vs Simulated Annealing}
-
-\subsubsection{Hill Climbing}
-Genera \textbf{tots} els successors aplicant exhaustivament els operadors.
-
-\begin{lstlisting}[caption={Generació de successors per HC}, label={lst:hc-gen}]
-public List<Board> getSuccessors(Board board) {
-    List<Board> successors = new ArrayList<>();
-    
-    // Aplicar tots els operadors
-    successors.addAll(applyAddPeticio(board));
-    successors.addAll(applyRemovePeticio(board));
-    successors.addAll(applyMovePeticio(board));
-    successors.addAll(applySwapPeticions(board));
-    
-    return successors;
-}
-\end{lstlisting}
-
-\subsubsection{Simulated Annealing}
-Genera \textbf{un sol} successor aleatori.
-
-\begin{lstlisting}[caption={Generació de successors per SA}, label={lst:sa-gen}]
-public Board getRandomSuccessor(Board board) {
-    Random rand = new Random();
-    int op = rand.nextInt(4);  // 4 operadors
-    
-    switch(op) {
-        case 0: return randomAddPeticio(board);
-        case 1: return randomRemovePeticio(board);
-        case 2: return randomMovePeticio(board);
-        case 3: return randomSwapPeticions(board);
-    }
-}
-\end{lstlisting}
