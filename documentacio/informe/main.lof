@@ -1,0 +1,25 @@
+\babel@toc {catalan}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Comparació del nombre de nodes expandits segons el conjunt d’operadors\relax }}{21}{figure.caption.9}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Comparació del temps d’execució segons el conjunt d’operadors\relax }}{22}{figure.caption.11}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Comparació del benefici econòmic segons el conjunt d’operadors\relax }}{22}{figure.caption.13}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Nodes expandits per Hill Climbing segons la inicialització\relax }}{24}{figure.caption.16}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Temps d’execució segons la inicialització\relax }}{25}{figure.caption.18}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Benefici econòmic obtingut per Hill Climbing segons la inicialització\relax }}{26}{figure.caption.20}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Distribució del benefici per combinació de $k$ i $\lambda $ amb 1000 iteracions (Simulated Annealing)\relax }}{27}{figure.caption.22}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Distribució del temps d'execució per combinació de $k$ i $\lambda $ amb 1000 iteracions (Simulated Annealing)\relax }}{28}{figure.caption.23}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Distribució del benefici per combinació de $k$ i $\lambda $ amb 5000 iteracions (Simulated Annealing)\relax }}{29}{figure.caption.25}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Distribució del temps d'execució per combinació de $k$ i $\lambda $ amb 1000 iteracions (Simulated Annealing)\relax }}{30}{figure.caption.26}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Distribució del benefici per combinació de $k$ i $\lambda $ amb 10000 iteracions (Simulated Annealing)\relax }}{31}{figure.caption.28}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Distribució del temps d'execució per combinació de $k$ i $\lambda $ amb 1000 iteracions (Simulated Annealing)\relax }}{32}{figure.caption.29}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Evolució temporal de l'algorisme Hill Climbing al augmentar l'escalabilitat del problema\relax }}{34}{figure.caption.31}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Evolució temporal de l'algorisme Simulated Annealing al augmentar l'escalabilitat del problema\relax }}{35}{figure.caption.33}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Evolució del benefici econòmic de l'algorisme Hill Climbing al augmentar l'escalabilitat del problema\relax }}{36}{figure.caption.35}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Evolució del benefici econòmic de l'algorisme Simulated Annealing al augmentar l'escalabilitat del problema\relax }}{36}{figure.caption.36}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Comparació del benefici econòmic entre ambdós escenaris\relax }}{38}{figure.caption.38}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Comparació dels km recorreguts entre ambdós escenaris\relax }}{39}{figure.caption.40}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Comparació de peticions servides entre ambdós escenaris\relax }}{39}{figure.caption.42}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Evolució del benefici econòmic segons el cost per km recorregut\relax }}{41}{figure.caption.44}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Nombre de peticions servides segons el cost per km (totes servides amb èxit)\relax }}{41}{figure.caption.46}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Benefici econòmic segons el límit de km diari\relax }}{43}{figure.caption.48}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Distància total recorreguda segons el límit de km diari\relax }}{44}{figure.caption.50}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Nombre de peticions servides segons el límit de km diari\relax }}{44}{figure.caption.52}%

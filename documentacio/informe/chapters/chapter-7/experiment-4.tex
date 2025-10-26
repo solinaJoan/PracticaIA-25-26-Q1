@@ -1,42 +1,63 @@
-
 \subsection{Experiment 4: Escalabilitat temporal}
 
 \vspace{0.75cm}
 
 \subsubsection{Objectiu}
 
-Aquest experiment té com a objectiu analitzar com creix el temps d’execució dels algorismes Hill Climbing i Simulated Annealing quan augmenta l’escalabilitat del problema, és a dir, el nombre de centres de distribució i gasolineres (de 10–100 fins a 50–500).
+Aquest experiment té com a objectiu analitzar com creix el temps d'execució dels algorismes Hill Climbing i Simulated Annealing quan augmenta l'escalabilitat del problema, és a dir, el nombre de centres de distribució i gasolineres. S'ha mantingut la proporció constant de 10 gasolineres per cada centre de distribució, avaluant configuracions des de 10-100 fins a 50-500.
 
+\subsubsection{Configuració experimental}
 
-\subsubsection{Resultats}
+S'han provat cinc configuracions d'escalabilitat creixent:
+\begin{itemize}
+    \item 10 centres, 100 gasolineres (escenari base)
+    \item 20 centres, 200 gasolineres (2x)
+    \item 30 centres, 300 gasolineres (3x)
+    \item 40 centres, 400 gasolineres (4x)
+    \item 50 centres, 500 gasolineres (5x)
+\end{itemize}
 
+Per a cada configuració s'han executat 10 repeticions amb Hill Climbing (conjunt d'operadors només moviments) i Simulated Annealing (paràmetres òptims de l'experiment 3: 10000 iteracions, $k=25$, $\lambda=0.01$).
 
-Els resultats de sota mostren que el temps d’execució del Hill Climbing creix de manera clarament no lineal, passant d’uns pocs centenars de mil·lisegons a més de 200.000 ms per l’escenari més gran. Això és esperable, ja que l’algorisme ha d’explorar un espai de cerca cada vegada més ampli, amb més possibles moviments i combinacions per avaluar. En comparació amb Simulated Annealing, clarament es veu que Hill Climbing es inabordable per conjunts de centres i benzineres relativament grans.
+\subsubsection{Anàlisi dels resultats}
+
+\paragraph{Escalabilitat temporal de Hill Climbing}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-4/hc-temps.tex}
-
 \vspace{0.5cm}
 
-\input{chapters/chapter-7/figures/exp-4/sa-temps.tex}
+El temps d'execució de Hill Climbing creix de manera clarament no lineal amb l'augment de l'escalabilitat del problema. Partint d'uns 417 ms per a l'escenari base (10-100), el temps es multiplica aproximadament per 16 quan arribem als 20 centres i 200 gasolineres (6.965 ms), i continua creixent exponencialment fins a superar els 240.000 ms (més de 4 minuts) per a l'escenari més gran (50-500).
+
+Aquest comportament és esperable en Hill Climbing, ja que l'algorisme ha d'explorar un espai de cerca que creix combinatòriament amb el nombre de peticions, viatges i camions. Cada estat té molts més veïns possibles a mesura que augmenta la mida del problema, i l'algorisme avalua exhaustivament tots els successors fins a trobar un màxim local.
+
+\paragraph{Escalabilitat temporal de Simulated Annealing}
 
 \vspace{0.5cm}
-
-A la gràfica de sota fem un \textit{zoom} per veure com evoluciona el cost temporal del Simulated Annealing. Aquest mostra un creixement pràcticament lineal: el temps passa d’uns 100 ms a 550 ms a mesura que el problema augmenta cinc vegades de mida.
-
-\vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-4/sa-temps-zoom.tex}
-
 \vspace{0.5cm}
 
-A més, a les següents gràfiques podem veure que les diferències entre els dos algorismes en quant a benefici econòmic són relativament mínimes, cosa que fa que no es justifiqui l'augment massiu del cost temporal per part de Hill Climbing.
+El temps d'execució de Simulated Annealing creix de manera pràcticament lineal: passa de 105 ms per a l'escenari base a 554 ms per a l'escenari més gran, només un factor de 5,2x per un problema 5 vegades més gran. Aquest creixement molt més controlat s'explica pel fet que Simulated Annealing executa un nombre fix d'iteracions (10.000) independentment de la mida del problema, i cada iteració avalua només un successor aleatori en lloc de tots els successors possibles.
+
+La diferència d'escalabilitat és dramàtica: mentre que Hill Climbing es torna completament inviable per a problemes grans (més de 4 minuts per 50 centres), Simulated Annealing es manté en menys d'un segon fins i tot per als escenaris més grans.
+
+\paragraph{Comparació de la qualitat de les solucions}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-4/hc-benefici.tex}
-
 \vspace{0.5cm}
 
 \input{chapters/chapter-7/figures/exp-4/sa-benefici.tex}
+\vspace{0.5cm}
+
+Analitzant la qualitat de les solucions obtingudes, observem que ambdós algorismes generen beneficis molt similars per a cada configuració d'escalabilitat. Per exemple, per a l'escenari de 50 centres i 500 gasolineres, Hill Climbing obté una mediana de 486.234€ mentre que Simulated Annealing obté 486.144€, una diferència de menys del 0,02\%.
+
+Aquest resultat és especialment rellevant perquè demostra que la millora marginal en qualitat que ofereix Hill Climbing (quan la ofereix) no justifica en absolut l'augment massiu del cost temporal. Mentre que per a l'escenari més gran Hill Climbing requereix més de 240 segons, Simulated Annealing obté resultats pràcticament idèntics en menys d'un segon, resultant més de 400 vegades més ràpid.
+
+\subsubsection{Conclusions}
+
+Aquest experiment revela clarament les limitacions de Hill Climbing per a problemes d'escalabilitat mitjana o gran. El seu creixement temporal exponencial el fa inviable per a aplicacions pràctiques amb més de 20-30 centres de distribució, mentre que Simulated Annealing manté un rendiment predictible i pràctic fins i tot per a problemes 5 vegades més grans.
+
+La clau d'aquesta diferència rau en l'estratègia d'exploració: Hill Climbing avalua exhaustivament tots els veïns en cada iteració, mentre que Simulated Annealing treballa amb un pressupost fix d'iteracions avaluant només un veí aleatori per iteració. Aquesta aproximació probabilística permet a Simulated Annealing escalar molt millor, sacrificant només una ínfima fracció de qualitat de solució.
+
+Per tant, per a aplicacions reals on l'escalabilitat és una preocupació, Simulated Annealing amb els paràmetres identificats en l'experiment 3 és clarament l'elecció preferible, oferint el millor compromís entre qualitat de solució i eficiència computacional.

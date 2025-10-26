@@ -3,28 +3,58 @@
 \vspace{0.75cm}
 
 \subsubsection{Objectiu}
-Determinar quina estratègia de generació de la solució inicial és més adequada.
+Determinar quina estratègia de generació de la solució inicial és més adequada per a l'algorisme Hill Climbing.
 
-\subsubsection{Resultats}
+\subsubsection{Configuració experimental}
 
-Tot i que a l’enunciat s’indica que cal fixar el conjunt d’operadors escollit a l’experiment 1, en aquest cas s’ha fet una excepció: s’ha emprat el conjunt complet d’operadors, ja que la solució buida necessita operadors d’inserció per poder construir una solució viable. El conjunt guanyador de l’experiment anterior (només moviments) no permetria cap millora si es partís d’una solució buida, ja que no inclou operadors d'inserció de peticions.
+Per aquest experiment s'han comparat dues estratègies de generació de la solució inicial:
 
-\vspace{0.2cm}
+\begin{itemize}
+    \item \textbf{Solució buida:} S'inicia sense cap petició assignada a cap viatge. L'algorisme ha de construir la solució completament des de zero utilitzant els operadors disponibles.
+    
+    \item \textbf{Solució greedy:} S'utilitza l'algorisme greedy descrit a la secció~\ref{sec:initial} per generar una solució inicial de qualitat acceptable abans d'aplicar Hill Climbing.
+\end{itemize}
 
-Els resultats de les gràfiques d'avall mostren que la solució buida explora molt més l’espai de cerca (més de 120 nodes expandits de mitjana) però amb un temps d’execució molt superior i un benefici lleugerament millor que la greedy. Tot i això, aquesta diferència en benefici és mínima i no justifica l’augment considerable del temps de càlcul.
+\paragraph{Consideració sobre el conjunt d'operadors}
 
-\vspace{0.2cm}
+Tot i que a l'enunciat s'indica que cal fixar el conjunt d'operadors escollit a l'experiment 1, en aquest cas s'ha fet una excepció: s'ha emprat el conjunt complet d'operadors per a ambdues estratègies. Aquesta decisió es justifica perquè la solució buida necessita operadors d'inserció (afegir i crear) per poder construir una solució viable. El conjunt guanyador de l'experiment anterior (només moviments) no permetria cap millora si es partís d'una solució buida, ja que no inclou operadors d'inserció de peticions i per tant no podria construir cap viatge.
 
-La solució greedy, en canvi, ofereix un rendiment molt més eficient, amb beneficis molt propers als màxims i un temps d’execució molt menor. A més, redueix el risc d’exploracions innecessàries, ja que parteix d’un estat inicial ja raonablement bo. Per tant, la solució greedy és la més adequada. A més, junt amb el conjunt d'operadors guanyador de l'experiment 1, s'obté un temps d'execució encara millor.
+\subsubsection{Anàlisi dels resultats}
+
+\paragraph{Exploració de l'espai de cerca}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-2/comp-nodes-expandits.tex}
-
 \vspace{0.5cm}
 
+La diferència en l'exploració de l'espai de cerca entre les dues estratègies és dramàtica. La solució buida expandeix una mitjana de 122 nodes, amb una variabilitat que va dels 113 als 135 nodes. Aquest nombre tan elevat s'explica perquè l'algorisme ha de construir la solució des de zero, explorant nombroses combinacions d'assignacions de peticions.
+
+En contrast, la solució greedy expandeix només 12,5 nodes de mitjana, aproximadament 10 vegades menys. Això indica que partir d'una solució inicial razonable permet a l'algorisme convergir molt més ràpidament cap a un òptim local, ja que requereix menys transformacions per trobar una solució satisfactòria.
+
+\paragraph{Cost computacional}
+
+\vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-2/comp-temps-exe.tex}
-
 \vspace{0.5cm}
 
+El temps d'execució reflecteix directament la diferència en nodes expandits. La solució buida requereix una mediana de 2.193 ms, amb un rang que va dels 1.993 als 2.789 ms. Aquest temps elevat és el cost de construir una solució completa mitjançant cerca local.
+
+La solució greedy, en canvi, s'executa en només 412 ms de mediana, aproximadament 5 vegades més ràpid. Aquest temps inclou tant la generació de la solució inicial greedy com la posterior millora amb Hill Climbing. La reducció de temps és significativa i fa que aquesta estratègia sigui molt més pràctica per a aplicacions on el temps de resposta és important.
+
+\paragraph{Qualitat de les solucions}
+
+\vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-2/comp-benefici.tex}
+\vspace{0.5cm}
+
+Sorprenentment, malgrat l'enorme diferència en nodes expandits i temps d'execució, la qualitat de les solucions finals és molt similar. La solució buida obté una mediana de 95.454€, mentre que la solució greedy obté 95.076€, una diferència de només 378€ (aproximadament un 0,4\%).
+
+Aquest resultat és particularment rellevant: la solució buida explora molt més l'espai de cerca però només aconsegueix una millora marginal en el benefici. Això suggereix que la solució greedy ja es troba en una regió de l'espai de cerca propera a l'òptim, i que l'exploració addicional de la solució buida no compensa el cost computacional afegit.
+
+\subsubsection{Conclusions}
+
+Els resultats d'aquest experiment demostren clarament que la solució greedy és l'estratègia més adequada per a la generació de la solució inicial. Tot i que la solució buida és capaç d'explorar més extensament l'espai de cerca i obtenir beneficis lleugerament superiors, aquesta millora marginal (0,4\%) no justifica l'augment de 5 vegades en el temps d'execució.
+
+La solució greedy ofereix el millor compromís entre qualitat i eficiència: genera solucions de qualitat molt propera a l'òptim en una fracció del temps. A més, quan es combina amb el conjunt d'operadors guanyador de l'experiment 1 (només moviments), s'obté un temps d'execució encara millor mantenint la qualitat de les solucions.
+
+Per tant, per als experiments posteriors s'utilitzarà la solució greedy com a estratègia d'inicialització estàndard, combinada amb el conjunt d'operadors només moviments quan l'objectiu sigui optimitzar el rendiment computacional.

@@ -5,38 +5,66 @@
 \subsubsection{Objectiu}
 Determinar quin conjunt d'operadors ofereix millors resultats amb Hill Climbing.
 
-\subsubsection{Resultats}
+\subsubsection{Configuració experimental}
 
-De cara a evaluar la qualitat dels diferents conjunts d'operadors, hem considerat que la característica principal que han de tenir es la capacitat de millorar la solució inicial. Això es tradueix en analitzar la quantitat de nodes expandits per aquests conjunts d'operadors. Seguidament, per descartar entre conjunts que ofereixen resultats similars en quant a expansió de nodes, evaluem la seva capacitat de generar solucions amb beneficis econòmics alts, pero amb el mínim temps d'execució possible.
+Per aquest experiment s'han definit cinc conjunts diferents d'operadors, cadascun amb una combinació específica que permet avaluar diferents estratègies d'exploració de l'espai de cerca:
+
+\begin{itemize}
+    \item \textbf{Bàsics (Afegir + Crear):} Aquest conjunt utilitza només els operadors d'afegir peticions a viatges existents i crear nous viatges. És el conjunt més conservador, que permet construir solucions de manera incremental però amb capacitat limitada per reorganitzar-les.
+    
+    \item \textbf{Modificació (Afegir + Treure + Moure):} Inclou operadors que permeten afegir peticions, eliminar-les de viatges, i moure-les entre viatges diferents. Aquest conjunt se centra en la modificació de l'assignació de peticions sense canviar l'estructura global de viatges.
+    
+    \item \textbf{Només Moviments (Moure + Intercanviar):} Conté exclusivament operadors que redistribueixen peticions ja assignades: moure peticions entre viatges i intercanviar parelles de peticions. Aquest conjunt parteix d'una solució inicial prou bona i se centra en la seva reorganització.
+    
+    \item \textbf{Sense Intercanvi (Afegir + Treure + Moure + Crear):} Combina la majoria d'operadors excepte l'intercanvi de peticions. Ofereix una exploració àmplia de l'espai de cerca però sense la capacitat de fer bescanvis directes entre viatges.
+    
+    \item \textbf{Tots:} Inclou els cinc operadors disponibles (Afegir, Treure, Moure, Intercanviar i Crear), proporcionant la màxima flexibilitat per explorar l'espai de cerca.
+\end{itemize}
+
+\subsubsection{Metodologia d'avaluació}
+
+De cara a avaluar la qualitat dels diferents conjunts d'operadors, hem considerat que la característica principal que han de tenir és la capacitat de millorar la solució inicial. Això es tradueix en analitzar la quantitat de nodes expandits per aquests conjunts d'operadors. Seguidament, per descartar entre conjunts que ofereixen resultats similars en quant a expansió de nodes, avaluem la seva capacitat de generar solucions amb beneficis econòmics alts, però amb el mínim temps d'execució possible.
 
 \vspace{0.2cm}
 
-Com que l’objectiu és analitzar la capacitat dels operadors per trobar millores, s’ha escollit com a estratègia de solució inicial la solució greedy, ja que parteix d’un estat raonablement bo i permet observar quins conjunts d'operadors són realment capaços de millorar-lo. Si s’hagués fet servir la solució buida, tots els conjunts haurien mostrat millores trivials, i no es podria distingir la seva qualitat real.
+Com que l'objectiu és analitzar la capacitat dels operadors per trobar millores, s'ha escollit com a estratègia de solució inicial la solució greedy, ja que parteix d'un estat raonablement bo i permet observar quins conjunts d'operadors són realment capaços de millorar-lo. Si s'hagués fet servir la solució buida, tots els conjunts haurien mostrat millores trivials, i no es podria distingir la seva qualitat real.
 
-\vspace{0.2cm}
+\subsubsection{Anàlisi dels resultats}
 
-Els resultats de les següents gràfiques mostren clarament que els conjunts \textit{Només moviments} i \textit{Tots} són els únics que exploren realment l’espai de cerca, com es veu pel nombre de nodes expandits i el temps d’execució molt superior. 
+\paragraph{Capacitat d'exploració de l'espai de cerca}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-1/comp-nodes-expandits.tex}
-
 \vspace{0.5cm}
 
+Els resultats de la figura anterior mostren clarament una divisió entre els conjunts d'operadors. Tres dels conjunts (Bàsics, Modificació i Sense Intercanvi) expandeixen un únic node, indicant que queden atrapats en el primer màxim local que troben i no són capaços de millorar la solució inicial greedy. Això suggereix que aquests conjunts manquen dels operadors necessaris per escapar dels òptims locals.
+
+En contrast, els conjunts Només Moviments i Tots expandeixen una mitjana d'aproximadament 12-13 nodes, amb una variabilitat que arriba fins a 30 nodes en alguns casos. Aquesta capacitat d'exploració més àmplia indica que aquests operadors són efectius per trobar millores sobre la solució inicial.
+
+\paragraph{Cost computacional}
+
+\vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-1/comp-temps-exe.tex}
-
 \vspace{0.5cm}
 
-Aquests dos conjunts, a més, aconsegueixen els beneficis econòmics més alts, tal com es mostra a la següent gràfica.
+El temps d'execució reflecteix directament la capacitat d'exploració. Els tres conjunts que expandeixen un sol node tenen temps d'execució negligibles (menys d'1 ms), mentre que els conjunts Només Moviments i Tots requereixen entre 300 i 600 ms de mitjana, arribant a superar els 900 ms en el cas més desfavorable.
+
+Aquest increment de temps és consistent amb l'augment de nodes expandits i representa el cost necessari per explorar l'espai de cerca i trobar solucions de millor qualitat.
+
+\paragraph{Qualitat de les solucions}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-1/comp-benefici.tex}
-
 \vspace{0.5cm}
 
-No obstant la similitud entre els dos conjunts guanyadors, el millors conjunt d’operadors es el de \textit{Només moviments}, ja que obté un rendiment similar al conjunt complet però amb un cost computacional lleugerament menor.
+La qualitat de les solucions, mesurada pel benefici econòmic obtingut, correlaciona directament amb la capacitat d'exploració. Els conjunts que només expandeixen un node obtenen una mediana de benefici de 94.732€, corresponent essencialment a la solució inicial greedy sense millores.
 
+Els conjunts Només Moviments i Tots aconsegueixen un benefici significativament superior, amb una mediana de 95.076€. Aquest increment de 344€ (aproximadament un 0,36\% de millora) demostra que aquests operadors són efectius per escapar dels màxims locals i trobar solucions de millor qualitat.
 
+\subsubsection{Conclusions}
 
+Els resultats d'aquest experiment revelen clarament que no tots els conjunts d'operadors són igualment efectius per a la cerca local amb Hill Climbing. Els operadors de moviment (moure peticions entre viatges i intercanviar-les) són essencials per explorar l'espai de cerca de manera efectiva quan es parteix d'una solució inicial de qualitat.
 
+Entre els dos conjunts que mostren bons resultats, el conjunt \textit{Només Moviments} resulta ser el més eficient, ja que obté un rendiment pràcticament idèntic al conjunt complet però amb un cost computacional lleugerament menor (mediana de 422 ms versus 444 ms). Això suggereix que, un cop es té una bona solució inicial, els operadors de reorganització són suficients i més eficients que mantenir operadors de construcció i destrucció.
+
+Per tant, per als següents experiments s'utilitzarà preferentment el conjunt \textit{Només Moviments}, ja que ofereix el millor compromís entre qualitat de solució i eficiència computacional.

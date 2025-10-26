@@ -1,39 +1,72 @@
-
 \subsection{Experiment 3: Ajust de paràmetres del Simulated Annealing}
 
 \vspace{0.75cm}
 
 \subsubsection{Objectiu}
-Trobar els paràmetres òptims per a Simulated Annealing en el nostre problema.
+Trobar els paràmetres òptims per a l'algorisme Simulated Annealing en el nostre problema de distribució de combustible.
 
-\subsubsection{Resultats}
+\subsubsection{Configuració experimental}
 
-Els resultats mostren que, per a un nombre baix d’iteracions (1000 o 5000), totes les configuracions aconsegueixen beneficis similars i lleugerament inferiors als de Hill Climbing, la qual cosa indica que el nombre d’iteracions no és suficient perquè l’algorisme explori prou l’espai de cerca. Quan s’augmenta fins a 10000 iteracions, s’observa una millora més clara en el benefici obtingut, especialment per a la combinació amb $k = 25$ i $\lambda = 0.01$.
+Per aquest experiment s'han explorat sistemàticament diferents combinacions dels paràmetres clau de Simulated Annealing:
+
+\begin{itemize}
+    \item \textbf{Iteracions:} Nombre total d'iteracions de l'algorisme. S'han provat 1000, 5000 i 10000 iteracions.
+    \item \textbf{$k$:} Factor d'escala de la temperatura inicial. S'han provat valors de 5, 25 i 125.
+    \item \textbf{$\lambda$:} Taxa de refredament exponencial. S'han provat valors de 0,0001, 0,001 i 0,01.
+\end{itemize}
+
+Això resulta en 27 combinacions diferents, cadascuna executada 10 vegades per garantir la validesa estadística dels resultats. S'ha utilitzat el conjunt d'operadors només moviments identificat com a òptim en l'experiment 1.
+
+\subsubsection{Anàlisi dels resultats}
+
+\paragraph{Efecte del nombre d'iteracions amb 1000 iteracions}
 
 \vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-3/iter-1000-benefici.tex}
-
 \vspace{0.5cm}
 
-\input{chapters/chapter-7/figures/exp-3/iter-5000-benefici.tex}
+Amb només 1000 iteracions, totes les combinacions de paràmetres generen resultats molt similars, amb una mediana al voltant dels 94.700-94.900€. Aquesta homogeneïtat indica que l'algorisme no té temps suficient per explorar adequadament l'espai de cerca, independentment dels valors de $k$ i $\lambda$ escollits. Els beneficis obtinguts són lleugerament inferiors als assolits per Hill Climbing en l'experiment 1 (95.076€).
 
 \vspace{0.5cm}
-
-\input{chapters/chapter-7/figures/exp-3/iter-10000-benefici.tex}
-
-\vspace{0.5cm}
-
-Pel que fa al temps d’execució, totes les combinacions mostren valors similars dins de cada nivell d’iteracions, de manera que la diferència de rendiment es deu principalment a la qualitat de les solucions trobades. Així doncs, el conjunt de paràmetres ($10000$ iteracions, $k = 25$, $\lambda = 0.01$) és el que proporciona els millors beneficis econòmics de manera consistent i, per molt que aquest increment de benefici vingui acompanyat amb un augment del cost temporal, aquest cost no es inabordable i és per això que s’ha seleccionat com a configuració òptima. 
-
-\vspace{0.5cm}
-
 \input{chapters/chapter-7/figures/exp-3/iter-1000-temps.tex}
-
 \vspace{0.5cm}
 
+El temps d'execució és extremadament baix per a totes les combinacions, amb una mediana al voltant dels 12 ms. Destaca només la combinació $k=5, \lambda=0.01$ amb temps lleugerament superiors, però l'impacte computacional és negligible en tots els casos.
+
+\paragraph{Efecte del nombre d'iteracions amb 5000 iteracions}
+
+\vspace{0.5cm}
+\input{chapters/chapter-7/figures/exp-3/iter-5000-benefici.tex}
+\vspace{0.5cm}
+
+Amb 5000 iteracions, comencen a aparèixer diferències més clares entre les combinacions. Les configuracions amb valors baixos de $k$ (5) tendeixen a obtenir beneficis lleugerament superiors (al voltant dels 95.000€), mentre que valors alts de $k$ (125) mantenen resultats similars al cas de 1000 iteracions. Això suggereix que temperatures inicials massa altes impedeixen que l'algorisme convergeixi adequadament dins del pressupost d'iteracions disponible.
+
+\vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-3/iter-5000-temps.tex}
-
 \vspace{0.5cm}
 
+El temps d'execució es manté notablement consistent entre totes les combinacions, situant-se al voltant dels 57-62 ms. Aquesta uniformitat indica que el cost computacional depèn principalment del nombre d'iteracions i no dels paràmetres específics de temperatura.
+
+\paragraph{Efecte del nombre d'iteracions amb 10000 iteracions}
+
+\vspace{0.5cm}
+\input{chapters/chapter-7/figures/exp-3/iter-10000-benefici.tex}
+\vspace{0.5cm}
+
+Amb 10000 iteracions, s'observa una millora clara i consistent en els beneficis obtinguts. Les millors combinacions són aquelles amb $k=5$ i $k=25$, independentment del valor de $\lambda$, assolint medianes al voltant dels 95.200-95.300€. Destaca especialment la combinació $k=25, \lambda=0.01$, que obté una mediana de 95.292€, superant lleugerament els resultats de Hill Climbing.
+
+Les combinacions amb $k=125$ segueixen mostrant resultats inferiors, confirmant que temperatures inicials excessivament altes no són adequades per aquest problema, probablement perquè l'exploració inicial és massa aleatòria i impedeix una convergència eficient.
+
+\vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-3/iter-10000-temps.tex}
+\vspace{0.5cm}
+
+El temps d'execució amb 10000 iteracions se situa uniformement entre 114-120 ms per a totes les combinacions. Aquest cost temporal és aproximadament el doble que amb 5000 iteracions, reflectint la relació lineal esperada entre nombre d'iteracions i temps de càlcul.
+
+\subsubsection{Conclusions}
+
+Els resultats d'aquest experiment demostren que el nombre d'iteracions és el factor més crític per a l'èxit de Simulated Annealing en aquest problema. Amb 1000 o 5000 iteracions, l'algorisme no té temps suficient per explorar adequadament l'espai de cerca, mentre que amb 10000 iteracions s'observen millores consistents.
+
+Pel que fa als paràmetres de temperatura, valors baixos de $k$ (5 o 25) són preferibles, ja que permeten una exploració inicial controlada seguida d'una convergència efectiva. El paràmetre $\lambda$ mostra menys impacte, amb tots els valors provats oferint resultats similars quan el nombre d'iteracions és suficient.
+
+La configuració òptima identificada és \textbf{10000 iteracions, $k=25$, $\lambda=0.01$}, que proporciona els millors beneficis econòmics de manera consistent (mediana de 95.292€). Tot i que aquest increment de benefici respecte a Hill Climbing és modest (aproximadament un 0,2\%), el cost temporal addicional (115 ms versus 412 ms per Hill Climbing) és perfectament assumible i fa que aquesta configuració sigui adequada per a aplicacions on es prioritza la qualitat de la solució sobre la velocitat d'execució.
