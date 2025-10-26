@@ -1,0 +1,67 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Peticions servides},
+    xlabel={Cost per km},
+    xtick={1,2,3,4,5},
+    xticklabels={2, 4, 8, 16, 32},
+    x tick label style={font=\footnotesize},
+    y tick label style={/pgf/number format/fixed},
+    scaled y ticks=false,
+    ymin=99.5, ymax=100.5,
+    width=\textwidth,
+    height=6cm,
+    ymajorgrids
+]
+
+% --- cost = 2 ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+
+% --- cost = 4 ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+
+% --- cost = 8 ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+
+% --- cost = 16 ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+
+% --- cost = 32 ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Nombre de peticions servides segons el cost per km (totes servides amb èxit)}
+\end{figure}

@@ -1,0 +1,45 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Km recorreguts},
+    xlabel={Límit de km per dia},
+    xtick={1,2,3},
+    xticklabels={560, 640, 720},
+    x tick label style={font=\footnotesize},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0},
+    scaled y ticks=false,
+    width=\textwidth,
+    height=8cm,
+    ymajorgrids
+]
+% --- 560 km/dia ---
+\addplot+[boxplot prepared={
+    median=2610,
+    upper quartile=2744,
+    lower quartile=2244,
+    upper whisker=3118,
+    lower whisker=1874
+}] coordinates {};
+% --- 640 km/dia ---
+\addplot+[boxplot prepared={
+    median=2610,
+    upper quartile=2744,
+    lower quartile=2244,
+    upper whisker=3118,
+    lower whisker=1874
+}] coordinates {};
+% --- 720 km/dia ---
+\addplot+[boxplot prepared={
+    median=2610,
+    upper quartile=2744,
+    lower quartile=2244,
+    upper whisker=3118,
+    lower whisker=1874
+}] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Distància total recorreguda segons el límit de km diari}
+\end{figure}

@@ -1,0 +1,45 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Peticions servides},
+    xlabel={Límit de km per dia},
+    xtick={1,2,3},
+    xticklabels={560, 640, 720},
+    x tick label style={font=\footnotesize},
+    y tick label style={/pgf/number format/fixed},
+    scaled y ticks=false,
+    ymin=99.5, ymax=100.5,
+    width=\textwidth,
+    height=6cm,
+    ymajorgrids
+]
+% --- 560 km/dia ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+% --- 640 km/dia ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+% --- 720 km/dia ---
+\addplot+[boxplot prepared={
+    median=100,
+    upper quartile=100,
+    lower quartile=100,
+    upper whisker=100,
+    lower whisker=100
+}] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Nombre de peticions servides segons el límit de km diari}
+\end{figure}

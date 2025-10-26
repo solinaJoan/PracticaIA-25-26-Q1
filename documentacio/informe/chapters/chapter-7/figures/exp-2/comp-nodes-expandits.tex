@@ -1,0 +1,40 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Nodes expandits},
+    xlabel={Estratègia d'inicialització},
+    xtick={1,2},
+    xticklabels={Solució buida, Solució greedy},
+    x tick label style={text width=2.5cm, align=center, rotate=0},
+    ymajorgrids,
+    width=0.7\textwidth,
+    height=8cm,
+    y tick label style={/pgf/number format/fixed,
+    /pgf/number format/precision=0,
+    /pgf/number format/fixed zerofill},
+    scaled y ticks=false
+]
+\addplot+[
+    boxplot prepared={
+        median=122,
+        upper quartile=127,
+        lower quartile=114,
+        upper whisker=135,
+        lower whisker=113
+    },
+] coordinates {}; % Buida
+\addplot+[
+    boxplot prepared={
+        median=14,
+        upper quartile=17,
+        lower quartile=11,
+        upper whisker=30,
+        lower whisker=7
+    },
+] coordinates {}; % Greedy
+\end{axis}
+\end{tikzpicture}
+\caption{Nodes expandits per Hill Climbing segons la inicialització}
+\end{figure}

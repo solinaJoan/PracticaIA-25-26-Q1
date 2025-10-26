@@ -1,0 +1,40 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Escenari},
+    xtick={1,2},
+    xticklabels={10 centres (1 camió/centre), 5 centres (2 camions/centre)},
+    x tick label style={text width=4cm, align=center, font=\footnotesize},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    width=0.8\textwidth,
+    height=8cm,
+    ymajorgrids
+]
+\addplot+[
+    boxplot prepared={
+        median=94880,
+        upper quartile=95512,
+        lower quartile=94000,
+        upper whisker=96372,
+        lower whisker=93344
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=94020,
+        upper quartile=94500,
+        lower quartile=92680,
+        upper whisker=94624,
+        lower whisker=91100
+    },
+] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparació del benefici econòmic entre ambdós escenaris}
+\end{figure}

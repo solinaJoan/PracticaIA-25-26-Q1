@@ -1,0 +1,46 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Límit de km per dia},
+    xtick={1,2,3},
+    xticklabels={560, 640, 720},
+    x tick label style={font=\footnotesize},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm
+]
+% --- 560 km/dia ---
+\addplot+[boxplot prepared={
+    median=94880,
+    upper quartile=95512,
+    lower quartile=94000,
+    upper whisker=96372,
+    lower whisker=93344
+}] coordinates {};
+% --- 640 km/dia ---
+\addplot+[boxplot prepared={
+    median=94880,
+    upper quartile=95512,
+    lower quartile=94000,
+    upper whisker=96372,
+    lower whisker=93344
+}] coordinates {};
+% --- 720 km/dia ---
+\addplot+[boxplot prepared={
+    median=94880,
+    upper quartile=95512,
+    lower quartile=94000,
+    upper whisker=96372,
+    lower whisker=93344
+}] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Benefici econòmic segons el límit de km diari}
+\end{figure}

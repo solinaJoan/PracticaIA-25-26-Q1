@@ -1,0 +1,46 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Estratègia d'inicialització},
+    xtick={1,2},
+    xticklabels={Solució buida, Solució greedy},
+    x tick label style={text width=2.5cm, align=center, rotate=0},
+    y tick label style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/fixed zerofill
+    },
+    scaled y ticks=false,
+    ymajorgrids,
+    width=0.7\textwidth,
+    height=8cm,
+    y tick label style={/pgf/number format/fixed,
+    /pgf/number format/precision=0,
+    /pgf/number format/fixed zerofill},
+    scaled y ticks=false
+]
+\addplot+[
+    boxplot prepared={
+        median=95200,
+        upper quartile=95900,
+        lower quartile=94500,
+        upper whisker=96764,
+        lower whisker=94116
+    },
+] coordinates {}; % Solució buida
+\addplot+[
+    boxplot prepared={
+        median=94880,
+        upper quartile=95512,
+        lower quartile=94000,
+        upper whisker=96372,
+        lower whisker=93344
+    },
+] coordinates {}; % Solució greedy
+\end{axis}
+\end{tikzpicture}
+\caption{Benefici econòmic obtingut per Hill Climbing segons la inicialització}
+\end{figure}

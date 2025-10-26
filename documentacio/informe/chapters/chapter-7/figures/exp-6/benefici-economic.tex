@@ -1,0 +1,62 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Cost per km},
+    xtick={1,2,3,4,5},
+    xticklabels={2, 4, 8, 16, 32},
+    x tick label style={font=\footnotesize},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm
+]
+% --- cost = 2 ---
+\addplot+[boxplot prepared={
+    median=94880,
+    upper quartile=95512,
+    lower quartile=94000,
+    upper whisker=96372,
+    lower whisker=93344
+}] coordinates {};
+% --- cost = 4 ---
+\addplot+[boxplot prepared={
+    median=90796,
+    upper quartile=92168,
+    lower quartile=88484,
+    upper whisker=92624,
+    lower whisker=87108
+}] coordinates {};
+% --- cost = 8 ---
+\addplot+[boxplot prepared={
+    median=81568,
+    upper quartile=84256,
+    lower quartile=77788,
+    upper whisker=85128,
+    lower whisker=74636
+}] coordinates {};
+% --- cost = 16 ---
+\addplot+[boxplot prepared={
+    median=62976,
+    upper quartile=68432,
+    lower quartile=56396,
+    upper whisker=70136,
+    lower whisker=49692
+}] coordinates {};
+% --- cost = 32 ---
+\addplot+[boxplot prepared={
+    median=25792,
+    upper quartile=36784,
+    lower quartile=13612,
+    upper whisker=40152,
+    lower whisker=-196
+}] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Evolució del benefici econòmic segons el cost per km recorregut}
+\end{figure}

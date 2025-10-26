@@ -1,0 +1,74 @@
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Temps (ms)},
+    xlabel={Conjunt d'operadors},
+    xtick={1,2,3,4,5},
+    xticklabels={
+        Bàsics,
+        Modificació,
+        Tots,
+        Sense intercanvi,
+        Només moviments
+    },
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    x tick label style={text width=2.7cm, align=center, rotate=0},
+    y tick label style={/pgf/number format/fixed,
+    /pgf/number format/precision=0,
+    /pgf/number format/fixed zerofill},
+    scaled y ticks=false
+]
+\addplot+[
+    boxplot prepared={
+        median=1,
+        upper quartile=1,
+        lower quartile=0,
+        upper whisker=6,
+        lower whisker=0
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=2,
+        upper quartile=3,
+        lower quartile=1,
+        upper whisker=7,
+        lower whisker=0
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=486,
+        upper quartile=561,
+        lower quartile=369,
+        upper whisker=978,
+        lower whisker=247
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=1,
+        upper quartile=1,
+        lower quartile=0,
+        upper whisker=1,
+        lower whisker=0
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=486,
+        upper quartile=543,
+        lower quartile=358,
+        upper whisker=951,
+        lower whisker=222
+    },
+] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparació del temps d’execució segons el conjunt d’operadors}
+\end{figure}

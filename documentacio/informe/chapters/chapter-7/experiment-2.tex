@@ -3,63 +3,9 @@
 \subsubsection{Objectiu}
 Determinar quina estratègia de generació de la solució inicial és més adequada.
 
-\subsubsection{Configuració}
-\begin{itemize}
-    \item \textbf{Algoritme}: Hill Climbing
-    \item \textbf{Heurística}: H2
-    \item \textbf{Operadors}: C3 (del experiment anterior)
-    \item \textbf{Escenari}: Base
-    \item \textbf{Estratègies provades}:
-    \begin{itemize}
-        \item \textbf{E1}: Solució buida
-        \item \textbf{E3}: Avariciosa per benefici
-    \end{itemize}
-\end{itemize}
-
 \subsubsection{Resultats}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Estratègia} & \textbf{Benefici} & \textbf{Passos} & \textbf{Temps (ms)} & \textbf{Benefici} \\
- & \textbf{inicial} & \textbf{fins final} & \textbf{total} & \textbf{final} \\
-\midrule
-E1 (Buida) & 0 & 1.247 $\pm$ 156 & 15.234 $\pm$ 2.345 & 48.456 $\pm$ 892 \\
-E3 (Greedy) & 42.345 $\pm$ 234 & 156 $\pm$ 28 & 3.123 $\pm$ 345 & 48.923 $\pm$ 756 \\
-\bottomrule
-\end{tabular}
-\caption{Comparació d'estratègies de solució inicial}
-\label{tab:exp2-inicial}
-\end{table}
 
-\begin{figure}[H]
-\centering
-%\includegraphics[width=0.8\textwidth]{figures/exp2-inicial-convergencia.pdf}
-\caption{Convergència des de diferents solucions inicials}
-\label{fig:exp2-convergencia}
-\end{figure}
-
-\subsubsection{Anàlisi}
-
-\textbf{Què esperàvem:}
-\begin{itemize}
-    \item La solució avariciosa permetria convergir més ràpidament
-    \item Les solucions finals podrien ser similars
-\end{itemize}
-
-\textbf{Què hem obtingut:}
-\begin{itemize}
-    \item \textbf{Temps 5 vegades més ràpid amb E3}: 3.123 ms vs 15.234 ms
-    \item \textbf{8 vegades menys passos amb E3}: 156 vs 1.247
-    \item \textbf{Benefici final lleugerament millor amb E3}: No significatiu estadísticament (p=0.18)
-    \item La solució greedy ja comença amb el 86\% del benefici òptim trobat
-\end{itemize}
-
-\textbf{Conclusions:}
-\begin{itemize}
-    \item La solució inicial influeix MOLT en el temps de convergència
-    \item Partir d'una bona solució estalvia milers de passos
-    \item El benefici final és similar → L'algoritme arriba a òptims locals semblants
-    \item \textbf{Decisió}: Utilitzarem E3 per a la resta d'experiments
-\end{itemize}
+\input{chapters/chapter-7/figures/exp-2/comp-benefici.tex}
+\input{chapters/chapter-7/figures/exp-2/comp-nodes-expandits.tex}
+\input{chapters/chapter-7/figures/exp-2/comp-temps-exe.tex}

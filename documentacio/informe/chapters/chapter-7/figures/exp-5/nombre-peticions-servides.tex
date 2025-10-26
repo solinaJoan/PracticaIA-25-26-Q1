@@ -1,0 +1,39 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Peticions servides},
+    xlabel={Escenari},
+    xtick={1,2},
+    xticklabels={10 centres (1 camió/centre), 5 centres (2 camions/centre)},
+    x tick label style={text width=4cm, align=center, font=\footnotesize},
+    y tick label style={/pgf/number format/fixed},
+    scaled y ticks=false,
+    ymin=99.5, ymax=100.5,  % totes són 100
+    width=0.8\textwidth,
+    height=6cm,
+    ymajorgrids
+]
+\addplot+[
+    boxplot prepared={
+        median=100,
+        upper quartile=100,
+        lower quartile=100,
+        upper whisker=100,
+        lower whisker=100
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=100,
+        upper quartile=100,
+        lower quartile=100,
+        upper whisker=100,
+        lower whisker=100
+    },
+] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparació de peticions servides entre ambdós escenaris}
+\end{figure}

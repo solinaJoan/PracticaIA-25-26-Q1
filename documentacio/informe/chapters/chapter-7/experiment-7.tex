@@ -3,70 +3,8 @@
 \subsubsection{Objectiu}
 Analitzar l'impacte d'augmentar/reduir les hores de treball dels camions.
 
-\subsubsection{Configuració}
-\begin{itemize}
-    \item \textbf{Hores}: 7h (560 km), 8h (640 km), 9h (720 km)
-    \item \textbf{Viatges màxims}: 5 (constant)
-    \item \textbf{Escenari}: Base
-    \item \textbf{Algoritme}: Hill Climbing
-\end{itemize}
-
 \subsubsection{Resultats}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-\textbf{Hores} & \textbf{Km màx} & \textbf{Benefici} & \textbf{Peticions} & \textbf{Camions al} & \textbf{Millora} \\
- & & & \textbf{servides} & \textbf{límit km} & \textbf{vs 8h} \\
-\midrule
-7 & 560 & 45.678 $\pm$ 892 & 88 $\pm$ 3 & 4.2 $\pm$ 0.8 & -6.64\% \\
-8 & 640 & 48.923 $\pm$ 756 & 93 $\pm$ 2 & 2.3 $\pm$ 0.5 & 0\% \\
-9 & 720 & 50.234 $\pm$ 701 & 95 $\pm$ 2 & 0.8 $\pm$ 0.4 & +2.68\% \\
-\bottomrule
-\end{tabular}
-\caption{Impacte de les hores de treball}
-\label{tab:exp7-hores}
-\end{table}
-
-\begin{figure}[H]
-\centering
-%\includegraphics[width=0.7\textwidth]{figures/exp7-hores.pdf}
-\caption{Benefici en funció de les hores de treball}
-\label{fig:exp7-hores}
-\end{figure}
-
-\subsubsection{Anàlisi}
-
-\textbf{Restricció limitant:}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Hores} & \textbf{Camions limitats} & \textbf{Camions limitats} & \textbf{Restricció} \\
- & \textbf{per km} & \textbf{per viatges} & \textbf{crítica} \\
-\midrule
-7 & 4.2 / 10 & 8.7 / 10 & Km \\
-8 & 2.3 / 10 & 9.2 / 10 & Viatges \\
-9 & 0.8 / 10 & 9.5 / 10 & Viatges \\
-\bottomrule
-\end{tabular}
-\caption{Anàlisi de restriccions limitants}
-\label{tab:exp7-restriccions}
-\end{table}
-
-\textbf{Què esperàvem:}
-\begin{itemize}
-    \item Més hores → més benefici
-    \item Relació aproximadament lineal
-\end{itemize}
-
-\textbf{Què hem obtingut:}
-\begin{itemize}
-    \item \textbf{Rendiments decreixents}: +12.5\% km → només +2.68\% benefici
-    \item \textbf{Canvi de restricció crítica}: De km a nombre de viatges
-    \item \textbf{Amb 7h}: Els km són limitants (4.2 camions al límit)
-    \item \textbf{Amb 8-9h}: Els viatges són limitants (9+ camions al límit)
-    \item La millora de 8h a 9h és marginal (+2 peticions)
-\end{itemize}
+\input{chapters/chapter-7/figures/exp-7/benefici-economic.tex}
+\input{chapters/chapter-7/figures/exp-7/km-recorreguts.tex}
+\input{chapters/chapter-7/figures/exp-7/peticions-servides.tex}

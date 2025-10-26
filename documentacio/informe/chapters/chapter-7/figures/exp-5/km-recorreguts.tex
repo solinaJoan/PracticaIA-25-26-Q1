@@ -1,0 +1,39 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Km recorreguts},
+    xlabel={Escenari},
+    xtick={1,2},
+    xticklabels={10 centres (1 camió/centre), 5 centres (2 camions/centre)},
+    x tick label style={text width=4cm, align=center, font=\footnotesize},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0},
+    scaled y ticks=false,
+    width=0.8\textwidth,
+    height=8cm,
+    ymajorgrids
+]
+\addplot+[
+    boxplot prepared={
+        median=2610,
+        upper quartile=2744,
+        lower quartile=2244,
+        upper whisker=3118,
+        lower whisker=1874
+    },
+] coordinates {};
+\addplot+[
+    boxplot prepared={
+        median=2936,
+        upper quartile=3180,
+        lower quartile=2738,
+        upper whisker=4200,
+        lower whisker=2578
+    },
+] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Comparació dels km recorreguts entre ambdós escenaris}
+\end{figure}

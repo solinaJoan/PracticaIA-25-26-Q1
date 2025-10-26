@@ -1,0 +1,42 @@
+% --- Boxplots per iteracions = 1000 ---
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Combinació ($k$ -- $\lambda$)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5,6,7,8,9},
+    xticklabels={
+        {$k{=}5$\newline$\lambda{=}0.0001$},
+        {$k{=}5$\newline$\lambda{=}0.001$},
+        {$k{=}5$\newline$\lambda{=}0.01$},
+        {$k{=}25$\newline$\lambda{=}0.0001$},
+        {$k{=}25$\newline$\lambda{=}0.001$},
+        {$k{=}25$\newline$\lambda{=}0.01$},
+        {$k{=}125$\newline$\lambda{=}0.0001$},
+        {$k{=}125$\newline$\lambda{=}0.001$},
+        {$k{=}125$\newline$\lambda{=}0.01$}
+    }
+]
+\addplot+[boxplot prepared={median=94796, upper quartile=95286, lower quartile=93936, upper whisker=96392, lower whisker=93148}] coordinates {};
+\addplot+[boxplot prepared={median=94752, upper quartile=95316, lower quartile=93941, upper whisker=96424, lower whisker=93200}] coordinates {};
+\addplot+[boxplot prepared={median=94830, upper quartile=95168, lower quartile=94054, upper whisker=96368, lower whisker=93224}] coordinates {};
+\addplot+[boxplot prepared={median=94764, upper quartile=95143, lower quartile=93834, upper whisker=96352, lower whisker=93068}] coordinates {};
+\addplot+[boxplot prepared={median=94738, upper quartile=95186, lower quartile=93845, upper whisker=96348, lower whisker=93036}] coordinates {};
+\addplot+[boxplot prepared={median=94758, upper quartile=95291, lower quartile=93936, upper whisker=96484, lower whisker=93232}] coordinates {};
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93834, upper whisker=96308, lower whisker=93036}] coordinates {};
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93876, upper whisker=96288, lower whisker=93036}] coordinates {};
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93836, upper whisker=96288, lower whisker=93036}] coordinates {};
+\end{axis}
+\end{tikzpicture}
+\caption{Distribució del benefici per combinació de $k$ i $\lambda$ amb 1000 iteracions (Simulated Annealing)}
+\end{figure}

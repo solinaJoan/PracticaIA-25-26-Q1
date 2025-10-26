@@ -4,83 +4,8 @@
 \subsubsection{Objectiu}
 Estudiar com afecta l'augment del cost per km al nombre de peticions servides.
 
-\subsubsection{Configuració}
-\begin{itemize}
-    \item \textbf{Cost per km}: 2, 4, 8, 16, 32
-    \item \textbf{Escenari}: Base (10 centres, 100 gasolineres)
-    \item \textbf{Algoritme}: Hill Climbing
-\end{itemize}
 
 \subsubsection{Resultats}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Cost/km} & \textbf{Benefici} & \textbf{Peticions} & \textbf{Km} & \textbf{P. urgents} \\
- & \textbf{net} & \textbf{servides} & \textbf{totals} & \textbf{($d \geq 2$)} \\
-\midrule
-2 & 48.923 $\pm$ 756 & 93 $\pm$ 2 & 2.617 & 23 $\pm$ 2 \\
-4 & 43.389 $\pm$ 823 & 89 $\pm$ 3 & 2.203 & 24 $\pm$ 2 \\
-8 & 35.234 $\pm$ 912 & 82 $\pm$ 3 & 1.856 & 26 $\pm$ 3 \\
-16 & 24.567 $\pm$ 1.123 & 71 $\pm$ 4 & 1.423 & 29 $\pm$ 3 \\
-32 & 12.345 $\pm$ 1.456 & 56 $\pm$ 5 & 987 & 34 $\pm$ 4 \\
-\bottomrule
-\end{tabular}
-\caption{Impacte del cost per quilòmetre}
-\label{tab:exp6-cost}
-\end{table}
-
-\begin{figure}[H]
-\centering
-%\includegraphics[width=0.8\textwidth]{figures/exp6-cost-km.pdf}
-\caption{Relació entre cost/km i peticions servides}
-\label{fig:exp6-cost}
-\end{figure}
-
-\subsubsection{Anàlisi per proporció de dies d'espera}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-\textbf{Cost/km} & \textbf{$d=0$ (\%)} & \textbf{$d=1$ (\%)} & \textbf{$d=2$ (\%)} & \textbf{$d \geq 3$ (\%)} & \textbf{Total} \\
-\midrule
-2 & 28 (30.1\%) & 32 (34.4\%) & 18 (19.4\%) & 15 (16.1\%) & 93 \\
-4 & 24 (27.0\%) & 29 (32.6\%) & 20 (22.5\%) & 16 (18.0\%) & 89 \\
-8 & 19 (23.2\%) & 23 (28.0\%) & 21 (25.6\%) & 19 (23.2\%) & 82 \\
-16 & 12 (16.9\%) & 17 (23.9\%) & 20 (28.2\%) & 22 (31.0\%) & 71 \\
-32 & 6 (10.7\%) & 9 (16.1\%) & 15 (26.8\%) & 26 (46.4\%) & 56 \\
-\bottomrule
-\end{tabular}
-\caption{Distribució de peticions servides per dies d'espera}
-\label{tab:exp6-distribucio}
-\end{table}
-
-\subsubsection{Anàlisi}
-
-\textbf{Què esperàvem:}
-\begin{itemize}
-    \item Augmentar el cost reduiria peticions servides
-    \item Prioritzaria peticions més urgents
-\end{itemize}
-
-\textbf{Què hem obtingut:}
-\begin{itemize}
-    \item \textbf{Reducció lineal de peticions}: De 93 a 56 (40\% menys)
-    \item \textbf{Canvi en priorities}: Augmenta proporció de peticions urgents
-    \begin{itemize}
-        \item Cost=2: 16.1\% amb $d \geq 3$
-        \item Cost=32: 46.4\% amb $d \geq 3$
-    \end{itemize}
-    \item \textbf{Reducció de km}: De 2.617 a 987 (62\% menys)
-    \item L'heurística s'adapta correctament prioritzant benefici sobre distància
-\end{itemize}
-
-\textbf{Conclusions:}
-\begin{itemize}
-    \item El cost/km té un impacte directe i significatiu
-    \item L'heurística respon correctament als incentius econòmics
-    \item Es sacrifiquen peticions noves per servir les urgents
-    \item \textbf{Recomanació}: El cost=2 sembla equilibrat per aquest problema
-\end{itemize}
+\input{chapters/chapter-7/figures/exp-6/benefici-economic.tex}
+\input{chapters/chapter-7/figures/exp-6/peticions-servides.tex}
