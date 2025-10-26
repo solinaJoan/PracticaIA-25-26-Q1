@@ -16,5 +16,11 @@ Seguidament, només cal seguir les instruccions del menú interactiu. Per execut
 Per borrar els fitxers binaris creats només cal executar:
 
 ```bash
-bash clean.sh
+bash clean-bin.sh
+```
+
+Per borrar els resultats dels experiments executats cal fer el següent:
+
+```bash
+bash clean-results.sh
 ```
