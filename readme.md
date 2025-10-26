@@ -19,7 +19,7 @@ Per borrar els fitxers binaris creats només cal executar:
 bash clean-bin.sh
 ```
 
-Per borrar els resultats dels experiments executats cal fer:
+Per borrar els resultats dels experiments executats cal fer el següent:
 
 ```bash
 bash clean-results.sh
