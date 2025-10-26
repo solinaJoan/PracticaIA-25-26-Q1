@@ -22,24 +22,10 @@
     /pgf/number format/fixed zerofill},
     scaled y ticks=false
 ]
-\addplot+[
-    boxplot prepared={
-        median=95200,
-        upper quartile=95900,
-        lower quartile=94500,
-        upper whisker=96764,
-        lower whisker=94116
-    },
-] coordinates {}; % Solució buida
-\addplot+[
-    boxplot prepared={
-        median=94880,
-        upper quartile=95512,
-        lower quartile=94000,
-        upper whisker=96372,
-        lower whisker=93344
-    },
-] coordinates {}; % Solució greedy
+% Solució Buida
+\addplot+[boxplot prepared={median=95454, upper quartile=95879, lower quartile=94538, upper whisker=96764, lower whisker=94116}] coordinates {};
+% Solució Greedy
+\addplot+[boxplot prepared={median=95076, upper quartile=95461, lower quartile=94086, upper whisker=96372, lower whisker=93344}] coordinates {};
 \end{axis}
 \end{tikzpicture}
 \caption{Benefici econòmic obtingut per Hill Climbing segons la inicialització}

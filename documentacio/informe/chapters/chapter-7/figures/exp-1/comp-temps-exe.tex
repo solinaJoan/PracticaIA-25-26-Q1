@@ -10,9 +10,9 @@
     xticklabels={
         Bàsics,
         Modificació,
-        Tots,
+        Només moviments,
         Sense intercanvi,
-        Només moviments
+        Tots
     },
     ymajorgrids,
     width=\textwidth,
@@ -23,51 +23,19 @@
     /pgf/number format/fixed zerofill},
     scaled y ticks=false
 ]
-\addplot+[
-    boxplot prepared={
-        median=1,
-        upper quartile=1,
-        lower quartile=0,
-        upper whisker=6,
-        lower whisker=0
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=2,
-        upper quartile=3,
-        lower quartile=1,
-        upper whisker=7,
-        lower whisker=0
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=486,
-        upper quartile=561,
-        lower quartile=369,
-        upper whisker=978,
-        lower whisker=247
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=1,
-        upper quartile=1,
-        lower quartile=0,
-        upper whisker=1,
-        lower whisker=0
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=486,
-        upper quartile=543,
-        lower quartile=358,
-        upper whisker=951,
-        lower whisker=222
-    },
-] coordinates {};
+
+% Bàsics (afegir+crear)
+\addplot+[boxplot prepared={median=0.5, upper quartile=1.0, lower quartile=0.0, upper whisker=6, lower whisker=0}] coordinates {};
+% Modificació (afegir+treure+moure)
+\addplot+[boxplot prepared={median=1.5, upper quartile=2.0, lower quartile=1.0, upper whisker=7, lower whisker=1}] coordinates {};
+% Només moviments
+\addplot+[boxplot prepared={median=422, upper quartile=537.5, lower quartile=341, upper whisker=951, lower whisker=222}] coordinates {};
+% Sense intercanvi
+\addplot+[boxplot prepared={median=0.5, upper quartile=1.0, lower quartile=0.0, upper whisker=1, lower whisker=0}] coordinates {};
+% Tots
+\addplot+[boxplot prepared={median=444, upper quartile=556.25, lower quartile=370.75, upper whisker=978, lower whisker=247}] coordinates {};
+
+
 \end{axis}
 \end{tikzpicture}
 \caption{Comparació del temps d’execució segons el conjunt d’operadors}

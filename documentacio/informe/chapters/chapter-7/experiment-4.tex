@@ -4,65 +4,10 @@
 \subsubsection{Objectiu}
 Estudiar com evoluciona el temps d'execució amb l'augment del problema.
 
-\subsubsection{Configuració}
-\begin{itemize}
-    \item \textbf{Algoritmes}: Hill Climbing i SA
-    \item \textbf{Proporció}: 10 centres : 100 gasolineres (1:10)
-    \item \textbf{Rangs}: 10 a 100 centres (increment de 10)
-\end{itemize}
 
 \subsubsection{Resultats}
 
 
-
-
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}ccccc@{}}
-\toprule
-\textbf{Centres} & \textbf{Gasolineres} & \textbf{HC (ms)} & \textbf{SA (ms)} & \textbf{SA/HC} \\
-\midrule
-10 & 100 & 3.123 $\pm$ 345 & 7.234 $\pm$ 567 & 2.32 \\
-20 & 200 & 8.456 $\pm$ 789 & 18.567 $\pm$ 1.234 & 2.20 \\
-30 & 300 & 15.234 $\pm$ 1.456 & 34.567 $\pm$ 2.345 & 2.27 \\
-40 & 400 & 24.567 $\pm$ 2.123 & 56.789 $\pm$ 3.456 & 2.31 \\
-50 & 500 & 36.789 $\pm$ 3.234 & 85.234 $\pm$ 4.567 & 2.32 \\
-60 & 600 & 51.234 $\pm$ 4.567 & 119.567 $\pm$ 5.678 & 2.33 \\
-70 & 700 & 68.567 $\pm$ 5.789 & 160.234 $\pm$ 6.789 & 2.34 \\
-80 & 800 & 89.234 $\pm$ 6.890 & 208.567 $\pm$ 7.890 & 2.34 \\
-90 & 900 & 113.567 $\pm$ 8.123 & 265.234 $\pm$ 8.901 & 2.34 \\
-100 & 1000 & 142.345 $\pm$ 9.456 & 330.567 $\pm$ 9.912 & 2.32 \\
-\bottomrule
-\end{tabular}
-\caption{Escalabilitat temporal}
-\label{tab:exp4-escala}
-\end{table}
-
-\begin{figure}[H]
-\centering
-%\includegraphics[width=0.8\textwidth]{figures/exp4-escalabilitat.pdf}
-\caption{Temps d'execució en funció del tamany del problema}
-\label{fig:exp4-escala}
-\end{figure}
-
-\subsubsection{Anàlisi}
-
-\textbf{Ajust de corbes:}
-
-Per Hill Climbing:
-\begin{equation}
-T_{HC}(n) \approx 0.014 \cdot n^{2.1} \text{ ms}
-\end{equation}
-
-Per Simulated Annealing:
-\begin{equation}
-T_{SA}(n) \approx 0.033 \cdot n^{2.1} \text{ ms}
-\end{equation}
-
-\textbf{Observacions:}
-\begin{itemize}
-    \item Creixement aproximadament quadràtic per ambdós algoritmes
-    \item SA és consistentment 2.3x més lent que HC
-    \item Els paràmetres de SA segueixen sent adequats per a problemes més grans
-    \item El creixement és manejable fins a 1000 gasolineres
-\end{itemize}
+\input{chapters/chapter-7/figures/exp-4/hc-temps.tex}
+\input{chapters/chapter-7/figures/exp-4/sa-temps.tex}
+\input{chapters/chapter-7/figures/exp-4/sa-temps-zoom.tex}

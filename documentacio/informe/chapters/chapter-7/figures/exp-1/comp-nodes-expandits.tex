@@ -10,9 +10,9 @@
     xticklabels={
         Bàsics,
         Modificació,
-        Tots,
+        Només moviments,
         Sense intercanvi,
-        Només moviments
+        Tots
     },
     ymajorgrids,
     width=\textwidth,
@@ -23,51 +23,19 @@
     /pgf/number format/fixed zerofill},
     scaled y ticks=false
 ]
-\addplot+[
-    boxplot prepared={
-        median=1,
-        upper quartile=1,
-        lower quartile=1,
-        upper whisker=1,
-        lower whisker=1
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=1,
-        upper quartile=1,
-        lower quartile=1,
-        upper whisker=1,
-        lower whisker=1
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=14,
-        upper quartile=18,
-        lower quartile=11,
-        upper whisker=30,
-        lower whisker=7
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=1,
-        upper quartile=1,
-        lower quartile=1,
-        upper whisker=1,
-        lower whisker=1
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=14,
-        upper quartile=18,
-        lower quartile=11,
-        upper whisker=30,
-        lower whisker=7
-    },
-] coordinates {};
+
+% Bàsics (afegir+crear)
+\addplot+[boxplot prepared={median=1, upper quartile=1, lower quartile=1, upper whisker=1, lower whisker=1}] coordinates {};
+% Modificació (afegir+treure+moure)
+\addplot+[boxplot prepared={median=1, upper quartile=1, lower quartile=1, upper whisker=1, lower whisker=1}] coordinates {};
+% Només moviments
+\addplot+[boxplot prepared={median=12.5, upper quartile=16.5, lower quartile=11, upper whisker=30, lower whisker=7}] coordinates {};
+% Sense intercanvi
+\addplot+[boxplot prepared={median=1, upper quartile=1, lower quartile=1, upper whisker=1, lower whisker=1}] coordinates {};
+% Tots
+\addplot+[boxplot prepared={median=12.5, upper quartile=16.5, lower quartile=11, upper whisker=30, lower whisker=7}] coordinates {};
+
+
 \end{axis}
 \end{tikzpicture}
 \caption{Comparació del nombre de nodes expandits segons el conjunt d’operadors}

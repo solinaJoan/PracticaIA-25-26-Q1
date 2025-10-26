@@ -1,0 +1,58 @@
+% --- Boxplots per iteracions = 5000 ---
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici (€)},
+    xlabel={Combinació ($k$ -- $\lambda$)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5,6,7,8,9},
+    xticklabels={
+        {$k{=}5$\newline$\lambda{=}0.0001$},
+        {$k{=}5$\newline$\lambda{=}0.001$},
+        {$k{=}5$\newline$\lambda{=}0.01$},
+        {$k{=}25$\newline$\lambda{=}0.0001$},
+        {$k{=}25$\newline$\lambda{=}0.001$},
+        {$k{=}25$\newline$\lambda{=}0.01$},
+        {$k{=}125$\newline$\lambda{=}0.0001$},
+        {$k{=}125$\newline$\lambda{=}0.001$},
+        {$k{=}125$\newline$\lambda{=}0.01$}
+    },
+    ymin=92500, ymax=97000
+]
+
+% experiment-3-comp-param-sa-5000-5-1.0e-4.txt
+\addplot+[boxplot prepared={median=94994.0, upper quartile=95506.0, lower quartile=94144.0, upper whisker=96664.0, lower whisker=93400.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-5-0.001.txt
+\addplot+[boxplot prepared={median=94946.0, upper quartile=95539.0, lower quartile=94235.0, upper whisker=96600.0, lower whisker=93436.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-5-0.01.txt
+\addplot+[boxplot prepared={median=95046.0, upper quartile=95542.0, lower quartile=94099.0, upper whisker=96680.0, lower whisker=93452.0}] coordinates {};
+
+% experiment-3-comp-param-sa-5000-25-1.0e-4.txt
+\addplot+[boxplot prepared={median=94786.0, upper quartile=95338.0, lower quartile=93810.0, upper whisker=96288.0, lower whisker=93252.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-25-0.001.txt
+\addplot+[boxplot prepared={median=94860.0, upper quartile=95553.0, lower quartile=93982.0, upper whisker=96688.0, lower whisker=93568.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-25-0.01.txt
+\addplot+[boxplot prepared={median=94972.0, upper quartile=95443.0, lower quartile=93975.0, upper whisker=96596.0, lower whisker=93488.0}] coordinates {};
+
+% experiment-3-comp-param-sa-5000-125-1.0e-4.txt
+\addplot+[boxplot prepared={median=94732.0, upper quartile=95111.0, lower quartile=93834.0, upper whisker=96300.0, lower whisker=93036.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-125-0.001.txt
+\addplot+[boxplot prepared={median=94732.0, upper quartile=95108.0, lower quartile=93834.0, upper whisker=96288.0, lower whisker=93156.0}] coordinates {};
+% experiment-3-comp-param-sa-5000-125-0.01.txt
+\addplot+[boxplot prepared={median=94716.0, upper quartile=95108.0, lower quartile=93888.0, upper whisker=96288.0, lower whisker=93036.0}] coordinates {};
+
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Distribució del benefici per combinació de $k$ i $\lambda$ amb 5000 iteracions (Simulated Annealing)}
+\end{figure}

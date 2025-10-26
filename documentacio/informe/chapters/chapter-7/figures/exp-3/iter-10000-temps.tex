@@ -1,0 +1,59 @@
+% --- Boxplots per iteracions = 1000 ---
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Temps (ms)},
+    xlabel={Combinació ($k$ -- $\lambda$)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5,6,7,8,9},
+    xticklabels={
+        {$k{=}5$\newline$\lambda{=}0.0001$},
+        {$k{=}5$\newline$\lambda{=}0.001$},
+        {$k{=}5$\newline$\lambda{=}0.01$},
+        {$k{=}25$\newline$\lambda{=}0.0001$},
+        {$k{=}25$\newline$\lambda{=}0.001$},
+        {$k{=}25$\newline$\lambda{=}0.01$},
+        {$k{=}125$\newline$\lambda{=}0.0001$},
+        {$k{=}125$\newline$\lambda{=}0.001$},
+        {$k{=}125$\newline$\lambda{=}0.01$}
+    },
+    ymin=0, ymax=150
+]
+
+% experiment-3-comp-param-sa-10000-5-1.0e-4.txt
+\addplot+[boxplot prepared={median=114.5, upper quartile=118.25, lower quartile=112.5, upper whisker=120, lower whisker=106}] coordinates {};
+% experiment-3-comp-param-sa-10000-5-0.001.txt
+\addplot+[boxplot prepared={median=116.0, upper quartile=117.5, lower quartile=112.25, upper whisker=120, lower whisker=107}] coordinates {};
+% experiment-3-comp-param-sa-10000-5-0.01.txt
+\addplot+[boxplot prepared={median=114.5, upper quartile=117.75, lower quartile=112.5, upper whisker=119, lower whisker=107}] coordinates {};
+
+
+% experiment-3-comp-param-sa-10000-25-1.0e-4.txt
+\addplot+[boxplot prepared={median=116.0, upper quartile=118.75, lower quartile=114.0, upper whisker=121, lower whisker=109}] coordinates {};
+% experiment-3-comp-param-sa-10000-25-0.001.txt
+\addplot+[boxplot prepared={median=114.5, upper quartile=116.5, lower quartile=112.5, upper whisker=120, lower whisker=106}] coordinates {};
+% experiment-3-comp-param-sa-10000-25-0.01.txt
+\addplot+[boxplot prepared={median=115.5, upper quartile=117.0, lower quartile=114.0, upper whisker=121, lower whisker=109}] coordinates {};
+
+
+% experiment-3-comp-param-sa-10000-125-1.0e-4.txt
+\addplot+[boxplot prepared={median=120.0, upper quartile=125.0, lower quartile=118.0, upper whisker=133, lower whisker=112}] coordinates {};
+% experiment-3-comp-param-sa-10000-125-0.001.txt
+\addplot+[boxplot prepared={median=117.5, upper quartile=119.5, lower quartile=114.5, upper whisker=122, lower whisker=111}] coordinates {};
+% experiment-3-comp-param-sa-10000-125-0.01.txt
+\addplot+[boxplot prepared={median=116.5, upper quartile=119.75, lower quartile=114.25, upper whisker=121, lower whisker=108}] coordinates {};
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Distribució del temps d'execució per combinació de $k$ i $\lambda$ amb 1000 iteracions (Simulated Annealing)}
+\end{figure}

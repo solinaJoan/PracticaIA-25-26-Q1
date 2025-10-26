@@ -497,7 +497,7 @@ public class Main
 
             int iter = 10000;
             int k = 25;
-            double lambda = 0.001;
+            double lambda = 0.01;
 
             writer = inicialitzarFitxerExperimentSA(
                                         "experiment-4-escalabilitat-sa-" +

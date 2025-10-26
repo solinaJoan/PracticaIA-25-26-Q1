@@ -1,0 +1,41 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Temps (ms)},
+    xlabel={Combinació (Nombre centres - Nombre benzineres)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5},
+    xticklabels={
+        {$10$ centres\newline$100$ benzineres},
+        {$20$ centres\newline$200$ benzineres},
+        {$30$ centres\newline$300$ benzineres},
+        {$40$ centres\newline$400$ benzineres},
+        {$50$ centres\newline$500$ benzineres},
+    }
+]
+
+% 10 centres - 100 benzineres
+\addplot+[boxplot prepared={median=105.5, upper quartile=108.25, lower quartile=104.25, upper whisker=163, lower whisker=100}] coordinates {};
+% 20 centres - 200 benzineres
+\addplot+[boxplot prepared={median=213, upper quartile=217.25, lower quartile=210.25, upper whisker=255, lower whisker=159}] coordinates {};
+% 30 centres - 300 benzineres
+\addplot+[boxplot prepared={median=323, upper quartile=352.25, lower quartile=314.75, upper whisker=401, lower whisker=242}] coordinates {};
+% 40 centres - 400 benzineres
+\addplot+[boxplot prepared={median=444, upper quartile=449.25, lower quartile=414.5, upper whisker=473, lower whisker=315}] coordinates {};
+% 50 centres - 500 benzineres
+\addplot+[boxplot prepared={median=554.5, upper quartile=565.5, lower quartile=519.5, upper whisker=624, lower whisker=426}] coordinates {};
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Evolució temporal de l'algorisme Simulated Annealing al augmentar l'escalabilitat del problema (versió precisa)}
+\end{figure}

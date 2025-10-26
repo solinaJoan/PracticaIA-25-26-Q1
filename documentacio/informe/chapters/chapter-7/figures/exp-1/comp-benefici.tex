@@ -9,9 +9,9 @@
     xticklabels={
         Bàsics,
         Modificació,
-        Tots,
+        Només moviments,
         Sense intercanvi,
-        Només moviments
+        Tots
     },
     ymajorgrids,
     width=\textwidth,
@@ -22,51 +22,19 @@
     /pgf/number format/fixed zerofill},
     scaled y ticks=false
 ]
-\addplot+[
-    boxplot prepared={
-        median=94612,
-        upper quartile=95344,
-        lower quartile=93700,
-        upper whisker=96288,
-        lower whisker=93036
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=94612,
-        upper quartile=95344,
-        lower quartile=93700,
-        upper whisker=96288,
-        lower whisker=93036
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=94880,
-        upper quartile=95512,
-        lower quartile=94000,
-        upper whisker=96372,
-        lower whisker=93344
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=94612,
-        upper quartile=95344,
-        lower quartile=93700,
-        upper whisker=96288,
-        lower whisker=93036
-    },
-] coordinates {};
-\addplot+[
-    boxplot prepared={
-        median=94880,
-        upper quartile=95512,
-        lower quartile=94000,
-        upper whisker=96372,
-        lower whisker=93344
-    },
-] coordinates {};
+
+% Bàsics (afegir+crear)
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93834, upper whisker=96288, lower whisker=93036}] coordinates {};
+% Modificació (afegir+treure+moure)
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93834, upper whisker=96288, lower whisker=93036}] coordinates {};
+% Només moviments
+\addplot+[boxplot prepared={median=95076, upper quartile=95461, lower quartile=94086, upper whisker=96372, lower whisker=93344}] coordinates {};
+% Sense intercanvi
+\addplot+[boxplot prepared={median=94732, upper quartile=95108, lower quartile=93834, upper whisker=96288, lower whisker=93036}] coordinates {};
+% Tots
+\addplot+[boxplot prepared={median=95076, upper quartile=95461, lower quartile=94086, upper whisker=96372, lower whisker=93344}] coordinates {};
+
+
 \end{axis}
 \end{tikzpicture}
 \caption{Comparació del benefici econòmic segons el conjunt d’operadors}

@@ -16,24 +16,11 @@
     /pgf/number format/fixed zerofill},
     scaled y ticks=false
 ]
-\addplot+[
-    boxplot prepared={
-        median=2190,
-        upper quartile=2220,
-        lower quartile=2020,
-        upper whisker=2789,
-        lower whisker=1993
-    },
-] coordinates {}; % Buida
-\addplot+[
-    boxplot prepared={
-        median=472,
-        upper quartile=551,
-        lower quartile=346,
-        upper whisker=936,
-        lower whisker=231
-    },
-] coordinates {}; % Greedy
+% Solució Buida
+\addplot+[boxplot prepared={median=2193.5, upper quartile=2217.75, lower quartile=2158.5, upper whisker=2789, lower whisker=1993}] coordinates {};
+% Solució Greedy
+\addplot+[boxplot prepared={median=412, upper quartile=541, lower quartile=347.25, upper whisker=936, lower whisker=231}] coordinates {};
+
 \end{axis}
 \end{tikzpicture}
 \caption{Temps d’execució segons la inicialització}
