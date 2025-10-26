@@ -78,40 +78,12 @@ h_2(\text{estat}) = -(B_{\text{servides}} - P_{\text{no servides}} - C_{\text{km
 
 Aquesta variant incentiva explícitament a servir totes les peticions rendibles, ja que la penalització dóna un cost addicional a deixar-les pendents. Així, H2 és més completa que H1 i evita situacions en què es deixin peticions importants sense atendre, tot i que pot conduir a servir peticions amb rendibilitat baixa i té un càlcul lleugerament més complex.
 
-\subsubsection{Heurística H3: Benefici amb ponderacions}
-
-Per a una major flexibilitat, H3 permet assignar pesos diferents a cada factor:
-
-\begin{equation}
-h_3(\text{estat}) = -(\alpha \cdot B_{\text{servides}} - \beta \cdot P_{\text{no servides}} - \gamma \cdot C_{\text{km}})
-\end{equation}
-
-Els paràmetres $\alpha$, $\beta$ i $\gamma$ permeten ajustar la importància relativa del benefici, la penalització i el cost per quilòmetre. Això és útil quan es vol experimentar amb diferents prioritats, però requereix trobar els valors òptims experimentalment, cosa que pot ser laboriosa.
-
-\subsection{Anàlisi de les ponderacions}
-
-Per seleccionar ponderacions raonables, s’ha analitzat l’escala de cada factor. El benefici i la penalització són de magnitud similar, mentre que el cost de quilòmetres és aproximadament un ordre de magnitud inferior. Això justifica que les ponderacions per defecte (1.0 per al benefici, 0.5 per a la penalització i 1.0 per al cost) ofereixin un equilibri raonable.
-
 \subsection{Heurística escollida}
 
 Després d’analitzar els pros i contres, s’ha escollit H2 per als experiments principals:
 
 \begin{equation}
-h(\text{estat}) = -(B_{\text{servides}} - 0.5 \cdot P_{\text{no servides}} - C_{\text{km}})
+h(\text{estat}) = -(B_{\text{servides}} - \cdot P_{\text{no servides}} - C_{\text{km}})
 \end{equation}
 
-Aquesta decisió es basa en el fet que H2 equilibra els tres objectius sense requerir ajust manual de paràmetres i és més completa que H1 però més senzilla que H3.
-\subsection{Admissibilitat de la heurística}
-
-Una heurística s’anomena \textit{admissible} quan mai sobreestima el cost real fins a l’objectiu, és a dir, sempre proporciona una estimació optimista. En el nostre cas, com que la funció heurística H2 calcula un benefici net negatiu (per adaptar-se a la minimització), la pregunta és si aquesta estimació mai subestima el valor real del benefici net que s’obtindria en arribar a una solució completa.
-
-En aquest problema concret, la heurística H2 no és estrictament admissible. Això es deu als següents motius:
-
-\begin{itemize}
-\item La penalització de les peticions no servides assumeix que aquestes es serviran l’endemà, però en realitat pot passar que algunes no es serveixin mai dins del horari disponible. Per tant, H2 pot subestimar la pèrdua real si una petició resta sense servir indefinidament.
-\item La heurística considera només la combinació de beneficis ja servits, penalitzacions immediates i cost de quilòmetres recorreguts fins a l’estat actual. No té informació del benefici net final que es podria obtenir amb futures assignacions més òptimes, de manera que no sempre garanteix una estimació conservadora del cost mínim.
-\end{itemize}
-
-Tot i això, H2 és \textit{informativa} i útil en pràctica, ja que reflecteix correctament les tendències generals del problema: premia solucions amb alt benefici i baix cost i penalitza deixar peticions rendibles sense servir. Això la fa adequada per a algorismes de cerca heurística com A* o Hill Climbing, encara que no garanteixi trobar la solució òptima estricta en termes teòrics.
-
-En resum, H2 no és admissible en sentit estricte, però és una heurística efectiva i equilibrada per guiar la recerca cap a bones solucions de manera consistent.
+Aquesta decisió es basa en el fet que H2 equilibra els tres objectius i és més completa que H1. No hem considerat afegir ponderacions, ja que tots els operadors tenen la mateixa unitat (€) i l'enunciat no especificava si era més important maximitzar ingressos o minimitzar peèrdues o costos. Sense ponderacions, els tres objectius tenen el mateix pes a l'hora de buscar una solució.
