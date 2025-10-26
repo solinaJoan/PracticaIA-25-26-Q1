@@ -6,46 +6,85 @@ import java.util.*;
 
 public class PracticaSuccessorFunctionSA implements SuccessorFunction 
 {
+    // Configuració dels operadors a utilitzar
+    private boolean usarAfegir;
+    private boolean usarTreure;
+    private boolean usarMoure;
+    private boolean usarIntercanviar;
+    private boolean usarCrear;
+    
     private Random random = new Random();
+
+    public PracticaSuccessorFunctionSA(boolean afegir, boolean treure, 
+                                       boolean moure, boolean intercanviar, 
+                                       boolean crear)
+    {
+        this.usarAfegir = afegir;
+        this.usarTreure = treure;
+        this.usarMoure = moure;
+        this.usarIntercanviar = intercanviar;
+        this.usarCrear = crear;
+    }
 
     public List<Successor> getSuccessors(Object state) 
     {
         List<Successor> retval = new ArrayList<>();
+        List<Successor> allSucc = new ArrayList<>();
         PracticaBoard board = (PracticaBoard) state;
-
-        // Escollim un operador aleatori
-        int operador = random.nextInt(5);
 
         PracticaBoard nouBoard = null;
         String action = "";
 
-        switch (operador) 
+        if (usarAfegir)
         {
-            case 0:
-                nouBoard = aplicarAfegirPeticio(board);
-                action = "AfegirPeticio (aleatori)";
-                break;
-            case 1:
-                nouBoard = aplicarTreurePeticio(board);
-                action = "TreurePeticio (aleatori)";
-                break;
-            case 2:
-                nouBoard = aplicarMourePeticio(board);
-                action = "MourePeticio (aleatori)";
-                break;
-            case 3:
-                nouBoard = aplicarIntercanviarPeticions(board);
-                action = "IntercanviarPeticions (aleatori)";
-                break;
-            case 4:
-                nouBoard = aplicarCrearViatge(board);
-                action = "CrearViatge (aleatori)";
-                break;
+            nouBoard = aplicarAfegirPeticio(board);
+            action = "AfegirPeticio (aleatori)";
+            if (nouBoard != null && nouBoard.compleixRestriccions()) 
+            {
+                allSucc.add(new Successor(action, nouBoard));
+            }
+        }
+        if (usarCrear)
+        {
+            nouBoard = aplicarCrearViatge(board);
+            action = "CrearViatge (aleatori)";
+            if (nouBoard != null && nouBoard.compleixRestriccions()) 
+            {
+                allSucc.add(new Successor(action, nouBoard));
+            }
+        }
+        if (usarIntercanviar)
+        {
+            nouBoard = aplicarIntercanviarPeticions(board);
+            action = "IntercanviarPeticions (aleatori)";
+            if (nouBoard != null && nouBoard.compleixRestriccions()) 
+            {
+                allSucc.add(new Successor(action, nouBoard));
+            }
+        }
+        if (usarMoure)
+        {
+            nouBoard = aplicarMourePeticio(board);
+            action = "MourePeticio (aleatori)";
+            if (nouBoard != null && nouBoard.compleixRestriccions()) 
+            {
+                allSucc.add(new Successor(action, nouBoard));
+            }
+        }
+        if (usarTreure)
+        {
+            nouBoard = aplicarTreurePeticio(board);
+            action = "TreurePeticio (aleatori)";
+            if (nouBoard != null && nouBoard.compleixRestriccions()) 
+            {
+                allSucc.add(new Successor(action, nouBoard));
+            } 
         }
 
-        if (nouBoard != null && nouBoard.compleixRestriccions()) 
+
+        if (!allSucc.isEmpty()) 
         {
-            retval.add(new Successor(action, nouBoard));
+            retval.add(allSucc.get(random.nextInt(allSucc.size())));
         }
 
         return retval;
