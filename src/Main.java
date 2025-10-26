@@ -398,10 +398,12 @@ public class Main
                         CentrosDistribucion cd = new CentrosDistribucion(10, 1, 
                                                         1234 + rep);
 
+                        long start_sa = System.currentTimeMillis();
                         double benefici = executarSimulatedAnnealing(
                                               gs, cd, iter, steps, 
                                               k, lambda, conjunt
                                           );
+                        long temps_sa = System.currentTimeMillis() - start_sa;
 
                         try 
                         {
@@ -410,7 +412,7 @@ public class Main
                                          " || " +
                                          iter + " || " +
                                          k + " || " +
-                                         lambda + "\n");
+                                         lambda + " ||" + temps_sa + "\n");
                             writer.flush();
                         } 
                         catch (IOException e) 
@@ -512,10 +514,12 @@ public class Main
                 CentrosDistribucion cd = new CentrosDistribucion(centres, 1, 
                                                 1234 + rep);
 
+                long start_sa = System.currentTimeMillis();
                 double benefici = executarSimulatedAnnealing(
                                       gs, cd, iter, iter / 10, 
                                       k, lambda, conjunt
                                   );
+                long temps_sa = System.currentTimeMillis() - start_sa;
 
                 try 
                 {
@@ -524,7 +528,7 @@ public class Main
                                  " || " +
                                  iter + " || " +
                                  k + " || " +
-                                 lambda + "\n");
+                                 lambda + " ||" + temps_sa + "\n");
                     writer.flush();
                 } 
                 catch (IOException e) 
@@ -1046,7 +1050,7 @@ public class Main
 
             // Escriure capçalera
             writer.write("Execucio || Benefici (€) || Iteracions || " + 
-                         " k || Lambda\n");
+                         " k || Lambda || Temps (ms)\n");
             writer.flush();
 
             return writer;
