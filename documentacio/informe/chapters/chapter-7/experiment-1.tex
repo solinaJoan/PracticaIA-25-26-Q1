@@ -1,11 +1,42 @@
 \subsection{Experiment 1: Comparació d'operadors}
 
+\vspace{0.75cm}
+
 \subsubsection{Objectiu}
 Determinar quin conjunt d'operadors ofereix millors resultats amb Hill Climbing.
 
 \subsubsection{Resultats}
 
+De cara a evaluar la qualitat dels diferents conjunts d'operadors, hem considerat que la característica principal que han de tenir es la capacitat de millorar la solució inicial. Això es tradueix en analitzar la quantitat de nodes expandits per aquests conjunts d'operadors. Seguidament, per descartar entre conjunts que ofereixen resultats similars en quant a expansió de nodes, evaluem la seva capacitat de generar solucions amb beneficis econòmics alts, pero amb el mínim temps d'execució possible.
+
+\vspace{0.2cm}
+
+Com que l’objectiu és analitzar la capacitat dels operadors per trobar millores, s’ha escollit com a estratègia de solució inicial la solució greedy, ja que parteix d’un estat raonablement bo i permet observar quins conjunts d'operadors són realment capaços de millorar-lo. Si s’hagués fet servir la solució buida, tots els conjunts haurien mostrat millores trivials, i no es podria distingir la seva qualitat real.
+
+\vspace{0.2cm}
+
+Els resultats de les següents gràfiques mostren clarament que els conjunts \textit{Només moviments} i \textit{Tots} són els únics que exploren realment l’espai de cerca, com es veu pel nombre de nodes expandits i el temps d’execució molt superior. 
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-1/comp-nodes-expandits.tex}
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-1/comp-temps-exe.tex}
+
+\vspace{0.5cm}
+
+Aquests dos conjunts, a més, aconsegueixen els beneficis econòmics més alts, tal com es mostra a la següent gràfica.
+
+\vspace{0.5cm}
 
 \input{chapters/chapter-7/figures/exp-1/comp-benefici.tex}
-\input{chapters/chapter-7/figures/exp-1/comp-nodes-expandits.tex}
-\input{chapters/chapter-7/figures/exp-1/comp-temps-exe.tex}
+
+\vspace{0.5cm}
+
+No obstant la similitud entre els dos conjunts guanyadors, el millors conjunt d’operadors es el de \textit{Només moviments}, ja que obté un rendiment similar al conjunt complet però amb un cost computacional lleugerament menor.
+
+
+
+

@@ -1,0 +1,41 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici econòmic (€)},
+    xlabel={Combinació (Nombre centres - Nombre benzineres)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5},
+    xticklabels={
+        {$10$ centres\newline$100$ benzineres},
+        {$20$ centres\newline$200$ benzineres},
+        {$30$ centres\newline$300$ benzineres},
+        {$40$ centres\newline$400$ benzineres},
+        {$50$ centres\newline$500$ benzineres},
+    }
+]
+
+% 10 centres - 100 benzineres
+\addplot+[boxplot prepared={median=95076, upper quartile=95461, lower quartile=94086, upper whisker=96372, lower whisker=93344}] coordinates {};
+% 20 centres - 200 benzineres
+\addplot+[boxplot prepared={median=192372, upper quartile=192695, lower quartile=192140, upper whisker=192900, lower whisker=191384}] coordinates {};
+% 30 centres - 300 benzineres
+\addplot+[boxplot prepared={median=290178, upper quartile=290547, lower quartile=289197, upper whisker=292088, lower whisker=288036}] coordinates {};
+% 40 centres - 400 benzineres
+\addplot+[boxplot prepared={median=387858, upper quartile=388642, lower quartile=386390, upper whisker=389820, lower whisker=385268}] coordinates {};
+% 50 centres - 500 benzineres
+\addplot+[boxplot prepared={median=486234, upper quartile=487617, lower quartile=485496, upper whisker=489056, lower whisker=484612}] coordinates {};
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Evolució del benefici econòmic de l'algorisme Hill Climbing al augmentar l'escalabilitat del problema}
+\end{figure}

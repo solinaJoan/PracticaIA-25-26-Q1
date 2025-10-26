@@ -1,11 +1,30 @@
 \subsection{Experiment 2: Comparació de solucions inicials}
 
+\vspace{0.75cm}
+
 \subsubsection{Objectiu}
 Determinar quina estratègia de generació de la solució inicial és més adequada.
 
 \subsubsection{Resultats}
 
+Tot i que a l’enunciat s’indica que cal fixar el conjunt d’operadors escollit a l’experiment 1, en aquest cas s’ha fet una excepció: s’ha emprat el conjunt complet d’operadors, ja que la solució buida necessita operadors d’inserció per poder construir una solució viable. El conjunt guanyador de l’experiment anterior (només moviments) no permetria cap millora si es partís d’una solució buida, ja que no inclou operadors d'inserció de peticions.
+
+\vspace{0.2cm}
+
+Els resultats de les gràfiques d'avall mostren que la solució buida explora molt més l’espai de cerca (més de 120 nodes expandits de mitjana) però amb un temps d’execució molt superior i un benefici lleugerament millor que la greedy. Tot i això, aquesta diferència en benefici és mínima i no justifica l’augment considerable del temps de càlcul.
+
+\vspace{0.2cm}
+
+La solució greedy, en canvi, ofereix un rendiment molt més eficient, amb beneficis molt propers als màxims i un temps d’execució molt menor. A més, redueix el risc d’exploracions innecessàries, ja que parteix d’un estat inicial ja raonablement bo. Per tant, la solució greedy és la més adequada. A més, junt amb el conjunt d'operadors guanyador de l'experiment 1, s'obté un temps d'execució encara millor.
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-2/comp-nodes-expandits.tex}
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-2/comp-temps-exe.tex}
+
+\vspace{0.5cm}
 
 \input{chapters/chapter-7/figures/exp-2/comp-benefici.tex}
-\input{chapters/chapter-7/figures/exp-2/comp-nodes-expandits.tex}
-\input{chapters/chapter-7/figures/exp-2/comp-temps-exe.tex}

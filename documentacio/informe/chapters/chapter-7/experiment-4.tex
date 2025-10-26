@@ -1,13 +1,42 @@
 
 \subsection{Experiment 4: Escalabilitat temporal}
 
+\vspace{0.75cm}
+
 \subsubsection{Objectiu}
-Estudiar com evoluciona el temps d'execució amb l'augment del problema.
+
+Aquest experiment té com a objectiu analitzar com creix el temps d’execució dels algorismes Hill Climbing i Simulated Annealing quan augmenta l’escalabilitat del problema, és a dir, el nombre de centres de distribució i gasolineres (de 10–100 fins a 50–500).
 
 
 \subsubsection{Resultats}
 
 
+Els resultats de sota mostren que el temps d’execució del Hill Climbing creix de manera clarament no lineal, passant d’uns pocs centenars de mil·lisegons a més de 200.000 ms per l’escenari més gran. Això és esperable, ja que l’algorisme ha d’explorar un espai de cerca cada vegada més ampli, amb més possibles moviments i combinacions per avaluar. En comparació amb Simulated Annealing, clarament es veu que Hill Climbing es inabordable per conjunts de centres i benzineres relativament grans.
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-4/hc-temps.tex}
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-4/sa-temps.tex}
+
+\vspace{0.5cm}
+
+A la gràfica de sota fem un \textit{zoom} per veure com evoluciona el cost temporal del Simulated Annealing. Aquest mostra un creixement pràcticament lineal: el temps passa d’uns 100 ms a 550 ms a mesura que el problema augmenta cinc vegades de mida.
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-4/sa-temps-zoom.tex}
+
+\vspace{0.5cm}
+
+A més, a les següents gràfiques podem veure que les diferències entre els dos algorismes en quant a benefici econòmic són relativament mínimes, cosa que fa que no es justifiqui l'augment massiu del cost temporal per part de Hill Climbing.
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-4/hc-benefici.tex}
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-4/sa-benefici.tex}

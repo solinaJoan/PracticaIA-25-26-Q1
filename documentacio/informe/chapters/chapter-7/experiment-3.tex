@@ -1,13 +1,39 @@
 
 \subsection{Experiment 3: Ajust de paràmetres del Simulated Annealing}
 
+\vspace{0.75cm}
+
 \subsubsection{Objectiu}
 Trobar els paràmetres òptims per a Simulated Annealing en el nostre problema.
 
+\subsubsection{Resultats}
+
+Els resultats mostren que, per a un nombre baix d’iteracions (1000 o 5000), totes les configuracions aconsegueixen beneficis similars i lleugerament inferiors als de Hill Climbing, la qual cosa indica que el nombre d’iteracions no és suficient perquè l’algorisme explori prou l’espai de cerca. Quan s’augmenta fins a 10000 iteracions, s’observa una millora més clara en el benefici obtingut, especialment per a la combinació amb $k = 25$ i $\lambda = 0.01$.
+
+\vspace{0.5cm}
 
 \input{chapters/chapter-7/figures/exp-3/iter-1000-benefici.tex}
-\input{chapters/chapter-7/figures/exp-3/iter-1000-temps.tex}
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-3/iter-5000-benefici.tex}
-\input{chapters/chapter-7/figures/exp-3/iter-5000-temps.tex}
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-3/iter-10000-benefici.tex}
+
+\vspace{0.5cm}
+
+Pel que fa al temps d’execució, totes les combinacions mostren valors similars dins de cada nivell d’iteracions, de manera que la diferència de rendiment es deu principalment a la qualitat de les solucions trobades. Així doncs, el conjunt de paràmetres ($10000$ iteracions, $k = 25$, $\lambda = 0.01$) és el que proporciona els millors beneficis econòmics de manera consistent i, per molt que aquest increment de benefici vingui acompanyat amb un augment del cost temporal, aquest cost no es inabordable i és per això que s’ha seleccionat com a configuració òptima. 
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-3/iter-1000-temps.tex}
+
+\vspace{0.5cm}
+
+\input{chapters/chapter-7/figures/exp-3/iter-5000-temps.tex}
+
+\vspace{0.5cm}
+
 \input{chapters/chapter-7/figures/exp-3/iter-10000-temps.tex}

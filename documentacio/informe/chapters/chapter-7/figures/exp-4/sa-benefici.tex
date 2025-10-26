@@ -1,0 +1,42 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    boxplot/draw direction=y,
+    ylabel={Benefici econòmic (€)},
+    xlabel={Combinació (Nombre centres - Nombre benzineres)},
+    x tick label style={text width=1.7cm, align=center, rotate=90},
+    y tick label style={/pgf/number format/fixed,
+                        /pgf/number format/precision=0,
+                        /pgf/number format/fixed zerofill},
+    scaled y ticks=false,
+    ymajorgrids,
+    width=\textwidth,
+    height=8cm,
+    xtick={1,2,3,4,5},
+    xticklabels={
+        {$10$ centres\newline$100$ benzineres},
+        {$20$ centres\newline$200$ benzineres},
+        {$30$ centres\newline$300$ benzineres},
+        {$40$ centres\newline$400$ benzineres},
+        {$50$ centres\newline$500$ benzineres},
+    }
+]
+
+% 10 centres - 100 benzineres
+\addplot+[boxplot prepared={median=95214, upper quartile=95689, lower quartile=94264, upper whisker=96768, lower whisker=93848}] coordinates {};
+% 20 centres - 200 benzineres
+\addplot+[boxplot prepared={median=192172, upper quartile=192354, lower quartile=191928, upper whisker=192884, lower whisker=191228}] coordinates {};
+% 30 centres - 300 benzineres
+\addplot+[boxplot prepared={median=289798, upper quartile=290440, lower quartile=288971, upper whisker=292632, lower whisker=287516}] coordinates {};
+% 40 centres - 400 benzineres
+\addplot+[boxplot prepared={median=387642, upper quartile=388465, lower quartile=386010, upper whisker=389852, lower whisker=384840}] coordinates {};
+% 50 centres - 500 benzineres
+\addplot+[boxplot prepared={median=486144, upper quartile=487351, lower quartile=484886, upper whisker=488944, lower whisker=484060}] coordinates {};
+
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Evolució del benefici econòmic de l'algorisme Simulated Annealing al augmentar l'escalabilitat del problema}
+\end{figure}

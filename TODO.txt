@@ -1,9 +1,0 @@
-No se si l'heuristica del codi es la millor, a la rubrica de avaluacio diu quejustifiquem les ponderacions de la funcio heuristica, cosa que no hem posat.
-
-04-operators
-07-experiments
-08-conclusions
-
-05-initial-solution (revisar)
-
-apuntar-nos a l'entrega presencial des del raco
