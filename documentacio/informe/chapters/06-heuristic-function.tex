@@ -1,6 +1,8 @@
 \section{Funció heurística}
 \label{sec:heuristic}
 
+\vspace{0.5cm}
+
 \subsection{Objectiu de la funció heurística}
 
 En el context del nostre problema de gestió de peticions amb limitacions de recursos, l'objectiu principal de la heurística és ajudar-nos a decidir quines peticions atendre i en quin ordre, de manera que s’aconsegueixi un equilibri entre diversos factors. Concretament, la funció heurística ha de perseguir tres objectius principals:
@@ -13,9 +15,13 @@ En el context del nostre problema de gestió de peticions amb limitacions de rec
 
 En resum, la funció heurística ha de ser capaç de mesurar de manera equilibrada el compromís entre obtenir ingressos, controlar costos i respectar la urgència de les peticions.
 
+\vspace{0.5cm}
+
 \subsection{Factors que intervenen}
 
 Per poder construir una heurística eficaç, cal tenir en compte diversos factors que influeixen directament en el benefici net de qualsevol solució:
+
+\vspace{0.5cm}
 
 \subsubsection{Benefici de les peticions servides}
 
@@ -36,6 +42,8 @@ Així, el benefici total d’una solució és simplement la suma dels beneficis 
 B_{\text{servides}} = \sum_{p \in P_{\text{servides}}} B_{\text{petició}}(d_p)
 \end{equation}
 
+\vspace{0.5cm}
+
 \subsubsection{Penalització de les peticions no servides}
 
 Quan una petició no s’atén en un dia determinat, això suposa una pèrdua potencial, ja que el benefici que s’hauria obtingut disminueix l’endemà. La penalització per no servir una petició es calcula com la diferència entre el benefici si s’atén avui i el benefici si s’atén l’endemà:
@@ -46,6 +54,8 @@ P_{\text{no servides}} = \sum_{p \in P_{\text{no servides}}} \left(B_{\text{peti
 
 Aquesta penalització permet a la heurística tenir en compte el cost d’oportunitat de deixar peticions pendents.
 
+\vspace{0.5cm}
+
 \subsubsection{Cost dels quilòmetres}
 
 El cost derivat del recorregut dels camions és un factor directe que cal minimitzar. Cada quilòmetre té un cost fix de 2 unitats, i per tant el cost total és la suma del cost de tots els quilòmetres recorreguts pels camions:
@@ -54,9 +64,13 @@ El cost derivat del recorregut dels camions és un factor directe que cal minimi
 C_{\text{km}} = 2 \times \sum_{c=1}^{n} \text{km}_c
 \end{equation}
 
+\vspace{0.5cm}
+
 \subsection{Funcions heurístiques proposades}
 
 A partir d’aquests factors, s’han considerat diverses heurístiques, amb diferents graus de complexitat i precisió:
+
+\vspace{0.5cm}
 
 \subsubsection{Heurística H1: Només benefici}
 
@@ -68,6 +82,8 @@ h_1(\text{estat}) = -(B_{\text{servides}} - C_{\text{km}})
 
 El signe negatiu es fa servir per convertir un problema de maximització en un de minimització, compatible amb els requisits d’algoritmes de cerca com els de la biblioteca AIMA. Aquesta heurística és molt fàcil de calcular i reflecteix directament l’objectiu principal, però té la limitació que no penalitza explícitament les peticions que es deixen sense servir, cosa que podria fer que s’ignorin peticions amb molts dies d’espera si el seu cost és elevat.
 
+\vspace{0.5cm}
+
 \subsubsection{Heurística H2: Benefici amb penalització}
 
 Una evolució de l’anterior consisteix a afegir la penalització per peticions no servides:
@@ -77,6 +93,8 @@ h_2(\text{estat}) = -(B_{\text{servides}} - P_{\text{no servides}} - C_{\text{km
 \end{equation}
 
 Aquesta variant incentiva explícitament a servir totes les peticions rendibles, ja que la penalització dóna un cost addicional a deixar-les pendents. Així, H2 és més completa que H1 i evita situacions en què es deixin peticions importants sense atendre, tot i que pot conduir a servir peticions amb rendibilitat baixa i té un càlcul lleugerament més complex.
+
+\vspace{0.5cm}
 
 \subsection{Heurística escollida}
 

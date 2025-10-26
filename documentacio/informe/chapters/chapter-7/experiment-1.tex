@@ -5,6 +5,9 @@
 \subsubsection{Objectiu}
 Determinar quin conjunt d'operadors ofereix millors resultats amb Hill Climbing.
 
+\vspace{0.5cm}
+
+
 \subsubsection{Configuració experimental}
 
 Per aquest experiment s'han definit cinc conjunts diferents d'operadors, cadascun amb una combinació específica que permet avaluar diferents estratègies d'exploració de l'espai de cerca:
@@ -21,6 +24,9 @@ Per aquest experiment s'han definit cinc conjunts diferents d'operadors, cadascu
     \item \textbf{Tots:} Inclou els cinc operadors disponibles (Afegir, Treure, Moure, Intercanviar i Crear), proporcionant la màxima flexibilitat per explorar l'espai de cerca.
 \end{itemize}
 
+\vspace{0.5cm}
+
+
 \subsubsection{Metodologia d'avaluació}
 
 De cara a avaluar la qualitat dels diferents conjunts d'operadors, hem considerat que la característica principal que han de tenir és la capacitat de millorar la solució inicial. Això es tradueix en analitzar la quantitat de nodes expandits per aquests conjunts d'operadors. Seguidament, per descartar entre conjunts que ofereixen resultats similars en quant a expansió de nodes, avaluem la seva capacitat de generar solucions amb beneficis econòmics alts, però amb el mínim temps d'execució possible.
@@ -28,6 +34,9 @@ De cara a avaluar la qualitat dels diferents conjunts d'operadors, hem considera
 \vspace{0.2cm}
 
 Com que l'objectiu és analitzar la capacitat dels operadors per trobar millores, s'ha escollit com a estratègia de solució inicial la solució greedy, ja que parteix d'un estat raonablement bo i permet observar quins conjunts d'operadors són realment capaços de millorar-lo. Si s'hagués fet servir la solució buida, tots els conjunts haurien mostrat millores trivials, i no es podria distingir la seva qualitat real.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Anàlisi dels resultats}
 
@@ -60,6 +69,9 @@ Aquest increment de temps és consistent amb l'augment de nodes expandits i repr
 La qualitat de les solucions, mesurada pel benefici econòmic obtingut, correlaciona directament amb la capacitat d'exploració. Els conjunts que només expandeixen un node obtenen una mediana de benefici de 94.732€, corresponent essencialment a la solució inicial greedy sense millores.
 
 Els conjunts Només Moviments i Tots aconsegueixen un benefici significativament superior, amb una mediana de 95.076€. Aquest increment de 344€ (aproximadament un 0,36\% de millora) demostra que aquests operadors són efectius per escapar dels màxims locals i trobar solucions de millor qualitat.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Conclusions}
 

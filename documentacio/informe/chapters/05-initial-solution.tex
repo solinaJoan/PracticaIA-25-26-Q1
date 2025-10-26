@@ -1,15 +1,19 @@
 \section{Estratègies de generació de la solució inicial}
 \label{sec:initial}
 
+\vspace{0.5cm}
+
 \subsection{Importància de la solució inicial}
 
 La qualitat de la solució inicial té un impacte significatiu en el rendiment dels algoritmes de cerca local. Una solució inicial de qualitat pot reduir el temps de convergència i millorar la qualitat de la solució final obtinguda. És per això que hem explorat diverses estratègies per generar la solució inicial, avaluant el compromís entre la qualitat de la solució generada i el cost computacional d'obtenir-la.
 
-\subsection{Estratègies Considerades}
+\vspace{0.5cm}
 
 \subsection{Assignació greedy per Benefici}
 
 L'estratègia greedy per benefici consisteix en assignar iterativament les peticions més prometedores a cada camió, prioritzant aquelles que maximitzen el benefici mentre es respecten les restriccions del problema.
+
+\vspace{0.5cm}
 
 \subsubsection{Descripció de l'algorisme}
 
@@ -50,6 +54,8 @@ Aquest procés es repeteix fins que no es poden crear més viatges per al camió
 \end{algorithmic}
 \end{algorithm}
 
+\vspace{0.5cm}
+
 \subsubsection{Justificació de l'estratègia}
 
 L'estratègia greedy per benefici presenta diversos avantatges que justifiquen la seva elecció:
@@ -63,6 +69,8 @@ L'estratègia greedy per benefici presenta diversos avantatges que justifiquen l
     
     \item \textbf{Bona base per a cerca local:} Les solucions generades ja incorporen decisions raonables sobre l'agrupació de peticions, proporcionant un punt de partida sòlid per als operadors de cerca local.
 \end{itemize}
+
+\vspace{0.5cm}
 
 \subsection{Altres Estratègies Descartades}
 

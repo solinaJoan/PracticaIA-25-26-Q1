@@ -1,9 +1,12 @@
 \subsection{Experiment 2: Comparació de solucions inicials}
 
-\vspace{0.75cm}
+\vspace{0.5cm}
 
 \subsubsection{Objectiu}
 Determinar quina estratègia de generació de la solució inicial és més adequada per a l'algorisme Hill Climbing.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Configuració experimental}
 
@@ -18,6 +21,9 @@ Per aquest experiment s'han comparat dues estratègies de generació de la soluc
 \paragraph{Consideració sobre el conjunt d'operadors}
 
 Tot i que a l'enunciat s'indica que cal fixar el conjunt d'operadors escollit a l'experiment 1, en aquest cas s'ha fet una excepció: s'ha emprat el conjunt complet d'operadors per a ambdues estratègies. Aquesta decisió es justifica perquè la solució buida necessita operadors d'inserció (afegir i crear) per poder construir una solució viable. El conjunt guanyador de l'experiment anterior (només moviments) no permetria cap millora si es partís d'una solució buida, ja que no inclou operadors d'inserció de peticions i per tant no podria construir cap viatge.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Anàlisi dels resultats}
 
@@ -50,6 +56,9 @@ La solució greedy, en canvi, s'executa en només 412 ms de mediana, aproximadam
 Sorprenentment, malgrat l'enorme diferència en nodes expandits i temps d'execució, la qualitat de les solucions finals és molt similar. La solució buida obté una mediana de 95.454€, mentre que la solució greedy obté 95.076€, una diferència de només 378€ (aproximadament un 0,4\%).
 
 Aquest resultat és particularment rellevant: la solució buida explora molt més l'espai de cerca però només aconsegueix una millora marginal en el benefici. Això suggereix que la solució greedy ja es troba en una regió de l'espai de cerca propera a l'òptim, i que l'exploració addicional de la solució buida no compensa el cost computacional afegit.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Conclusions}
 

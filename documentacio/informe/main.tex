@@ -1,6 +1,5 @@
-\documentclass[12pt, a4paper]{article}
-
-% Paquets essencials
+\documentclass[12pt]{article}
+\usepackage[a4paper, left = 1in, right = 1in, top = 1in, bottom = 1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[catalan]{babel}
 \usepackage[T1]{fontenc}
@@ -18,6 +17,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{float}
+\usepackage{emptypage}
 
 % Dibuix i gràfics
 \usepackage{tikz}          % Gràfics vectorials en general
@@ -115,7 +115,7 @@
 % Configuració de hyperref
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,
     filecolor=magenta,
     urlcolor=cyan,
     citecolor=blue,
@@ -127,7 +127,7 @@
 \title{
     \includegraphics[width=0.3\textwidth]{figures/upc-logo.png}\\[1cm]
     {\LARGE Pràctica de Cerca Local}\\[0.5cm]
-    {\Large Planificació de Rutes de Proveïment de Gasolineres}\\[0.5cm]
+    {\Large Planificació de Rutes de Proveïment de Benzineres}\\[0.5cm]
 
 }
 
@@ -147,37 +147,35 @@
 
 \date{26 d'octubre de 2025}
 
+\pagestyle{plain}
+\setlength{\parindent}{0pt}
+
 \begin{document}
 
 \maketitle
-\thispagestyle{empty}
-
 \newpage
 \tableofcontents
-\newpage
 
-\listoffigures
-\listoftables
-\lstlistoflistings
-\newpage
 
 % Capítols principals
+\newpage
 \input{chapters/01-introduction}
+\newpage
 \input{chapters/02-problem-definition}
+\newpage
 \input{chapters/03-state-representation}
+\newpage
 \input{chapters/04-operators}
+\newpage
 \input{chapters/05-initial-solution}
+\newpage
 \input{chapters/06-heuristic-function}
+\newpage
 \input{chapters/07-experiments}
+\newpage
 \input{chapters/08-conclusions}
+\newpage
+\input{chapters/09-treball_innovacio}
 
-% Bibliografia (opcional)
-%\bibliographystyle{plain}
-%\bibliography{references}
-
-% Apèndixs
-%\appendix
-%\input{appendices/a-code}
-%\input{appendices/b-additional-results}
 
 \end{document}

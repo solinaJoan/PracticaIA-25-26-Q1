@@ -1,10 +1,13 @@
 \subsection{Experiment 4: Escalabilitat temporal}
 
-\vspace{0.75cm}
+\vspace{0.5cm}
 
 \subsubsection{Objectiu}
 
 Aquest experiment té com a objectiu analitzar com creix el temps d'execució dels algorismes Hill Climbing i Simulated Annealing quan augmenta l'escalabilitat del problema, és a dir, el nombre de centres de distribució i gasolineres. S'ha mantingut la proporció constant de 10 gasolineres per cada centre de distribució, avaluant configuracions des de 10-100 fins a 50-500.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Configuració experimental}
 
@@ -18,6 +21,9 @@ S'han provat cinc configuracions d'escalabilitat creixent:
 \end{itemize}
 
 Per a cada configuració s'han executat 10 repeticions amb Hill Climbing (conjunt d'operadors només moviments) i Simulated Annealing (paràmetres òptims de l'experiment 3: 10000 iteracions, $k=25$, $\lambda=0.01$).
+
+\vspace{0.5cm}
+
 
 \subsubsection{Anàlisi dels resultats}
 
@@ -33,6 +39,9 @@ Aquest comportament és esperable en Hill Climbing, ja que l'algorisme ha d'expl
 
 \paragraph{Escalabilitat temporal de Simulated Annealing}
 
+
+\vspace{0.5cm}
+\input{chapters/chapter-7/figures/exp-4/sa-temps.tex}
 \vspace{0.5cm}
 \input{chapters/chapter-7/figures/exp-4/sa-temps-zoom.tex}
 \vspace{0.5cm}
@@ -53,6 +62,9 @@ La diferència d'escalabilitat és dramàtica: mentre que Hill Climbing es torna
 Analitzant la qualitat de les solucions obtingudes, observem que ambdós algorismes generen beneficis molt similars per a cada configuració d'escalabilitat. Per exemple, per a l'escenari de 50 centres i 500 gasolineres, Hill Climbing obté una mediana de 486.234€ mentre que Simulated Annealing obté 486.144€, una diferència de menys del 0,02\%.
 
 Aquest resultat és especialment rellevant perquè demostra que la millora marginal en qualitat que ofereix Hill Climbing (quan la ofereix) no justifica en absolut l'augment massiu del cost temporal. Mentre que per a l'escenari més gran Hill Climbing requereix més de 240 segons, Simulated Annealing obté resultats pràcticament idèntics en menys d'un segon, resultant més de 400 vegades més ràpid.
+
+\vspace{0.5cm}
+
 
 \subsubsection{Conclusions}
 

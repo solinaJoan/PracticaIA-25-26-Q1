@@ -1,15 +1,21 @@
 \section{Representació de l'estat}
 \label{sec:state}
 
+\vspace{0.5cm}
+
 \subsection{La importància de la representació}
 
 La representació de l'estat és, sens dubte, una de les decisions de disseny més crítiques en qualsevol problema de cerca. Una bona representació no només facilita la implementació dels operadors i la funció heurística, sinó que també determina l'eficiència computacional de tota la solució. 
 
 Quan vam començar a pensar en com representar un estat del problema, vam considerar diverses alternatives. Podríem haver representat una solució com una matriu d'assignacions, com una llista de tuples (petició, camió, viatge), o com una estructura més complexa que inclogués informació redundant per accelerar consultes. Després d'analitzar els pros i contres de cada opció, vam optar per una representació basada en llistes de viatges per camió, que expliquem en detall a continuació.
 
+\vspace{0.5cm}
+
 \subsection{Anàlisi previ de l'espai de cerca}
 
 Abans de decidir com representar un estat, és fonamental comprendre la magnitud de l'espai amb el qual treballem. Aquesta anàlisi ens ajudarà a justificar les decisions que prendrem.
+
+\vspace{0.5cm}
 
 \subsubsection{Càlcul teòric de la mida de l'espai}
 
@@ -24,9 +30,13 @@ Considerem un escenari amb $n$ camions, $p$ peticions a servir, i la restricció
 
 Només considerant les assignacions de peticions a camions (ignorant l'ordre i l'agrupació en viatges), tenim $(n+1)^p$ possibilitats: cada petició pot ser assignada a qualsevol dels $n$ camions o quedar sense servir. Per al nostre escenari base amb 10 camions i aproximadament 100 peticions, això ja suposa $11^{100} \approx 10^{104}$ possibilitats.
 
+\vspace{0.5cm}
+
 \subsection{Estructura de dades escollida}
 
 Després d'analitzar diverses alternatives, hem optat per una representació basada en llistes de viatges organitzades per camió. Aquesta decisió es fonamenta en diversos raonaments que exposem a continuació.
+
+\vspace{0.5cm}
 
 \subsubsection{Components de l'estat}
 
@@ -81,9 +91,13 @@ El conjunt \texttt{peticionsServides} ens permet verificar ràpidament si una pe
 Les mètriques pre-calculades són una optimització important. En lloc de recalcular el benefici total cada vegada que el necessitem, el calculem una vegada després de cada modificació i el guardem. Això és especialment útil per a Hill Climbing, que necessita comparar el valor heurístic de múltiples estats successors.
 
 
+\vspace{0.5cm}
+
 \subsection{Complexitat espacial i temporal}
 
 Analitzem formalment la complexitat de la nostra representació per validar que és eficient.
+
+\vspace{0.5cm}
 
 \subsubsection{Complexitat espacial}
 
@@ -99,9 +113,13 @@ Per un estat amb $n$ camions i $p_s$ peticions servides:
 En la pràctica, amb $n = 10$ i $p_s \approx 90$, cada estat ocupa aproximadament uns pocs kilobytes de memòria, cosa que permet tenir milers d'estats en memòria simultàniament sense problemes.
 
 
+\vspace{0.5cm}
+
 \subsection{Alternatives considerades i descartades}
 
 Abans d'arribar a la representació final, vam considerar i descartar diverses alternatives.
+
+\vspace{0.5cm}
 
 \subsubsection{Representació com a llista plana de tuples}
 
@@ -114,6 +132,8 @@ Una alternativa seria representar l'estat com una llista de tuples (petició, ca
     \item Més propensa a errors (tuples amb 4 components)
 \end{itemize}
 
+\vspace{0.5cm}
+
 \subsubsection{Representació amb grafs}
 
 Podríem modelar les assignacions com un graf on els nodes són gasolineres i els arcs representen l'ordre de visita. Aquesta representació, tot i ser elegant matemàticament, és massa complexa per les nostres necessitats:
@@ -124,6 +144,8 @@ Podríem modelar les assignacions com un graf on els nodes són gasolineres i el
     \item Requereix llibreries addicionals
     \item Més costosa en memòria
 \end{itemize}
+
+\vspace{0.5cm}
 
 \subsubsection{Representació amb informació redundant}
 
