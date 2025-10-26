@@ -168,7 +168,6 @@ public class PracticaSuccessorFunctionSA implements SuccessorFunction
     private PracticaBoard aplicarMourePeticio(PracticaBoard board) 
     {
         // Similar a aplicarTreurePeticio + aplicarAfegirPeticio
-        // Implementació simplificada
         PracticaBoard temp = aplicarTreurePeticio(board);
         if (temp == null) return null;
         return aplicarAfegirPeticio(temp);
