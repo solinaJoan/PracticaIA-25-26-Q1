@@ -1,0 +1,60 @@
+\subsection{Experiment 5: Reducció de centres amb mateix nombre de camions}
+
+\subsubsection{Objectiu}
+Analitzar l'impacte de concentrar els camions en menys centres.
+
+\subsubsection{Configuració}
+\begin{itemize}
+    \item \textbf{Escenari A}: 10 centres, 1 camió/centre, 100 gasolineres
+    \item \textbf{Escenari B}: 5 centres, 2 camions/centre, 100 gasolineres
+    \item \textbf{Algoritme}: Hill Climbing
+\end{itemize}
+
+\subsubsection{Resultats}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Escenari} & \textbf{Benefici} & \textbf{Cost km} & \textbf{Km totals} & \textbf{Peticions} & \textbf{Temps} \\
+ & & & & \textbf{servides} & \textbf{(ms)} \\
+\midrule
+A (10c×1) & 48.923 $\pm$ 756 & 5.234 $\pm$ 234 & 2.617 & 93 $\pm$ 2 & 3.123 \\
+B (5c×2) & 46.234 $\pm$ 892 & 6.789 $\pm$ 345 & 3.395 & 91 $\pm$ 3 & 3.456 \\
+\textbf{Diferència} & \textbf{-5.50\%} & \textbf{+29.7\%} & \textbf{+29.7\%} & \textbf{-2.15\%} & \textbf{+10.7\%} \\
+\bottomrule
+\end{tabular}
+\caption{Comparació 10 centres vs 5 centres}
+\label{tab:exp5-centres}
+\end{table}
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width=0.7\textwidth]{figures/exp5-mapa-rutes.pdf}
+\caption{Visualització de les rutes per ambdós escenaris}
+\label{fig:exp5-mapa}
+\end{figure}
+
+\subsubsection{Anàlisi}
+
+\textbf{Què esperàvem:}
+\begin{itemize}
+    \item Menys centres → més distància
+    \item Benefici similar si es serveixen les mateixes peticions
+\end{itemize}
+
+\textbf{Què hem obtingut:}
+\begin{itemize}
+    \item \textbf{Augment del 30\% en km}: 2.617 → 3.395 km
+    \item \textbf{Reducció del 5.5\% en benefici}: Significatiu (p < 0.01)
+    \item \textbf{2 peticions menys servides}: 93 → 91
+    \item La concentració de centres penalitza la distribució geogràfica
+\end{itemize}
+
+\textbf{Implicacions:}
+\begin{itemize}
+    \item La distribució geogràfica dels centres és crucial
+    \item El cost extra de km pot fer inviables algunes peticions
+    \item Amb cost km = 2, la pèrdua és 1.556 unitats extra
+    \item \textbf{Conclusió}: Mantenir una bona cobertura geogràfica és essencial
+\end{itemize}

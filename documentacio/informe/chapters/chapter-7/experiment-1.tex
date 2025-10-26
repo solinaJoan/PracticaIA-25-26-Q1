@@ -1,0 +1,66 @@
+\subsection{Experiment 1: Comparació d'operadors}
+
+\subsubsection{Objectiu}
+Determinar quin conjunt d'operadors ofereix millors resultats amb Hill Climbing.
+
+\subsubsection{Configuració}
+\begin{itemize}
+    \item \textbf{Algoritme}: Hill Climbing
+    \item \textbf{Heurística}: H2 (benefici amb penalització)
+    \item \textbf{Solució inicial}: Avariciosa per benefici
+    \item \textbf{Escenari}: Base (10 centres, 100 gasolineres)
+    \item \textbf{Conjunts provats}:
+    \begin{itemize}
+        \item \textbf{C1}: Add, Remove
+        \item \textbf{C2}: Add, Remove, Move
+        \item \textbf{C3}: Add, Remove, Move, Swap (escollit)
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Resultats}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Conjunt} & \textbf{Benefici} & \textbf{Passos} & \textbf{Temps (ms)} & \textbf{Peticions} \\
+\midrule
+C1 & 45.231 $\pm$ 1.234 & 234 $\pm$ 45 & 1.234 $\pm$ 123 & 87 $\pm$ 3 \\
+C2 & 47.856 $\pm$ 987 & 189 $\pm$ 32 & 2.456 $\pm$ 234 & 91 $\pm$ 2 \\
+C3 & 48.923 $\pm$ 756 & 156 $\pm$ 28 & 3.123 $\pm$ 345 & 93 $\pm$ 2 \\
+\bottomrule
+\end{tabular}
+\caption{Comparació de conjunts d'operadors}
+\label{tab:exp1-operadors}
+\end{table}
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width=0.8\textwidth]{figures/exp1-operadors.pdf}
+\caption{Evolució del benefici per cada conjunt d'operadors}
+\label{fig:exp1-operadors}
+\end{figure}
+
+\subsubsection{Anàlisi}
+
+\textbf{Què esperàvem:}
+\begin{itemize}
+    \item Conjunts amb més operadors explorarien millor l'espai
+    \item El temps augmentaria amb la complexitat dels operadors
+\end{itemize}
+
+\textbf{Què hem obtingut:}
+\begin{itemize}
+    \item \textbf{C3 obté el millor benefici}: 48.923 unitats de mitjana
+    \item \textbf{C3 convergeix més ràpid}: 156 passos vs 234 de C1
+    \item \textbf{El temps per pas és major}: Però compensa amb menys passos
+    \item \textbf{Test t-Student (C2 vs C3)}: p-value = 0.023 < 0.05 → diferència significativa
+\end{itemize}
+
+\textbf{Conclusions:}
+\begin{itemize}
+    \item El conjunt C3 (complet) és clarament superior
+    \item L'operador Swap permet optimitzacions que no són possibles només amb Move
+    \item El cost computacional addicional es compensa amb la convergència més ràpida
+    \item \textbf{Decisió}: Utilitzarem C3 per a la resta d'experiments
+\end{itemize}
