@@ -22,15 +22,15 @@ En aquesta pràctica hem abordat amb èxit un problema real de planificació de 
 
 
 \subsection{Conclusions principals}
-Les principals conclusions de la pràctica mostren que les tècniques de cerca local són una eina molt efectiva per abordar problemes reals de planificació de rutes. El model de representació utilitzat, basat en els viatges de cada camió, ha resultat eficient i flexible, i el conjunt d’operadors dissenyats permet explorar adequadament l’espai de solucions. També s’ha vist que la manera d’inicialitzar la solució influeix fortament en la velocitat de convergència i en la qualitat final dels resultats. \\
+Les principals conclusions de la pràctica mostren que les tècniques de cerca local són una eina molt efectiva per abordar problemes reals de planificació de rutes. El model de representació utilitzat, basat en els viatges de cada camió, ha resultat eficient i flexible, i el conjunt d’operadors dissenyats permet explorar adequadament l’espai de solucions. També s’ha vist que la manera d’inicialitzar la solució influeix fortament en la velocitat de convergència i en la qualitat final dels resultats.
 
-Pel que fa a la funció heurística, la combinació de beneficis, penalitzacions i costos de desplaçament s’ha demostrat equilibrada i capaç d’adaptar-se als diferents escenaris del problema. Els experiments han confirmat que els tres components són necessaris per mantenir un bon compromís entre ingressos i eficiència. \\
+Pel que fa a la funció heurística, la combinació de beneficis, penalitzacions i costos de desplaçament s’ha demostrat equilibrada i capaç d’adaptar-se als diferents escenaris del problema. Els experiments han confirmat que els tres components són necessaris per mantenir un bon compromís entre ingressos i eficiència. 
 
-En relació amb els algoritmes, s’ha comprovat que Hill Climbing és molt ràpid i ofereix solucions raonablement bones quan el temps és un factor crític, mentre que Simulated Annealing, tot i ser més lent, aconsegueix resultats de més qualitat i amb més estabilitat. Això reforça la idea que cal triar l’algorisme segons les prioritats del context: rapidesa o qualitat. \\
+En relació amb l'escalabilitat del problema, hem comprovat que Hill Climbing és molt més lent que Simulated Annealing, i el marge de benefici és molt just per justificar el seu ús: l'algorisme de SA aconsegueix aproximadament els mateixos beneficis i el seu cost temporal és molt més elevat. Si hem de tractar el problema amb escenaris grans, hem d'utilitzar SA per sobre de Hill Climbing degut al cost en temps tan exagerat.
 
-A nivell de problema, s’ha observat que el sistema escala bé fins a un cert nombre de gasolineres i que la restricció més limitant és el nombre de viatges per camió. La distribució geogràfica dels punts d’abastiment i el cost per quilòmetre tenen un impacte clar sobre l’eficiència global i els beneficis obtinguts. \\
+A nivell de problema, s’ha observat que la restricció més limitant és el nombre de viatges per camió, ja que el nombre de punts d'abastiment i el cost per quilòmetre no han estat gaire restrictius.
 
-En conjunt, la pràctica ha servit per entendre millor la relació entre modelatge, heurístiques i estratègies de cerca, i per comprovar que amb una bona representació, una heurística adequada i una experimentació sistemàtica és possible obtenir solucions de qualitat en temps molt raonables. A més, l’experiència ha reforçat la importància del treball en equip, la planificació constant i la documentació com a factors clau per a l’èxit del projecte. \\
+En conjunt, la pràctica ha servit per entendre millor la relació entre modelatge, heurístiques i estratègies de cerca, i per comprovar que amb una bona representació, una heurística adequada i una experimentació sistemàtica és possible obtenir solucions de qualitat en temps molt raonables. A més, l’experiència ha reforçat la importància del treball en equip, la planificació constant i la documentació com a factors clau per a l’èxit del projecte. 
 
 \subsection{Valoració personal}
 
